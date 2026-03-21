@@ -1,0 +1,5 @@
+=== UNTRANSLATED STRINGS SCAN REPORT ===
+Generated at: C:\Users\qozeem\Desktop\mobile\same it\mobile
+Total potential issues: 0
+
+Fantastic! No untranslated strings detected.

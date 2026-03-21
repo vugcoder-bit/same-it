@@ -1,0 +1,224 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model advertisement {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String   @db.Text
+  createdAt DateTime @default(now())
+}
+
+model appsettings {
+  id                   Int      @id @default(1)
+  contactEmail         String?
+  telegramLink         String?
+  whatsappLink         String?
+  aboutUs              String?  @db.Text
+  intellectualProperty String?  @db.Text
+  updatedAt            DateTime
+}
+
+model compatibility {
+  id                   Int                         @id @default(autoincrement())
+  componentType        compatibility_componentType
+  deviceModelId        Int?
+  subCategoryId        Int?
+  compatibleModels     Json
+  createdAt            DateTime                    @default(now())
+  updatedAt            DateTime
+  devicemodel          devicemodel?                @relation(fields: [deviceModelId], references: [id], onDelete: Cascade, map: "Compatibility_deviceModelId_fkey")
+  componentsubcategory componentsubcategory?       @relation(fields: [subCategoryId], references: [id], onDelete: Cascade, map: "Compatibility_subCategoryId_fkey")
+
+  @@index([deviceModelId], map: "Compatibility_deviceModelId_fkey")
+  @@index([subCategoryId], map: "Compatibility_subCategoryId_fkey")
+}
+
+model componentsubcategory {
+  id            Int                                @id @default(autoincrement())
+  componentType componentsubcategory_componentType
+  name          String
+  imageUrl      String?                            @db.Text
+  createdAt     DateTime                           @default(now())
+  updatedAt     DateTime
+  compatibility compatibility[]
+
+  @@unique([componentType, name], map: "ComponentSubCategory_componentType_name_key")
+}
+
+model contactmessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+}
+
+model conversionrule {
+  id           Int    @id @default(autoincrement())
+  arabicLetter String
+  symbol       String
+}
+
+model device {
+  id           Int           @id @default(autoincrement())
+  name         String        @unique(map: "Device_name_key")
+  imageUrl     String?       @db.Text
+  deviceTypeId Int?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime
+  devicetype   devicetype?   @relation(fields: [deviceTypeId], references: [id], map: "Device_deviceTypeId_fkey")
+  devicemodel  devicemodel[]
+
+  @@index([deviceTypeId], map: "Device_deviceTypeId_fkey")
+}
+
+model devicemodel {
+  id            Int             @id @default(autoincrement())
+  deviceId      Int
+  name          String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime
+  compatibility compatibility[]
+  device        device          @relation(fields: [deviceId], references: [id], onDelete: Cascade, map: "DeviceModel_deviceId_fkey")
+  schematic     schematic[]
+
+  @@unique([deviceId, name], map: "DeviceModel_deviceId_name_key")
+}
+
+model devicetype {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique(map: "DeviceType_name_key")
+  imageUrl  String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  device    device[]
+}
+
+model errorlog {
+  id          Int      @id @default(autoincrement())
+  errorCode   String
+  description String   @db.Text
+  solution    String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+}
+
+model order {
+  id                Int           @id @default(autoincrement())
+  userId            Int
+  serviceId         Int
+  paymentMethodId   Int
+  quantity          Int           @default(1)
+  totalPrice        Float         @default(0)
+  phone1            String
+  phone2            String?
+  telegramUsername  String?
+  serialNumber      String?
+  paymentScreenshot String?
+  notes             String?       @db.Text
+  status            order_status  @default(PROCESSING)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime
+  adminFileUrl      String?
+  adminNotes        String?       @db.Text
+  paymentmethod     paymentmethod @relation(fields: [paymentMethodId], references: [id], onDelete: Cascade, map: "Order_paymentMethodId_fkey")
+  service           service       @relation(fields: [serviceId], references: [id], onDelete: Cascade, map: "Order_serviceId_fkey")
+  user              user          @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Order_userId_fkey")
+
+  @@index([paymentMethodId], map: "Order_paymentMethodId_fkey")
+  @@index([serviceId], map: "Order_serviceId_fkey")
+  @@index([userId], map: "Order_userId_fkey")
+}
+
+model paymentmethod {
+  id            Int      @id @default(autoincrement())
+  title         String
+  accountNumber String
+  color         String   @default("#E8632B")
+  note          String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime
+  order         order[]
+}
+
+model schematic {
+  id            Int         @id @default(autoincrement())
+  deviceModelId Int
+  schematicType String
+  pdfFile       String
+  uploadedAt    DateTime    @default(now())
+  updatedAt     DateTime
+  devicemodel   devicemodel @relation(fields: [deviceModelId], references: [id], onDelete: Cascade, map: "Schematic_deviceModelId_fkey")
+
+  @@index([deviceModelId], map: "Schematic_deviceModelId_fkey")
+}
+
+model service {
+  id              Int             @id @default(autoincrement())
+  categoryId      Int
+  title           String
+  description     String          @db.Text
+  price           Float
+  duration        String?
+  deliveryTime    String?
+  image           String?
+  requiresSN      Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime
+  order           order[]
+  servicecategory servicecategory @relation(fields: [categoryId], references: [id], onDelete: Cascade, map: "Service_categoryId_fkey")
+
+  @@index([categoryId], map: "Service_categoryId_fkey")
+}
+
+model servicecategory {
+  id        Int       @id @default(autoincrement())
+  name      String
+  imageUrl  String?   @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  service   service[]
+}
+
+model user {
+  id                     Int       @id @default(autoincrement())
+  username               String    @unique(map: "User_username_key")
+  password               String
+  role                   user_role @default(USER)
+  subscriptionExpireDate DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime
+  order                  order[]
+}
+
+enum compatibility_componentType {
+  SCREEN
+  BATTERY
+  CONNECTOR
+  IC
+  ADHESIVE
+}
+
+enum componentsubcategory_componentType {
+  SCREEN
+  BATTERY
+  CONNECTOR
+  IC
+  ADHESIVE
+}
+
+enum user_role {
+  ADMIN
+  USER
+}
+
+enum order_status {
+  PROCESSING
+  FAILED
+  SUCCESSFUL
+}

@@ -1,0 +1,774 @@
+﻿app/(drawer)/(tabs)/_layout.tsx(28,26): error TS7031: Binding element 'color' implicitly has an 'any' type.
+app/(drawer)/(tabs)/_layout.tsx(28,33): error TS7031: Binding element 'focused' implicitly has an 'any' type.
+app/(drawer)/(tabs)/_layout.tsx(40,26): error TS7031: Binding element 'color' implicitly has an 'any' type.
+app/(drawer)/(tabs)/_layout.tsx(40,33): error TS7031: Binding element 'focused' implicitly has an 'any' type.
+app/(drawer)/(tabs)/index.tsx(12,10): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+app/(drawer)/(tabs)/index.tsx(26,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/index.tsx(26,6): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/index.tsx(31,7): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/index.tsx(31,8): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/index.tsx(33,7): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/index.tsx(33,8): error TS2786: 'ScrollView' cannot be used as a JSX component.
+  Its type 'typeof ScrollView' is not a valid JSX element type.
+    Type 'typeof ScrollView' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ScrollView' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/index.tsx(39,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/index.tsx(39,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/index.tsx(43,15): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/index.tsx(43,16): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/index.tsx(55,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/index.tsx(55,12): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/index.tsx(57,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/index.tsx(57,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/tools.tsx(7,10): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+app/(drawer)/(tabs)/tools.tsx(25,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/tools.tsx(25,6): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/tools.tsx(30,7): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/tools.tsx(30,8): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/tools.tsx(32,7): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/tools.tsx(32,8): error TS2786: 'ScrollView' cannot be used as a JSX component.
+  Its type 'typeof ScrollView' is not a valid JSX element type.
+    Type 'typeof ScrollView' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ScrollView' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/tools.tsx(37,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/tools.tsx(37,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/tools.tsx(51,15): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/tools.tsx(51,16): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/(tabs)/tools.tsx(55,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/(tabs)/tools.tsx(55,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(6,10): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+app/(drawer)/_layout.tsx(20,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(20,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(23,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(23,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(29,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(29,18): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(31,25): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(31,26): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(33,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(33,22): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(36,25): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(36,26): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(38,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(38,22): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(41,25): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(41,26): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(43,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(43,22): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(46,25): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(46,26): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(48,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(48,22): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(52,25): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(52,26): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(59,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(59,14): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(60,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/(drawer)/_layout.tsx(60,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/(drawer)/_layout.tsx(69,29): error TS7006: Parameter 'props' implicitly has an 'any' type.
+app/[category]/[deviceId]/models.tsx(3,10): error TS2305: Module '"expo-router"' has no exported member 'useLocalSearchParams'.
+app/[category]/[deviceId]/models.tsx(3,32): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+app/[category]/[deviceId]/models.tsx(33,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/[deviceId]/models.tsx(33,6): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/[deviceId]/models.tsx(47,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/[deviceId]/models.tsx(47,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/[deviceId]/models.tsx(48,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/[deviceId]/models.tsx(48,12): error TS2786: 'ActivityIndicator' cannot be used as a JSX component.
+  Its type 'typeof ActivityIndicator' is not a valid JSX element type.
+    Type 'typeof ActivityIndicator' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ActivityIndicator' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/[deviceId]/models.tsx(51,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/[deviceId]/models.tsx(51,10): error TS2786: 'ScrollView' cannot be used as a JSX component.
+  Its type 'typeof ScrollView' is not a valid JSX element type.
+    Type 'typeof ScrollView' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ScrollView' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/[deviceId]/models.tsx(59,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/[deviceId]/models.tsx(59,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/[deviceId]/models.tsx(61,15): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/[deviceId]/models.tsx(61,16): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/[deviceId]/models.tsx(65,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/[deviceId]/models.tsx(65,14): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/devices.tsx(4,10): error TS2305: Module '"expo-router"' has no exported member 'useLocalSearchParams'.
+app/[category]/devices.tsx(4,32): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+app/[category]/devices.tsx(39,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/devices.tsx(39,6): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/devices.tsx(53,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/devices.tsx(53,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/devices.tsx(54,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/devices.tsx(54,12): error TS2786: 'ActivityIndicator' cannot be used as a JSX component.
+  Its type 'typeof ActivityIndicator' is not a valid JSX element type.
+    Type 'typeof ActivityIndicator' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ActivityIndicator' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/devices.tsx(57,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/devices.tsx(57,10): error TS2786: 'ScrollView' cannot be used as a JSX component.
+  Its type 'typeof ScrollView' is not a valid JSX element type.
+    Type 'typeof ScrollView' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ScrollView' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/devices.tsx(58,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/devices.tsx(58,12): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/[category]/devices.tsx(79,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/[category]/devices.tsx(79,22): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/_layout.tsx(2,17): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+app/auth/_layout.tsx(1,10): error TS2305: Module '"expo-router"' has no exported member 'Slot'.
+app/auth/login.tsx(3,10): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+app/auth/login.tsx(180,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(180,10): error TS2786: 'KeyboardAvoidingView' cannot be used as a JSX component.
+  Its type 'typeof KeyboardAvoidingView' is not a valid JSX element type.
+    Type 'typeof KeyboardAvoidingView' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'KeyboardAvoidingView' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(185,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(185,14): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(186,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(186,14): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(188,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(188,14): error TS2786: 'ScrollView' cannot be used as a JSX component.
+  Its type 'typeof ScrollView' is not a valid JSX element type.
+    Type 'typeof ScrollView' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ScrollView' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(190,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(190,18): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(191,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(191,22): error TS2786: 'Image' cannot be used as a JSX component.
+  Its type 'typeof Image' is not a valid JSX element type.
+    Type 'typeof Image' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Image' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(196,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(196,22): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(200,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(200,18): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(201,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(201,22): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(202,25): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(202,26): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(203,29): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(203,30): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(206,29): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(206,30): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(230,29): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(230,30): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(231,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(231,34): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(232,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(232,34): error TS2786: 'TextInput' cannot be used as a JSX component.
+  Its type 'typeof TextInput' is not a valid JSX element type.
+    Type 'typeof TextInput' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'TextInput' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(240,73): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(240,74): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(242,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(242,34): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(243,33): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(243,34): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(244,37): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(244,38): error TS2786: 'TextInput' cannot be used as a JSX component.
+  Its type 'typeof TextInput' is not a valid JSX element type.
+    Type 'typeof TextInput' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'TextInput' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(253,41): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(253,42): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(256,73): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(256,74): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(264,41): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(264,42): error TS2786: 'ActivityIndicator' cannot be used as a JSX component.
+  Its type 'typeof ActivityIndicator' is not a valid JSX element type.
+    Type 'typeof ActivityIndicator' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ActivityIndicator' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/auth/login.tsx(266,41): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/auth/login.tsx(266,42): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(32,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(32,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(34,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(34,14): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(35,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(35,18): error TS2786: 'TextInput' cannot be used as a JSX component.
+  Its type 'typeof TextInput' is not a valid JSX element type.
+    Type 'typeof TextInput' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'TextInput' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(45,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(45,14): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(46,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(46,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(47,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(47,18): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(48,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(48,22): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(53,28): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(53,29): error TS2786: 'ActivityIndicator' cannot be used as a JSX component.
+  Its type 'typeof ActivityIndicator' is not a valid JSX element type.
+    Type 'typeof ActivityIndicator' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ActivityIndicator' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(53,65): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(53,66): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(56,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(56,14): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(57,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(57,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/convert-arabic.tsx(58,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/convert-arabic.tsx(58,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/modal.tsx(1,10): error TS2305: Module '"expo-router"' has no exported member 'Link'.
+app/order-history.tsx(22,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(22,14): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(23,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(23,18): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(24,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(24,22): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(25,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(25,22): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(26,25): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(26,26): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(32,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(32,18): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(33,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(33,22): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(36,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(36,18): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(37,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(37,22): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(38,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(38,22): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(43,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(43,22): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(44,25): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(44,26): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(49,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(49,22): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(56,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(56,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(58,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(58,18): error TS2786: 'ActivityIndicator' cannot be used as a JSX component.
+  Its type 'typeof ActivityIndicator' is not a valid JSX element type.
+    Type 'typeof ActivityIndicator' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ActivityIndicator' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(60,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(60,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/order-history.tsx(66,21): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: FlatListProps<any>): FlatList<any>', gave the following error.
+    Type '{ data: any; keyExtractor: (item: any) => any; renderItem: ({ item }: { item: any; }) => Element; contentContainerStyle: { padding: number; }; showsVerticalScrollIndicator: boolean; ListEmptyComponent: Element; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<FlatList<any>> & Readonly<FlatListProps<any>>'.
+      Property 'contentContainerStyle' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<FlatList<any>> & Readonly<FlatListProps<any>>'.
+  Overload 2 of 2, '(props: FlatListProps<any>, context: any): FlatList<any>', gave the following error.
+    Type '{ data: any; keyExtractor: (item: any) => any; renderItem: ({ item }: { item: any; }) => Element; contentContainerStyle: { padding: number; }; showsVerticalScrollIndicator: boolean; ListEmptyComponent: Element; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<FlatList<any>> & Readonly<FlatListProps<any>>'.
+      Property 'contentContainerStyle' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<FlatList<any>> & Readonly<FlatListProps<any>>'.
+app/order-history.tsx(68,41): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/order-history.tsx(68,42): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/[deviceModelId]/pdfs.tsx(3,10): error TS2305: Module '"expo-router"' has no exported member 'useLocalSearchParams'.
+app/schematics/[deviceModelId]/pdfs.tsx(3,32): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+app/schematics/[deviceModelId]/pdfs.tsx(38,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/[deviceModelId]/pdfs.tsx(38,6): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/[deviceModelId]/pdfs.tsx(52,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/[deviceModelId]/pdfs.tsx(52,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/[deviceModelId]/pdfs.tsx(53,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/[deviceModelId]/pdfs.tsx(53,12): error TS2786: 'ActivityIndicator' cannot be used as a JSX component.
+  Its type 'typeof ActivityIndicator' is not a valid JSX element type.
+    Type 'typeof ActivityIndicator' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ActivityIndicator' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/[deviceModelId]/pdfs.tsx(56,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/[deviceModelId]/pdfs.tsx(56,10): error TS2786: 'ScrollView' cannot be used as a JSX component.
+  Its type 'typeof ScrollView' is not a valid JSX element type.
+    Type 'typeof ScrollView' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ScrollView' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/[deviceModelId]/pdfs.tsx(64,15): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/[deviceModelId]/pdfs.tsx(64,16): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/[deviceModelId]/pdfs.tsx(65,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/[deviceModelId]/pdfs.tsx(65,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/[deviceModelId]/pdfs.tsx(70,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/[deviceModelId]/pdfs.tsx(70,14): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/view.tsx(3,10): error TS2305: Module '"expo-router"' has no exported member 'useLocalSearchParams'.
+app/schematics/view.tsx(26,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/view.tsx(26,6): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/view.tsx(39,7): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/view.tsx(39,8): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/view.tsx(40,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/view.tsx(40,10): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/view.tsx(41,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/view.tsx(41,10): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/schematics/view.tsx(44,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/schematics/view.tsx(44,12): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/splash.tsx(1,10): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+app/splash.tsx(61,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/splash.tsx(61,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/splash.tsx(69,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/splash.tsx(69,14): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/splash.tsx(71,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/splash.tsx(71,14): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/splash.tsx(72,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/splash.tsx(72,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+app/splash.tsx(73,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+app/splash.tsx(73,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/AdvertisementCarousel.tsx(52,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/AdvertisementCarousel.tsx(52,14): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/AdvertisementCarousel.tsx(53,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/AdvertisementCarousel.tsx(53,18): error TS2786: 'ActivityIndicator' cannot be used as a JSX component.
+  Its type 'typeof ActivityIndicator' is not a valid JSX element type.
+    Type 'typeof ActivityIndicator' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'ActivityIndicator' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/AdvertisementCarousel.tsx(63,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/AdvertisementCarousel.tsx(63,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/AdvertisementCarousel.tsx(69,17): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: FlatListProps<any>): FlatList<any>', gave the following error.
+    Type '{ ref: RefObject<FlatList<any> | null>; data: any; keyExtractor: (item: any) => any; horizontal: true; pagingEnabled: true; showsHorizontalScrollIndicator: boolean; onScroll: (event: NativeSyntheticEvent<...>) => void; scrollEventThrottle: number; renderItem: ({ item }: { ...; }) => Element; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<FlatList<any>> & Readonly<FlatListProps<any>>'.
+      Property 'pagingEnabled' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<FlatList<any>> & Readonly<FlatListProps<any>>'.
+  Overload 2 of 2, '(props: FlatListProps<any>, context: any): FlatList<any>', gave the following error.
+    Type '{ ref: RefObject<FlatList<any> | null>; data: any; keyExtractor: (item: any) => any; horizontal: true; pagingEnabled: true; showsHorizontalScrollIndicator: boolean; onScroll: (event: NativeSyntheticEvent<...>) => void; scrollEventThrottle: number; renderItem: ({ item }: { ...; }) => Element; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<FlatList<any>> & Readonly<FlatListProps<any>>'.
+      Property 'pagingEnabled' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<FlatList<any>> & Readonly<FlatListProps<any>>'.
+components/AdvertisementCarousel.tsx(73,32): error TS7031: Binding element 'item' implicitly has an 'any' type.
+components/AdvertisementCarousel.tsx(74,21): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/AdvertisementCarousel.tsx(74,22): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/AdvertisementCarousel.tsx(86,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/AdvertisementCarousel.tsx(86,18): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/AdvertisementCarousel.tsx(88,25): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/AdvertisementCarousel.tsx(88,26): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/DashboardHeader.tsx(6,10): error TS2305: Module '"expo-router"' has no exported member 'useRouter'.
+components/DashboardHeader.tsx(6,21): error TS2305: Module '"expo-router"' has no exported member 'useNavigation'.
+components/DashboardHeader.tsx(14,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/DashboardHeader.tsx(14,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/DashboardHeader.tsx(23,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/DashboardHeader.tsx(23,14): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/external-link.tsx(1,10): error TS2305: Module '"expo-router"' has no exported member 'Href'.
+components/external-link.tsx(1,16): error TS2305: Module '"expo-router"' has no exported member 'Link'.
+components/external-link.tsx(13,23): error TS7006: Parameter 'event' implicitly has an 'any' type.
+components/themed-text.tsx(21,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/themed-text.tsx(21,6): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/themed-view.tsx(13,10): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/themed-view.tsx(13,11): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/ui/button.tsx(60,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/ui/button.tsx(60,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/ui/button.tsx(70,17): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/ui/button.tsx(70,18): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/ui/text-input.tsx(52,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/ui/text-input.tsx(52,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/ui/text-input.tsx(53,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/ui/text-input.tsx(53,14): error TS2786: 'RNTextInput' cannot be used as a JSX component.
+  Its type 'typeof TextInput' is not a valid JSX element type.
+    Type 'typeof TextInput' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'TextInput' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+components/ui/text-input.tsx(64,34): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+components/ui/text-input.tsx(64,35): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/expo-asset/src/Asset.fx.ts(1,53): error TS7016: Could not find a declaration file for module 'react-native/Libraries/Image/AssetSourceResolver'. 'C:/Users/qozeem/Desktop/mobile/same it/mobile/node_modules/react-native/Libraries/Image/AssetSourceResolver.js' implicitly has an 'any' type.
+  If the 'react-native' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'react-native/Libraries/Image/AssetSourceResolver';`
+node_modules/expo-asset/src/Asset.ts(1,30): error TS7016: Could not find a declaration file for module '@react-native/assets-registry/registry'. 'C:/Users/qozeem/Desktop/mobile/same it/mobile/node_modules/@react-native/assets-registry/registry.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/react-native__assets-registry` if it exists or add a new declaration (.d.ts) file containing `declare module '@react-native/assets-registry/registry';`
+node_modules/expo-asset/src/AssetSourceResolver.ts(1,36): error TS7016: Could not find a declaration file for module '@react-native/assets-registry/registry'. 'C:/Users/qozeem/Desktop/mobile/same it/mobile/node_modules/@react-native/assets-registry/registry.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/react-native__assets-registry` if it exists or add a new declaration (.d.ts) file containing `declare module '@react-native/assets-registry/registry';`
+node_modules/expo-asset/src/AssetSourceResolver.ts(31,3): error TS2578: Unused '@ts-expect-error' directive.
+node_modules/expo-asset/src/AssetSources.ts(1,36): error TS7016: Could not find a declaration file for module '@react-native/assets-registry/registry'. 'C:/Users/qozeem/Desktop/mobile/same it/mobile/node_modules/@react-native/assets-registry/registry.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/react-native__assets-registry` if it exists or add a new declaration (.d.ts) file containing `declare module '@react-native/assets-registry/registry';`
+node_modules/expo-asset/src/AssetSources.ts(33,40): error TS7006: Parameter 's' implicitly has an 'any' type.
+node_modules/expo-asset/src/resolveAssetSource.ts(1,30): error TS7016: Could not find a declaration file for module '@react-native/assets-registry/registry'. 'C:/Users/qozeem/Desktop/mobile/same it/mobile/node_modules/@react-native/assets-registry/registry.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/react-native__assets-registry` if it exists or add a new declaration (.d.ts) file containing `declare module '@react-native/assets-registry/registry';`
+node_modules/expo-image/src/ImageBackground.tsx(11,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/expo-image/src/ImageBackground.tsx(11,6): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/expo-image/src/utils/resolveAssetSource.tsx(1,32): error TS7016: Could not find a declaration file for module 'react-native/Libraries/Image/resolveAssetSource'. 'C:/Users/qozeem/Desktop/mobile/same it/mobile/node_modules/react-native/Libraries/Image/resolveAssetSource.js' implicitly has an 'any' type.
+  If the 'react-native' package actually exposes this module, try adding a new declaration (.d.ts) file containing `declare module 'react-native/Libraries/Image/resolveAssetSource';`
+node_modules/expo-modules-core/src/LegacyEventEmitter.ts(1,23): error TS7016: Could not find a declaration file for module 'invariant'. 'C:/Users/qozeem/Desktop/mobile/same it/mobile/node_modules/invariant/invariant.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/invariant` if it exists or add a new declaration (.d.ts) file containing `declare module 'invariant';`
+node_modules/expo/src/errors/AppEntryNotFound.tsx(5,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/expo/src/errors/AppEntryNotFound.tsx(5,6): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/expo/src/errors/AppEntryNotFound.tsx(6,7): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/expo/src/errors/AppEntryNotFound.tsx(6,8): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/expo/src/errors/AppEntryNotFound.tsx(7,7): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/expo/src/errors/AppEntryNotFound.tsx(7,8): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(161,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(161,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(175,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(175,12): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(179,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(179,14): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(215,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(215,12): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(216,13): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(216,14): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(234,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(234,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(235,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(235,12): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(250,5): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(250,6): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(265,7): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(265,8): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(266,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(266,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(268,11): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(268,12): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(270,15): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(270,16): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(279,15): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(279,16): error TS2786: 'Text' cannot be used as a JSX component.
+  Its type 'typeof Text' is not a valid JSX element type.
+    Type 'typeof Text' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'Text' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(292,9): error TS2607: JSX element class does not support attributes because it does not have a 'props' property.
+node_modules/toastify-react-native/components/BaseToast.tsx(292,10): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.
+node_modules/toastify-react-native/components/BaseToast.tsx(299,15): error TS2322: Type '{ testID: string; style: { position: string; left: number; width: AnimatedInterpolation<string | number>; backgroundColor: string; height: string; }; }' is not assignable to type 'IntrinsicAttributes & AnimatedProps<{}>'.
+  Property 'testID' does not exist on type 'IntrinsicAttributes & AnimatedProps<{}>'.
+node_modules/toastify-react-native/components/BaseToast.tsx(314,15): error TS2322: Type '{ testID: string; style: { width: AnimatedInterpolation<string | number>; backgroundColor: string; height: string; }; }' is not assignable to type 'IntrinsicAttributes & AnimatedProps<{}>'.
+  Property 'testID' does not exist on type 'IntrinsicAttributes & AnimatedProps<{}>'.
+node_modules/toastify-react-native/components/ToastManager.tsx(423,8): error TS2786: 'View' cannot be used as a JSX component.
+  Its type 'typeof View' is not a valid JSX element type.
+    Type 'typeof View' is not assignable to type 'new (props: any, context: any) => Component<any, any, any>'.
+      Type 'View' is missing the following properties from type 'Component<any, any, any>': context, setState, forceUpdate, render, and 2 more.

@@ -1,0 +1,47 @@
+# Root .gitignore for Same-IT project
+
+# Node.js
+**/node_modules/
+**/dist/
+**/build/
+**/web-build/
+.pnpm-store/
+
+# Next.js (Admin)
+admin/.next/
+admin/out/
+
+# Expo (Mobile)
+mobile/.expo/
+mobile/ios/
+mobile/android/
+
+# Environment Files
+**/.env
+**/.env.local
+**/.env.production
+**/.env.development
+
+# Logs
+**/logs
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Backend uploads
+backend/uploads/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Prisma
+backend/prisma/dev.db
+backend/prisma/dev.db-journal
