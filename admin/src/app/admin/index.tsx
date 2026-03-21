@@ -1,24 +1,75 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeIn } from 'react-native-reanimated';
+import { getDashboardStats, DashboardStats } from '../../api/dashboardApi';
 
 export default function DashboardScreen() {
-    const stats = [
-        { label: 'Total Users', value: '1,284', icon: 'people', color: '#3B82F6' },
-        { label: 'Pending Orders', value: '42', icon: 'time', color: '#F59E0B' },
-        { label: 'Completed Orders', value: '892', icon: 'checkmark-circle', color: '#10B981' },
-        { label: 'Revenue', value: '$12,450', icon: 'cash', color: '#8B5CF6' },
+    const [stats, setStats] = useState<DashboardStats | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const fetchStats = async () => {
+        try {
+            const data = await getDashboardStats();
+            setStats(data);
+            setError(null);
+        } catch (err) {
+            console.error('Error fetching dashboard stats:', err);
+            setError('Failed to load dashboard data');
+        } finally {
+            setLoading(false);
+            setRefreshing(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchStats();
+    }, []);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        fetchStats();
+    };
+
+    if (loading && !refreshing) {
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size="large" color="#3B82F6" />
+                <Text style={styles.loadingText}>Loading dashboard...</Text>
+            </View>
+        );
+    }
+
+    const statCards = [
+        { label: 'Total Users', value: stats?.totalUsers.toLocaleString() || '0', icon: 'people', color: '#3B82F6' },
+        { label: 'Pending Orders', value: stats?.pendingOrders.toLocaleString() || '0', icon: 'time', color: '#F59E0B' },
+        { label: 'Completed Orders', value: stats?.completedOrders.toLocaleString() || '0', icon: 'checkmark-circle', color: '#10B981' },
+        { label: 'Revenue', value: stats ? `$${stats.totalRevenue.toLocaleString()}` : '$0', icon: 'cash', color: '#8B5CF6' },
     ];
 
     return (
-        <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
+        <ScrollView 
+            style={styles.content} 
+            contentContainerStyle={styles.scrollContent}
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#3B82F6" />
+            }
+        >
             <Animated.View entering={FadeIn.duration(800)}>
                 <Text style={styles.headerTitle}>Dashboard Overview</Text>
                 <Text style={styles.headerSubtitle}>Monitor your system performance and user activity.</Text>
                 
+                {error && (
+                    <View style={styles.errorContainer}>
+                        <Ionicons name="alert-circle" size={20} color="#EF4444" />
+                        <Text style={styles.errorText}>{error}</Text>
+                    </View>
+                )}
+
                 <View style={styles.statsGrid}>
-                    {stats.map((stat, index) => (
+                    {statCards.map((stat, index) => (
                         <View key={index} style={styles.statCard}>
                             <View style={[styles.iconContainer, { backgroundColor: stat.color + '10' }]}>
                                 <Ionicons name={stat.icon as any} size={24} color={stat.color} />
@@ -35,20 +86,34 @@ export default function DashboardScreen() {
                     <View style={styles.largeCard}>
                         <Text style={styles.cardTitle}>Recent Orders</Text>
                         <View style={styles.divider} />
-                        {[1, 2, 3, 4, 5].map((i) => (
-                            <View key={i} style={styles.listItem}>
-                                <View style={styles.listAvatar}>
-                                    <Text style={styles.avatarText}>U</Text>
+                        {stats?.recentOrders && stats.recentOrders.length > 0 ? (
+                            stats.recentOrders.map((order) => (
+                                <View key={order.id} style={styles.listItem}>
+                                    <View style={styles.listAvatar}>
+                                        <Text style={styles.avatarText}>{order.user.username.charAt(0).toUpperCase()}</Text>
+                                    </View>
+                                    <View style={styles.listTextContent}>
+                                        <Text style={styles.listMainText}>{order.service.title}</Text>
+                                        <Text style={styles.listSubText}>by {order.user.username} • {new Date(order.createdAt).toLocaleString()}</Text>
+                                    </View>
+                                    <View style={[
+                                        styles.statusPill, 
+                                        { backgroundColor: order.status === 'SUCCESSFUL' ? '#ECFDF5' : order.status === 'FAILED' ? '#FEF2F2' : '#FFFBEB' }
+                                    ]}>
+                                        <Text style={[
+                                            styles.statusText,
+                                            { color: order.status === 'SUCCESSFUL' ? '#10B981' : order.status === 'FAILED' ? '#EF4444' : '#F59E0B' }
+                                        ]}>
+                                            {order.status}
+                                        </Text>
+                                    </View>
                                 </View>
-                                <View style={styles.listTextContent}>
-                                    <Text style={styles.listMainText}>Order #293{i} - Windows 10 Key</Text>
-                                    <Text style={styles.listSubText}>2 minutes ago</Text>
-                                </View>
-                                <View style={styles.statusPill}>
-                                    <Text style={styles.statusText}>Success</Text>
-                                </View>
+                            ))
+                        ) : (
+                            <View style={styles.emptyContainer}>
+                                <Text style={styles.emptyText}>No recent orders found.</Text>
                             </View>
-                        ))}
+                        )}
                     </View>
                     
                     <View style={styles.smallCard}>
@@ -74,6 +139,38 @@ export default function DashboardScreen() {
 }
 
 const styles = StyleSheet.create({
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F8FAFC',
+    },
+    loadingText: {
+        marginTop: 12,
+        color: '#64748B',
+        fontSize: 14,
+    },
+    errorContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FEF2F2',
+        padding: 12,
+        borderRadius: 12,
+        marginBottom: 24,
+        gap: 8,
+    },
+    errorText: {
+        color: '#B91C1C',
+        fontSize: 14,
+    },
+    emptyContainer: {
+        padding: 24,
+        alignItems: 'center',
+    },
+    emptyText: {
+        color: '#94A3B8',
+        fontSize: 14,
+    },
     content: {
         flex: 1,
     },

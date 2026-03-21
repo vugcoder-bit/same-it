@@ -19,11 +19,15 @@ import * as subCategoryController from '../controllers/componentSubCategoryContr
 
 import * as serviceCategoryController from '../controllers/serviceCategoryController';
 import * as paymentMethodController from '../controllers/paymentMethodController';
+import * as dashboardController from '../controllers/dashboardController';
 
 const router = Router();
 
 // All admin routes require auth + admin role
 router.use(authMiddleware, adminMiddleware);
+
+// ─── Dashboard ────────────────────────────────────────
+router.get('/dashboard/stats', dashboardController.getStats);
 
 // ─── Users ────────────────────────────────────────────
 router.post(
