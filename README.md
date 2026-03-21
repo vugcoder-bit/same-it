@@ -91,5 +91,29 @@ npm run dev
 
 ---
 
+## 🚀 Production Deployment (VPS)
+
+### Backend Deployment with PM2
+To run the backend on a VPS with process management and auto-restart:
+
+1.  **Build the project**:
+    ```bash
+    cd backend
+    npm run build
+    ```
+2.  **Configure Environment**:
+    - Copy `.env.example` to `.env`.
+    - Update `DATABASE_URL` and `JWT_SECRET`.
+3.  **Start with PM2**:
+    ```bash
+    pm2 start ecosystem.config.js
+    ```
+4.  **Manage Processes**:
+    - `pm2 status`: View running processes.
+    - `pm2 logs sameit-backend`: View real-time logs.
+    - `pm2 restart sameit-backend`: Restart the app after updates.
+
+---
+
 ## 📄 License
 Internal proprietary project for Same-IT.

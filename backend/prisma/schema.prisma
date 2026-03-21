@@ -7,108 +7,124 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model advertisement {
+model Advertisement {
   id        Int      @id @default(autoincrement())
   imageUrl  String   @db.Text
   createdAt DateTime @default(now())
+
+  @@map("advertisement")
 }
 
-model appsettings {
+model AppSettings {
   id                   Int      @id @default(1)
   contactEmail         String?
   telegramLink         String?
   whatsappLink         String?
   aboutUs              String?  @db.Text
   intellectualProperty String?  @db.Text
-  updatedAt            DateTime
+  updatedAt            DateTime @default(now()) @updatedAt
+
+  @@map("appsettings")
 }
 
-model compatibility {
-  id                   Int                         @id @default(autoincrement())
-  componentType        compatibility_componentType
+model Compatibility {
+  id                   Int           @id @default(autoincrement())
+  componentType        ComponentType
   deviceModelId        Int?
   subCategoryId        Int?
   compatibleModels     Json
-  createdAt            DateTime                    @default(now())
-  updatedAt            DateTime
-  devicemodel          devicemodel?                @relation(fields: [deviceModelId], references: [id], onDelete: Cascade, map: "Compatibility_deviceModelId_fkey")
-  componentsubcategory componentsubcategory?       @relation(fields: [subCategoryId], references: [id], onDelete: Cascade, map: "Compatibility_subCategoryId_fkey")
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @default(now()) @updatedAt
+  deviceModel          DeviceModel?  @relation(fields: [deviceModelId], references: [id], onDelete: Cascade)
+  componentSubCategory ComponentSubCategory? @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
 
-  @@index([deviceModelId], map: "Compatibility_deviceModelId_fkey")
-  @@index([subCategoryId], map: "Compatibility_subCategoryId_fkey")
+  @@index([deviceModelId])
+  @@index([subCategoryId])
+  @@map("compatibility")
 }
 
-model componentsubcategory {
-  id            Int                                @id @default(autoincrement())
-  componentType componentsubcategory_componentType
+model ComponentSubCategory {
+  id            Int             @id @default(autoincrement())
+  componentType ComponentType
   name          String
-  imageUrl      String?                            @db.Text
-  createdAt     DateTime                           @default(now())
-  updatedAt     DateTime
-  compatibility compatibility[]
+  imageUrl      String?         @db.Text
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  compatibility Compatibility[]
 
-  @@unique([componentType, name], map: "ComponentSubCategory_componentType_name_key")
+  @@unique([componentType, name])
+  @@map("componentsubcategory")
 }
 
-model contactmessage {
+model ContactMessage {
   id        Int      @id @default(autoincrement())
   name      String
   email     String
   message   String   @db.Text
   createdAt DateTime @default(now())
+
+  @@map("contactmessage")
 }
 
-model conversionrule {
+model ConversionRule {
   id           Int    @id @default(autoincrement())
   arabicLetter String
   symbol       String
+
+  @@map("conversionrule")
 }
 
-model device {
+model Device {
   id           Int           @id @default(autoincrement())
-  name         String        @unique(map: "Device_name_key")
+  name         String        @unique
   imageUrl     String?       @db.Text
   deviceTypeId Int?
   createdAt    DateTime      @default(now())
-  updatedAt    DateTime
-  devicetype   devicetype?   @relation(fields: [deviceTypeId], references: [id], map: "Device_deviceTypeId_fkey")
-  devicemodel  devicemodel[]
+  updatedAt    DateTime      @default(now()) @updatedAt
+  deviceType   DeviceType?   @relation(fields: [deviceTypeId], references: [id])
+  models       DeviceModel[]
 
-  @@index([deviceTypeId], map: "Device_deviceTypeId_fkey")
+  @@index([deviceTypeId])
+  @@map("device")
 }
 
-model devicemodel {
+model DeviceModel {
   id            Int             @id @default(autoincrement())
   deviceId      Int
   name          String
   createdAt     DateTime        @default(now())
-  updatedAt     DateTime
-  compatibility compatibility[]
-  device        device          @relation(fields: [deviceId], references: [id], onDelete: Cascade, map: "DeviceModel_deviceId_fkey")
-  schematic     schematic[]
+  updatedAt     DateTime        @default(now()) @updatedAt
+  compatibility Compatibility[]
+  device        Device          @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  schematic     Schematic[]
 
-  @@unique([deviceId, name], map: "DeviceModel_deviceId_name_key")
+  @@unique([deviceId, name])
+  @@map("devicemodel")
 }
 
-model devicetype {
+model DeviceType {
   id        Int      @id @default(autoincrement())
-  name      String   @unique(map: "DeviceType_name_key")
+  name      String   @unique
   imageUrl  String?  @db.Text
   createdAt DateTime @default(now())
-  updatedAt DateTime
-  device    device[]
+  updatedAt DateTime @default(now()) @updatedAt
+  devices   Device[]
+
+  @@map("devicetype")
 }
 
-model errorlog {
+model ErrorLog {
   id          Int      @id @default(autoincrement())
   errorCode   String
   description String   @db.Text
   solution    String   @db.Text
   createdAt   DateTime @default(now())
-  updatedAt   DateTime
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@map("errorlog")
 }
 
-model order {
+model Order {
   id                Int           @id @default(autoincrement())
   userId            Int
   serviceId         Int
@@ -121,44 +137,48 @@ model order {
   serialNumber      String?
   paymentScreenshot String?
   notes             String?       @db.Text
-  status            order_status  @default(PROCESSING)
+  status            OrderStatus   @default(PROCESSING)
   createdAt         DateTime      @default(now())
-  updatedAt         DateTime
+  updatedAt         DateTime      @default(now()) @updatedAt
   adminFileUrl      String?
   adminNotes        String?       @db.Text
-  paymentmethod     paymentmethod @relation(fields: [paymentMethodId], references: [id], onDelete: Cascade, map: "Order_paymentMethodId_fkey")
-  service           service       @relation(fields: [serviceId], references: [id], onDelete: Cascade, map: "Order_serviceId_fkey")
-  user              user          @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Order_userId_fkey")
+  paymentMethod     PaymentMethod @relation(fields: [paymentMethodId], references: [id], onDelete: Cascade)
+  service           Service       @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([paymentMethodId], map: "Order_paymentMethodId_fkey")
-  @@index([serviceId], map: "Order_serviceId_fkey")
-  @@index([userId], map: "Order_userId_fkey")
+  @@index([paymentMethodId])
+  @@index([serviceId])
+  @@index([userId])
+  @@map("order")
 }
 
-model paymentmethod {
+model PaymentMethod {
   id            Int      @id @default(autoincrement())
   title         String
   accountNumber String
   color         String   @default("#E8632B")
   note          String?  @db.Text
   createdAt     DateTime @default(now())
-  updatedAt     DateTime
-  order         order[]
+  updatedAt     DateTime @default(now()) @updatedAt
+  order         Order[]
+
+  @@map("paymentmethod")
 }
 
-model schematic {
+model Schematic {
   id            Int         @id @default(autoincrement())
   deviceModelId Int
   schematicType String
   pdfFile       String
   uploadedAt    DateTime    @default(now())
-  updatedAt     DateTime
-  devicemodel   devicemodel @relation(fields: [deviceModelId], references: [id], onDelete: Cascade, map: "Schematic_deviceModelId_fkey")
+  updatedAt     DateTime    @default(now()) @updatedAt
+  deviceModel   DeviceModel @relation(fields: [deviceModelId], references: [id], onDelete: Cascade)
 
-  @@index([deviceModelId], map: "Schematic_deviceModelId_fkey")
+  @@index([deviceModelId])
+  @@map("schematic")
 }
 
-model service {
+model Service {
   id              Int             @id @default(autoincrement())
   categoryId      Int
   title           String
@@ -169,34 +189,39 @@ model service {
   image           String?
   requiresSN      Boolean         @default(false)
   createdAt       DateTime        @default(now())
-  updatedAt       DateTime
-  order           order[]
-  servicecategory servicecategory @relation(fields: [categoryId], references: [id], onDelete: Cascade, map: "Service_categoryId_fkey")
+  updatedAt       DateTime        @default(now()) @updatedAt
+  order           Order[]
+  category        ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
-  @@index([categoryId], map: "Service_categoryId_fkey")
+  @@index([categoryId])
+  @@map("service")
 }
 
-model servicecategory {
+model ServiceCategory {
   id        Int       @id @default(autoincrement())
   name      String
   imageUrl  String?   @db.Text
   createdAt DateTime  @default(now())
-  updatedAt DateTime
-  service   service[]
+  updatedAt DateTime  @default(now()) @updatedAt
+  service   Service[]
+
+  @@map("servicecategory")
 }
 
-model user {
+model User {
   id                     Int       @id @default(autoincrement())
-  username               String    @unique(map: "User_username_key")
+  username               String    @unique
   password               String
-  role                   user_role @default(USER)
+  role                   UserRole  @default(USER)
   subscriptionExpireDate DateTime?
   createdAt              DateTime  @default(now())
-  updatedAt              DateTime
-  order                  order[]
+  updatedAt              DateTime  @default(now()) @updatedAt
+  order                  Order[]
+
+  @@map("user")
 }
 
-enum compatibility_componentType {
+enum ComponentType {
   SCREEN
   BATTERY
   CONNECTOR
@@ -204,21 +229,17 @@ enum compatibility_componentType {
   ADHESIVE
 }
 
-enum componentsubcategory_componentType {
-  SCREEN
-  BATTERY
-  CONNECTOR
-  IC
-  ADHESIVE
-}
-
-enum user_role {
+enum UserRole {
   ADMIN
   USER
+
+  @@map("user_role")
 }
 
-enum order_status {
+enum OrderStatus {
   PROCESSING
   FAILED
   SUCCESSFUL
+
+  @@map("order_status")
 }
