@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, RefreshControl, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { getDashboardStats, DashboardStats } from '../../api/dashboardApi';
 
 export default function DashboardScreen() {
+    const { width } = useWindowDimensions();
+    const isDesktop = width > 768;
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -82,8 +84,8 @@ export default function DashboardScreen() {
                     ))}
                 </View>
 
-                <View style={styles.row}>
-                    <View style={styles.largeCard}>
+                <View style={[styles.row, !isDesktop && { flexDirection: 'column' }]}>
+                    <View style={[styles.largeCard, !isDesktop && { minWidth: '100%' }]}>
                         <Text style={styles.cardTitle}>Recent Orders</Text>
                         <View style={styles.divider} />
                         {stats?.recentOrders && stats.recentOrders.length > 0 ? (
@@ -93,8 +95,8 @@ export default function DashboardScreen() {
                                         <Text style={styles.avatarText}>{order.user.username.charAt(0).toUpperCase()}</Text>
                                     </View>
                                     <View style={styles.listTextContent}>
-                                        <Text style={styles.listMainText}>{order.service.title}</Text>
-                                        <Text style={styles.listSubText}>by {order.user.username} • {new Date(order.createdAt).toLocaleString()}</Text>
+                                        <Text style={styles.listMainText} numberOfLines={1}>{order.service.title}</Text>
+                                        <Text style={styles.listSubText} numberOfLines={1}>by {order.user.username} • {new Date(order.createdAt).toLocaleDateString()}</Text>
                                     </View>
                                     <View style={[
                                         styles.statusPill, 
@@ -116,7 +118,7 @@ export default function DashboardScreen() {
                         )}
                     </View>
                     
-                    <View style={styles.smallCard}>
+                    <View style={[styles.smallCard, !isDesktop && { minWidth: '100%' }]}>
                         <Text style={styles.cardTitle}>System Status</Text>
                         <View style={styles.divider} />
                         <View style={styles.statusItem}>
@@ -175,7 +177,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollContent: {
-        padding: 32,
+        padding: 20,
     },
     headerTitle: {
         fontSize: 28,
@@ -237,10 +239,10 @@ const styles = StyleSheet.create({
     },
     largeCard: {
         flex: 2,
-        minWidth: 400,
+        minWidth: 300,
         backgroundColor: '#FFF',
         borderRadius: 20,
-        padding: 24,
+        padding: 20,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.05,
@@ -249,10 +251,10 @@ const styles = StyleSheet.create({
     },
     smallCard: {
         flex: 1,
-        minWidth: 300,
+        minWidth: 260,
         backgroundColor: '#FFF',
         borderRadius: 20,
-        padding: 24,
+        padding: 20,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.05,

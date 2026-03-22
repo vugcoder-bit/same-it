@@ -224,7 +224,7 @@ export default function ServicesManagementScreen() {
                                 <View style={styles.catCardInner}>
                                     <View style={styles.catImageContainer}>
                                         {item.imageUrl ? (
-                                            <Image source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/services/${item.imageUrl}` }} style={styles.catImage} />
+                                            <Image source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${item.imageUrl}` }} style={styles.catImage} />
                                         ) : (
                                             <Ionicons name="apps-outline" size={32} color="#CBD5E1" />
                                         )}
@@ -242,8 +242,8 @@ export default function ServicesManagementScreen() {
                             ) : (
                                 <View>
                                     <View style={styles.imageContainer}>
-                                        {item.imagePath ? (
-                                            <Image source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/services/${item.imagePath.split('/').pop()}` }} style={styles.cardImage} />
+                                        {item.image ? (
+                                            <Image source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${item.image}` }} style={styles.cardImage} />
                                         ) : (
                                             <View style={styles.placeholderImg}><Ionicons name="image-outline" size={40} color="#CBD5E1" /></View>
                                         )}
@@ -288,12 +288,21 @@ export default function ServicesManagementScreen() {
                         <Text style={styles.label}>Category Image</Text>
                         <Pressable onPress={() => pickImage('category')} style={styles.imagePicker}>
                             {selectedCategoryImage || (editingId && categories.find(c => c.id === editingId)?.imageUrl) ? (
-                                <Image 
-                                    source={{ uri: selectedCategoryImage ? selectedCategoryImage.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/services/${categories.find(c => c.id === editingId)?.imageUrl}` }} 
-                                    style={styles.previewImage} 
-                                />
+                                <View style={{ flex: 1 }}>
+                                    <Image 
+                                        source={{ uri: selectedCategoryImage ? selectedCategoryImage.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${categories.find(c => c.id === editingId)?.imageUrl}` }} 
+                                        style={styles.previewImage} 
+                                    />
+                                    <View style={styles.cameraOverlay}>
+                                        <Ionicons name="camera" size={24} color="#FFF" />
+                                        <Text style={styles.cameraOverlayText}>Tap to change</Text>
+                                    </View>
+                                </View>
                             ) : (
-                                <View style={styles.pickerInner}><Ionicons name="camera-outline" size={32} color="#94A3B8" /></View>
+                                <View style={styles.pickerInner}>
+                                    <Ionicons name="camera-outline" size={36} color="#E8632B" />
+                                    <Text style={styles.pickerHint}>Tap to upload image</Text>
+                                </View>
                             )}
                         </Pressable>
                         <View style={styles.modalButtons}>
@@ -335,13 +344,22 @@ export default function ServicesManagementScreen() {
 
                             <Text style={styles.label}>Service Image</Text>
                             <Pressable onPress={() => pickImage('service')} style={styles.imagePicker}>
-                                {selectedServiceImage || (editingId && services.find(s => s.id === editingId)?.imagePath) ? (
-                                    <Image 
-                                        source={{ uri: selectedServiceImage ? selectedServiceImage.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/services/${services.find(s => s.id === editingId)?.imagePath.split('/').pop()}` }} 
-                                        style={styles.previewImage} 
-                                    />
+                                {selectedServiceImage || (editingId && services.find(s => s.id === editingId)?.image) ? (
+                                    <View style={{ flex: 1 }}>
+                                        <Image 
+                                            source={{ uri: selectedServiceImage ? selectedServiceImage.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${services.find(s => s.id === editingId)?.image}` }} 
+                                            style={styles.previewImage} 
+                                        />
+                                        <View style={styles.cameraOverlay}>
+                                            <Ionicons name="camera" size={24} color="#FFF" />
+                                            <Text style={styles.cameraOverlayText}>Tap to change</Text>
+                                        </View>
+                                    </View>
                                 ) : (
-                                    <View style={styles.pickerInner}><Ionicons name="camera-outline" size={32} color="#94A3B8" /></View>
+                                    <View style={styles.pickerInner}>
+                                        <Ionicons name="camera-outline" size={36} color="#E8632B" />
+                                        <Text style={styles.pickerHint}>Tap to upload image</Text>
+                                    </View>
                                 )}
                             </Pressable>
 
@@ -399,8 +417,11 @@ const styles = StyleSheet.create({
     activeCatBtn: { backgroundColor: '#E8632B' },
     catBtnText: { fontSize: 12, color: '#64748B' },
     activeCatBtnText: { color: '#FFF', fontWeight: 'bold' },
-    imagePicker: { height: 160, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0', borderStyle: 'dashed', borderRadius: 16, overflow: 'hidden', marginBottom: 20 },
-    pickerInner: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    imagePicker: { height: 160, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E8632B', borderStyle: 'dashed', borderRadius: 16, overflow: 'hidden', marginBottom: 20 },
+    pickerInner: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 8 },
+    pickerHint: { fontSize: 13, color: '#E8632B', fontWeight: '600' },
+    cameraOverlay: { position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.45)', paddingVertical: 8, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: 6 },
+    cameraOverlayText: { color: '#FFF', fontSize: 13, fontWeight: '600' },
     previewImage: { width: '100%', height: '100%' },
     modalButtons: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12, marginTop: 12 },
     button: { paddingHorizontal: 24, paddingVertical: 12, borderRadius: 12 },

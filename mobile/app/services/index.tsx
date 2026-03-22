@@ -26,7 +26,7 @@ const ServiceCategoriesScreen = () => {
     >
       <View style={styles.imageContainer}>
         {item.imageUrl ? (
-          <Image source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/services/${item.imageUrl}` }} style={styles.image} />
+          <Image source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${item.imageUrl}` }} style={styles.image} />
         ) : (
           <View style={[styles.image, styles.placeholder]}>
             <Ionicons name="apps-outline" size={40} color="#E8632B" />
