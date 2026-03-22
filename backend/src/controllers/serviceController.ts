@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as serviceService from '../services/serviceService';
+import { deleteUploadedFile } from '../utils/fileHelper';
 
 export const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -60,8 +61,16 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
         if (req.body.price) data.price = parseFloat(req.body.price);
         if (req.body.duration) data.duration = req.body.duration;
         if (req.body.deliveryTime) data.deliveryTime = req.body.deliveryTime;
-        if (req.file) data.image = `services/${req.file.filename}`;
         if (req.body.requiresSN !== undefined) data.requiresSN = req.body.requiresSN === 'true' || req.body.requiresSN === true;
+
+        if (req.file) {
+            // Delete old image from disk before saving the new one
+            const existing = await serviceService.getById(parseInt(req.params.id as string));
+            if (existing?.image) {
+                deleteUploadedFile(existing.image);
+            }
+            data.image = `services/${req.file.filename}`;
+        }
 
         const item = await serviceService.update(parseInt(req.params.id as string), data);
         res.json({ success: true, data: item });
@@ -72,6 +81,11 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
 
 export const remove = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        // Delete the image file from disk before removing the DB record
+        const existing = await serviceService.getById(parseInt(req.params.id as string));
+        if (existing?.image) {
+            deleteUploadedFile(existing.image);
+        }
         await serviceService.remove(parseInt(req.params.id as string));
         res.json({ success: true, message: 'Service deleted' });
     } catch (error) {

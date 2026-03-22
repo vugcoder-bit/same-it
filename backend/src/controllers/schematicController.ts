@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { randomUUID } from 'crypto';
 import { AuthRequest } from '../middleware/auth';
 import prisma from '../utils/prisma';
+import { deleteUploadedFile } from '../utils/fileHelper';
 
 // ── One-Time Token Store ──
 // Each token can only be used once and is bound to the requester's IP.
@@ -59,7 +60,15 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
         const updateData: any = {};
         if (req.body.deviceModelId) updateData.deviceModelId = parseInt(req.body.deviceModelId as string);
         if (req.body.schematicType) updateData.schematicType = req.body.schematicType;
-        if (req.file) updateData.pdfFile = req.file.filename;
+
+        if (req.file) {
+            // Delete old PDF from disk before saving the new one
+            const existing = await schematicService.getById(parseInt(req.params.id as string));
+            if (existing?.pdfFile) {
+                deleteUploadedFile(`schematics/${existing.pdfFile}`);
+            }
+            updateData.pdfFile = req.file.filename;
+        }
 
         const item = await schematicService.update(parseInt(req.params.id as string), updateData);
         res.json({ success: true, data: item });
@@ -70,6 +79,11 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
 
 export const remove = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        // Delete PDF file from disk before removing the DB record
+        const existing = await schematicService.getById(parseInt(req.params.id as string));
+        if (existing?.pdfFile) {
+            deleteUploadedFile(`schematics/${existing.pdfFile}`);
+        }
         await schematicService.remove(parseInt(req.params.id as string));
         res.json({ success: true, message: 'Schematic deleted' });
     } catch (error) {

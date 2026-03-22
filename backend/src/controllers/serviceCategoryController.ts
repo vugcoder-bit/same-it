@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as serviceCategoryService from '../services/serviceCategoryService';
+import { deleteUploadedFile } from '../utils/fileHelper';
 
 export const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -40,7 +41,15 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
     try {
         const data: any = {};
         if (req.body.name) data.name = req.body.name;
-        if (req.file) data.imageUrl = `services/${req.file.filename}`;
+
+        if (req.file) {
+            // Delete old image from disk before saving the new one
+            const existing = await serviceCategoryService.getById(parseInt(req.params.id as string));
+            if (existing?.imageUrl) {
+                deleteUploadedFile(existing.imageUrl);
+            }
+            data.imageUrl = `services/${req.file.filename}`;
+        }
 
         const item = await serviceCategoryService.update(parseInt(req.params.id as string), data);
         res.json({ success: true, data: item });
@@ -51,6 +60,11 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
 
 export const remove = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        // Delete the image file from disk before removing the DB record
+        const existing = await serviceCategoryService.getById(parseInt(req.params.id as string));
+        if (existing?.imageUrl) {
+            deleteUploadedFile(existing.imageUrl);
+        }
         await serviceCategoryService.remove(parseInt(req.params.id as string));
         res.json({ success: true, message: 'Category deleted' });
     } catch (error) {
