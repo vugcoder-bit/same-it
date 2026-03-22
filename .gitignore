@@ -34,7 +34,7 @@ yarn-error.log*
 Thumbs.db
 
 # Backend uploads
-backend/uploads/
+# backend/uploads/
 
 # IDE files
 .idea/
