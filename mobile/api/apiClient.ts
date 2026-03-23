@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import { useAuthStore } from '../store/authStore';
 
 // Define the base URL for the backend
-const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.102.114:3000/api';
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://46.225.230.167:3000/api';
 
 export const apiClient = axios.create({
     baseURL: API_URL,
