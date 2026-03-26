@@ -23,16 +23,7 @@ export default function ToolsScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
-      <DashboardHeader title={t('sameIt') || 'SAME IT'} />
-
-      {/* Background extension like login hint */}
-      <View style={styles.bgExtension} />
-
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Dynamic Advertisement Carousel */}
-        <AdvertisementCarousel />
-
         {/* Grid 2x2 */}
         <View style={styles.gridContainer}>
           {DATA.map((item) => (
@@ -67,21 +58,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F8F9FA',
   },
-  bgExtension: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 180,
-    backgroundColor: '#E8632B',
-    borderBottomEndRadius: 30,
-    borderBottomStartRadius: 30,
-    zIndex: 0,
-  },
   scrollContent: {
     padding: 16,
-    paddingTop: 24, // overlap the background
-    zIndex: 1,
+    paddingTop: 16,
   },
   announcementCard: {
     backgroundColor: '#FFF',
@@ -117,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1.5,
-    borderColor: '#F0E5DE', // Slightly orange tinted border base
+    borderColor: '#E8632B',
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -127,8 +106,8 @@ const styles = StyleSheet.create({
     minHeight: 160,
   },
   cardImage: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     marginBottom: 16,
   },
   cardTitle: {

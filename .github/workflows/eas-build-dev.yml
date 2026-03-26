@@ -1,0 +1,62 @@
+name: Local EAS Dev Build (Android)
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Android Development APKs Locally
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build Mobile App (Android - Dev)
+        run: |
+          yarn install
+          eas build -p android --profile development --local --non-interactive --output build-mobile-dev.apk
+        working-directory: ./mobile
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Upload Mobile Dev APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-dev-apk
+          path: mobile/build-mobile-dev.apk
+
+      - name: Build Admin App (Android - Dev)
+        run: |
+          yarn install
+          eas build -p android --profile development --local --non-interactive --output build-admin-dev.apk
+        working-directory: ./admin
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Upload Admin Dev APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-dev-apk
+          path: admin/build-admin-dev.apk

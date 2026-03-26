@@ -9,7 +9,7 @@ import { apiClient } from '@/api/apiClient';
 import { AppHeader } from '@/components/AppHeader';
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = (width - 64) / 3;
+const CARD_WIDTH = (width - 48) / 2;
 
 export default function DevicesScreen() {
   const { category } = useLocalSearchParams();

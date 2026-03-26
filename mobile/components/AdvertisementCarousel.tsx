@@ -81,20 +81,6 @@ export function AdvertisementCarousel() {
                 )}
             />
 
-            {/* Dots Indicator */}
-            {ads.length > 1 && (
-                <View style={styles.dotsContainer}>
-                    {ads.map((_: any, index: number) => (
-                        <View
-                            key={index}
-                            style={[
-                                styles.dot,
-                                currentIndex === index ? styles.activeDot : styles.inactiveDot
-                            ]}
-                        />
-                    ))}
-                </View>
-            )}
         </View>
     );
 }
