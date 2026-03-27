@@ -23,7 +23,9 @@ export const createUser = async (data: CreateUserData) => {
             username: data.username,
             password: hashedPassword,
             role: data.role || 'USER',
-            subscriptionExpireDate: data.subscriptionExpireDate ? new Date(data.subscriptionExpireDate) : null,
+            subscriptionExpireDate: data.subscriptionExpireDate && !isNaN(new Date(data.subscriptionExpireDate).getTime()) 
+                ? new Date(data.subscriptionExpireDate) 
+                : null,
         },
     });
     const { password: _, ...userWithoutPassword } = user;
@@ -60,7 +62,11 @@ export const updateUser = async (id: number, data: UpdateUserData) => {
     if (data.username) updateData.username = data.username;
     if (data.password) updateData.password = await bcrypt.hash(data.password, 10);
     if (data.role) updateData.role = data.role;
-    if (data.subscriptionExpireDate) updateData.subscriptionExpireDate = new Date(data.subscriptionExpireDate);
+    if (data.subscriptionExpireDate && !isNaN(new Date(data.subscriptionExpireDate).getTime())) {
+        updateData.subscriptionExpireDate = new Date(data.subscriptionExpireDate);
+    } else if (data.subscriptionExpireDate !== undefined) {
+        updateData.subscriptionExpireDate = null;
+    }
 
     const user = await prisma.user.update({ where: { id }, data: updateData });
     const { password: _, ...userWithoutPassword } = user;

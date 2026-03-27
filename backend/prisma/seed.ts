@@ -163,7 +163,7 @@ async function main() {
         const m = await prisma.deviceModel.create({
           data: { name: modelNum, deviceId: device.id }
         });
-        allModels.push(m);
+        allModels.push({ ...m, deviceTypeId: brand.id });
       }
     }
   }
@@ -201,7 +201,8 @@ async function main() {
     const shuffled = allModels.sort(() => 0.5 - Math.random());
     const selectedModels = shuffled.slice(0, 15); // seed to 15 models
     for (const sm of selectedModels) {
-      const randModelsForCompat = [...allModels].sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
+      const sameBrandModels = allModels.filter(m => m.deviceTypeId === sm.deviceTypeId);
+      const randModelsForCompat = sameBrandModels.sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
       await prisma.compatibility.create({
         data: {
           deviceModelId: sm.id,
@@ -221,7 +222,8 @@ async function main() {
     const selectedModels = shuffled.slice(0, 5);
 
     for (const sm of selectedModels) {
-      const randModelsForCompat = [...allModels].sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
+      const sameBrandModels = allModels.filter(m => m.deviceTypeId === sm.deviceTypeId);
+      const randModelsForCompat = sameBrandModels.sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
       await prisma.compatibility.create({
         data: {
           subCategoryId: subCat.id,
@@ -261,7 +263,7 @@ async function main() {
   // 4.5 Schematics
   console.log('Seeding Schematics...');
   const schemUploadDir = ensureDir('schematics');
-  const samplePdf = path.join(__dirname, '../../admin/assets/file-sample_150kB.pdf');
+  const samplePdf = path.join(__dirname, 'file-sample_150kB.pdf');
   const samplePdfName = `schematic-${Date.now()}-sample.pdf`;
 
   if (fs.existsSync(samplePdf)) {

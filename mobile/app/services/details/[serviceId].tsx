@@ -13,6 +13,7 @@ import { AppHeader } from '@/components/AppHeader';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
 import { Toast } from 'toastify-react-native';
+import * as Clipboard from 'expo-clipboard';
 
 const ServiceDetailsScreen = () => {
   const router = useRouter();
@@ -109,6 +110,11 @@ const ServiceDetailsScreen = () => {
     );
   }
 
+  const handleCopy = async (text: string) => {
+    await Clipboard.setStringAsync(text);
+    Toast.success(t('copiedSuccessfully') || 'Copied successfully');
+  };
+
   const totalPrice = (service?.price || 0) * quantity;
 
   return (
@@ -122,6 +128,13 @@ const ServiceDetailsScreen = () => {
         <ScrollView contentContainerStyle={styles.scrollContent}>
 
           <View style={styles.card}>
+            {service?.imageUrl && (
+              <Image 
+                source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${service.imageUrl}` }} 
+                style={styles.serviceImage} 
+                contentFit="contain" 
+              />
+            )}
             <Text style={styles.serviceTitle}>{service?.title}</Text>
             <Text style={styles.serviceDesc}>{service?.description}</Text>
             
@@ -204,13 +217,20 @@ const ServiceDetailsScreen = () => {
                   key={pm.id} 
                   style={[
                     styles.paymentCard, 
-                    { borderColor: pm.color },
-                    paymentMethodId === pm.id && { backgroundColor: pm.color + '10', borderWidth: 2 }
+                    { borderColor: '#E0E0E0', borderWidth: 1.5 },
+                    paymentMethodId === pm.id && { borderColor: pm.color, backgroundColor: pm.color + '10', borderWidth: 2 }
                   ]}
                   onPress={() => setPaymentMethodId(pm.id)}
                 >
                   <Text style={[styles.pmTitle, { color: pm.color }]}>{pm.title}</Text>
-                  <Text style={styles.pmAccount}>{pm.accountNumber}</Text>
+                  
+                  <View style={styles.accountRow}>
+                    <Text style={styles.pmAccount}>{pm.accountNumber}</Text>
+                    <TouchableOpacity onPress={() => handleCopy(pm.accountNumber)}>
+                      <Ionicons name="copy-outline" size={18} color="#666" style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                  </View>
+
                   {pm.note && <Text style={styles.pmNote}>{pm.note}</Text>}
                 </TouchableOpacity>
               ))}
@@ -265,7 +285,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   headerTitle: { fontSize: 18, fontWeight: 'bold' },
-  card: { backgroundColor: '#FFF', margin: 15, padding: 20, borderRadius: 15, elevation: 3 },
+  card: { backgroundColor: '#FFF', margin: 15, padding: 20, borderRadius: 15, elevation: 3, borderWidth: 1.5, borderColor: '#E8632B' },
+  serviceImage: { width: '100%', height: 150, marginBottom: 15, borderRadius: 10 },
   serviceTitle: { fontSize: 20, fontWeight: 'bold', color: '#333', marginBottom: 10 },
   serviceDesc: { fontSize: 14, color: '#666', lineHeight: 20, marginBottom: 20 },
   infoRow: { flexDirection: 'row', justifyContent: 'space-between' },
@@ -283,7 +304,8 @@ const styles = StyleSheet.create({
   paymentContainer: { gap: 10 },
   paymentCard: { backgroundColor: '#FFF', padding: 15, borderRadius: 12, borderWidth: 1 },
   pmTitle: { fontSize: 16, fontWeight: 'bold' },
-  pmAccount: { fontSize: 15, color: '#333', marginTop: 4 },
+  accountRow: { flexDirection: 'row', alignItems: 'center', marginTop: 4 },
+  pmAccount: { fontSize: 15, color: '#333' },
   pmNote: { fontSize: 12, color: '#666', marginTop: 4 },
   uploadBtn: { backgroundColor: '#FFF', height: 180, borderRadius: 12, borderStyle: 'dashed', borderWidth: 2, borderColor: '#CCC', overflow: 'hidden' },
   uploadPlaceholder: { flex: 1, justifyContent: 'center', alignItems: 'center' },

@@ -9,7 +9,6 @@ import { apiClient } from '@/api/apiClient';
 import { AppHeader } from '@/components/AppHeader';
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = (width - 48) / 2;
 
 export default function DevicesScreen() {
   const { category } = useLocalSearchParams();
@@ -63,9 +62,10 @@ export default function DevicesScreen() {
                       pathname: `/${category}/${device.id}/models` as any,
                       params: { deviceName: device.name }
                     });
-                  }}
+                  }} 
                 >
                   {device.imageUrl ? (
+                    
                     <Image source={{ uri: `${baseUrl}/uploads/${device.imageUrl}` }} style={styles.cardImage} contentFit="contain" />
                   ) : (
                     <Text style={styles.cardText}>{device.name}</Text>
@@ -97,13 +97,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 16,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   gridCard: {
-    width: CARD_WIDTH,
+    width: '40%',
     aspectRatio: 1,
     borderRadius: 16,
-    padding: 12,
+    padding: 8,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 3,
@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
   },
   cardImage: {
-    width: '80%',
-    height: '80%',
+    width: '100%',
+    height: '100%',
   },
   cardText: {
     color: '#FFF',

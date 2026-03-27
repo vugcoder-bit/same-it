@@ -37,6 +37,7 @@ export default function SchematicsManagementScreen() {
     const [selectedModelId, setSelectedModelId] = useState<number | null>(null);
     const [selectedFile, setSelectedFile] = useState<DocumentPicker.DocumentPickerResult | null>(null);
     const [uploading, setUploading] = useState(false);
+    const [searchModel, setSearchModel] = useState('');
 
     useEffect(() => {
         fetchData();
@@ -85,9 +86,9 @@ export default function SchematicsManagementScreen() {
             if (Platform.OS === 'web') {
                 const response = await fetch(asset.uri);
                 const blob = await response.blob();
-                formData.append('file', blob, asset.name);
+                formData.append('pdfFile', blob, asset.name);
             } else {
-                formData.append('file', {
+                formData.append('pdfFile', {
                     uri: asset.uri,
                     name: asset.name,
                     type: asset.mimeType || 'application/pdf',
@@ -114,6 +115,7 @@ export default function SchematicsManagementScreen() {
         setTitle('');
         setSelectedModelId(null);
         setSelectedFile(null);
+        setSearchModel('');
     };
 
     const handleDelete = async (id: number) => {
@@ -180,8 +182,14 @@ export default function SchematicsManagementScreen() {
                         </View>
 
                         <Text style={styles.label}>Select Device Model</Text>
+                        <TextInput 
+                            style={[styles.input, { marginBottom: 12, height: 40 }]} 
+                            value={searchModel} 
+                            onChangeText={setSearchModel} 
+                            placeholder="Type to filter models..." 
+                        />
                         <ScrollView style={{ maxHeight: 150, marginBottom: 16 }}>
-                            {models.map(m => (
+                            {models.filter(m => m.name.toLowerCase().includes(searchModel.toLowerCase())).map(m => (
                                 <Pressable 
                                     key={m.id} 
                                     onPress={() => setSelectedModelId(m.id)}

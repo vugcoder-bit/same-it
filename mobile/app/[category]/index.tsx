@@ -12,7 +12,6 @@ import { apiClient } from '@/api/apiClient';
 import { AppHeader } from '@/components/AppHeader';
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = (width - 64) / 3; // 3 columns with 2 gaps of 16 and side padding of 16
 
 interface SubCategory {
   id: number;
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
     marginBottom: 16, marginLeft: 4,
   },
   gridContainer: {
-    flexDirection: 'row', flexWrap: 'wrap', gap: 16, justifyContent: 'flex-start',
+    flexDirection: 'row', flexWrap: 'wrap', gap: 16, justifyContent: 'center',
   },
   listContainer: { paddingHorizontal: 8, paddingBottom: 20 },
   adhesiveCard: {
@@ -210,10 +209,10 @@ const styles = StyleSheet.create({
   },
   adhesiveImage: { width: 60, height: 100, marginRight: 24 },
   adhesiveText: { fontSize: 20, fontWeight: '600', color: '#E8632B', flex: 1, textAlign: 'center' },
-  gridCard: { width: CARD_WIDTH, alignItems: 'center', marginBottom: 12 },
+  gridCard: { width: '40%', alignItems: 'center', marginBottom: 12 },
   imageContainer: {
     width: '100%', aspectRatio: 1, backgroundColor: '#FFF', borderRadius: 16,
-    padding: 12, justifyContent: 'center', alignItems: 'center', elevation: 3,
+    padding: 8, justifyContent: 'center', alignItems: 'center', elevation: 3,
     shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1, shadowRadius: 6, marginBottom: 8,
   },

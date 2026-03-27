@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
     View, Text, StyleSheet, ScrollView, Pressable, 
     TextInput, ActivityIndicator, Modal, TouchableOpacity,
-    useWindowDimensions
+    useWindowDimensions, KeyboardAvoidingView, Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { apiClient } from '@/api/apiClient';
@@ -196,62 +196,67 @@ export default function UsersScreen() {
                 animationType="fade"
                 onRequestClose={() => setModalVisible(false)}
             >
-                <View style={styles.modalOverlay}>
-                    <Animated.View entering={FadeInUp} style={[styles.modalContent, !isDesktop && { width: '90%', padding: 20 }]}>
-                        <Text style={styles.modalTitle}>
-                            {editingUser ? 'Edit User' : 'Add New User'}
-                        </Text>
-                        
-                        <View style={styles.inputGroup}>
-                            <Text style={styles.label}>Username</Text>
-                            <TextInput
-                                style={styles.input}
-                                value={username}
-                                onChangeText={setUsername}
-                                placeholder="Username"
-                            />
-                        </View>
-
-                        <View style={styles.inputGroup}>
-                            <Text style={styles.label}>
-                                {editingUser ? 'New Password (leave empty to keep same)' : 'Password'}
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                >
+                    <View style={styles.modalOverlay}>
+                        <Animated.View entering={FadeInUp} style={[styles.modalContent, !isDesktop && { width: '90%', padding: 20 }]}>
+                            <Text style={styles.modalTitle}>
+                                {editingUser ? 'Edit User' : 'Add New User'}
                             </Text>
-                            <TextInput
-                                style={styles.input}
-                                value={password}
-                                onChangeText={setPassword}
-                                placeholder="Password"
-                                secureTextEntry
-                            />
-                        </View>
+                            
+                            <View style={styles.inputGroup}>
+                                <Text style={styles.label}>Username</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={username}
+                                    onChangeText={setUsername}
+                                    placeholder="Username"
+                                />
+                            </View>
 
-                        <View style={styles.inputGroup}>
-                            <Text style={styles.label}>Subscription Expiry (YYYY-MM-DD)</Text>
-                            <TextInput
-                                style={styles.input}
-                                value={expiry}
-                                onChangeText={setExpiry}
-                                placeholder="2024-12-31"
-                            />
-                        </View>
+                            <View style={styles.inputGroup}>
+                                <Text style={styles.label}>
+                                    {editingUser ? 'New Password (leave empty to keep same)' : 'Password'}
+                                </Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="Password"
+                                    secureTextEntry
+                                />
+                            </View>
 
-                        <View style={styles.modalButtons}>
-                            <Pressable 
-                                onPress={() => setModalVisible(false)} 
-                                style={[styles.button, styles.cancelButton]}
-                            >
-                                <Text style={styles.cancelButtonText}>Cancel</Text>
-                            </Pressable>
-                            <Pressable 
-                                onPress={handleSave} 
-                                style={[styles.button, styles.saveButton]}
-                                disabled={saving}
-                            >
-                                {saving ? <ActivityIndicator color="#FFF" /> : <Text style={styles.saveButtonText}>Save User</Text>}
-                            </Pressable>
-                        </View>
-                    </Animated.View>
-                </View>
+                            <View style={styles.inputGroup}>
+                                <Text style={styles.label}>Subscription Expiry (YYYY-MM-DD)</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={expiry}
+                                    onChangeText={setExpiry}
+                                    placeholder="2024-12-31"
+                                />
+                            </View>
+
+                            <View style={styles.modalButtons}>
+                                <Pressable 
+                                    onPress={() => setModalVisible(false)} 
+                                    style={[styles.button, styles.cancelButton]}
+                                >
+                                    <Text style={styles.cancelButtonText}>Cancel</Text>
+                                </Pressable>
+                                <Pressable 
+                                    onPress={handleSave} 
+                                    style={[styles.button, styles.saveButton]}
+                                    disabled={saving}
+                                >
+                                    {saving ? <ActivityIndicator color="#FFF" /> : <Text style={styles.saveButtonText}>Save User</Text>}
+                                </Pressable>
+                            </View>
+                        </Animated.View>
+                    </View>
+                </KeyboardAvoidingView>
             </Modal>
         </View>
     );
