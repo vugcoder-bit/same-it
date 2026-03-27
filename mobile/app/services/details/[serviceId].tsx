@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, Text, StyleSheet, ScrollView, TouchableOpacity, 
+import {
+  View, Text, StyleSheet, ScrollView, TouchableOpacity,
   TextInput, Image, Alert, ActivityIndicator, SafeAreaView,
   KeyboardAvoidingView, Platform
 } from 'react-native';
@@ -92,7 +92,7 @@ const ServiceDetailsScreen = () => {
     const filename = image.split('/').pop();
     const match = /\.(\w+)$/.exec(filename || '');
     const type = match ? `image/${match[1]}` : `image`;
-    
+
     formData.append('paymentScreenshot', {
       uri: image,
       name: filename,
@@ -121,24 +121,24 @@ const ServiceDetailsScreen = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" backgroundColor="#E8632B" />
       <AppHeader title={t('serviceDetails')} />
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
 
           <View style={styles.card}>
-            {service?.imageUrl && (
-              <Image 
-                source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${service.imageUrl}` }} 
-                style={styles.serviceImage} 
-                contentFit="contain" 
-              />
-            )}
             <Text style={styles.serviceTitle}>{service?.title}</Text>
             <Text style={styles.serviceDesc}>{service?.description}</Text>
-            
+
             <View style={styles.infoRow}>
+              {service?.image && (
+                <Image
+                  source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${service.image}` }}
+                  style={styles.serviceImage}
+                  resizeMode="cover"
+                />
+              )}
               <View style={styles.infoBox}>
                 <Text style={styles.infoLabel}>{t('duration')}</Text>
                 <Text style={styles.infoValue}>{service?.duration || '-'}</Text>
@@ -169,25 +169,25 @@ const ServiceDetailsScreen = () => {
             </View>
 
             <Text style={styles.fieldLabel}>{t('phoneNumber1')} *</Text>
-            <TextInput 
-              style={styles.input} 
-              keyboardType="phone-pad" 
+            <TextInput
+              style={styles.input}
+              keyboardType="phone-pad"
               value={phone1}
               onChangeText={setPhone1}
               placeholder={t('phonePlaceholder')}
             />
 
             <Text style={styles.fieldLabel}>{t('phoneNumber2')}</Text>
-            <TextInput 
-              style={styles.input} 
-              keyboardType="phone-pad" 
+            <TextInput
+              style={styles.input}
+              keyboardType="phone-pad"
               value={phone2}
               onChangeText={setPhone2}
             />
 
             <Text style={styles.fieldLabel}>{t('telegramUsername')}</Text>
-            <TextInput 
-              style={styles.input} 
+            <TextInput
+              style={styles.input}
               value={telegram}
               onChangeText={setTelegram}
               placeholder={t('telegramPlaceholder')}
@@ -196,16 +196,16 @@ const ServiceDetailsScreen = () => {
             <Text style={styles.fieldLabel}>
               {t('serialNumber')} {service?.requiresSN ? '*' : `(${t('optional') || 'Optional'})`}
             </Text>
-            <TextInput 
-              style={styles.input} 
+            <TextInput
+              style={styles.input}
               value={serialNumber}
               onChangeText={setSerialNumber}
             />
 
             <Text style={styles.fieldLabel}>{t('notes')}</Text>
-            <TextInput 
-              style={[styles.input, { height: 80, textAlignVertical: 'top' }]} 
-              multiline 
+            <TextInput
+              style={[styles.input, { height: 80, textAlignVertical: 'top' }]}
+              multiline
               value={notes}
               onChangeText={setNotes}
             />
@@ -213,17 +213,17 @@ const ServiceDetailsScreen = () => {
             <Text style={styles.sectionTitle}>{t('selectPaymentMethod')} *</Text>
             <View style={styles.paymentContainer}>
               {paymentMethods?.map((pm: any) => (
-                <TouchableOpacity 
-                  key={pm.id} 
+                <TouchableOpacity
+                  key={pm.id}
                   style={[
-                    styles.paymentCard, 
+                    styles.paymentCard,
                     { borderColor: '#E0E0E0', borderWidth: 1.5 },
                     paymentMethodId === pm.id && { borderColor: pm.color, backgroundColor: pm.color + '10', borderWidth: 2 }
                   ]}
                   onPress={() => setPaymentMethodId(pm.id)}
                 >
                   <Text style={[styles.pmTitle, { color: pm.color }]}>{pm.title}</Text>
-                  
+
                   <View style={styles.accountRow}>
                     <Text style={styles.pmAccount}>{pm.accountNumber}</Text>
                     <TouchableOpacity onPress={() => handleCopy(pm.accountNumber)}>
@@ -255,8 +255,8 @@ const ServiceDetailsScreen = () => {
             <Text style={styles.totalLabel}>{t('totalPrice')}</Text>
             <Text style={styles.totalValue}>${totalPrice.toFixed(2)}</Text>
           </View>
-          <TouchableOpacity 
-            style={[styles.orderBtn, orderMutation.isPending && { opacity: 0.7 }]} 
+          <TouchableOpacity
+            style={[styles.orderBtn, orderMutation.isPending && { opacity: 0.7 }]}
             onPress={handlePlaceOrder}
             disabled={orderMutation.isPending}
           >
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: { fontSize: 18, fontWeight: 'bold' },
   card: { backgroundColor: '#FFF', margin: 15, padding: 20, borderRadius: 15, elevation: 3, borderWidth: 1.5, borderColor: '#E8632B' },
-  serviceImage: { width: '100%', height: 150, marginBottom: 15, borderRadius: 10 },
+  serviceImage: { width: 70, height: 70, borderRadius: 12, marginRight: 10, borderWidth: 1, borderColor: '#E8632B' },
   serviceTitle: { fontSize: 20, fontWeight: 'bold', color: '#333', marginBottom: 10 },
   serviceDesc: { fontSize: 14, color: '#666', lineHeight: 20, marginBottom: 20 },
   infoRow: { flexDirection: 'row', justifyContent: 'space-between' },
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
   paymentContainer: { gap: 10 },
   paymentCard: { backgroundColor: '#FFF', padding: 15, borderRadius: 12, borderWidth: 1 },
   pmTitle: { fontSize: 16, fontWeight: 'bold' },
-  accountRow: { flexDirection: 'row', alignItems: 'center', marginTop: 4 },
+  accountRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 },
   pmAccount: { fontSize: 15, color: '#333' },
   pmNote: { fontSize: 12, color: '#666', marginTop: 4 },
   uploadBtn: { backgroundColor: '#FFF', height: 180, borderRadius: 12, borderStyle: 'dashed', borderWidth: 2, borderColor: '#CCC', overflow: 'hidden' },
