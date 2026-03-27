@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '../api/queryClient';
 import { useLocale } from '@/hooks/use-locale';
+import { useFonts } from 'expo-font';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -26,27 +27,49 @@ i18n.locale = getLocales().at(0)?.languageCode ?? 'en';
 SplashScreen.preventAutoHideAsync();
 
 import ToastManager from 'toastify-react-native';
-import { Pressable } from 'react-native';
+import { Pressable, Text as RNText } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAuthStore } from '../store/authStore';
 import { useLocaleStore } from '@/store/localeStore';
 
 export default function RootLayout() {
   const router = useRouter();
-  const { t } = useLocale();
+  const { t, language } = useLocale();
   const _hasAuthHydrated = useAuthStore(state => state._hasHydrated);
   const _hasLocaleHydrated = useLocaleStore(state => state._hasHydrated);
 
+  const [fontsLoaded] = useFonts({
+    'CoconNextArabic': require('@/assets/cocon-next-arabic.ttf'),
+  });
+
+  // Apply Arabic font globally when locale is Arabic
   useEffect(() => {
-    if (_hasAuthHydrated && _hasLocaleHydrated) {
+    if (fontsLoaded) {
+      const defaultStyle = (RNText as any).defaultProps?.style || {};
+      if (language === 'ar') {
+        (RNText as any).defaultProps = {
+          ...(RNText as any).defaultProps,
+          style: { ...defaultStyle, fontFamily: 'CoconNextArabic' },
+        };
+      } else {
+        (RNText as any).defaultProps = {
+          ...(RNText as any).defaultProps,
+          style: { ...defaultStyle, fontFamily: undefined },
+        };
+      }
+    }
+  }, [language, fontsLoaded]);
+
+  useEffect(() => {
+    if (_hasAuthHydrated && _hasLocaleHydrated && fontsLoaded) {
       const hideSplash = async () => {
         await SplashScreen.hideAsync();
         router.replace('/splash');
       };
-
       hideSplash();
     }
-  }, [_hasAuthHydrated, _hasLocaleHydrated]);
+  }, [_hasAuthHydrated, _hasLocaleHydrated, fontsLoaded]);
+
   const colorScheme = useColorScheme();
 
   return (
