@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { apiClient } from '@/api/apiClient';
 import { Toast } from 'toastify-react-native';
 import Animated, { FadeInUp, Layout } from 'react-native-reanimated';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface User {
     id: number;
@@ -30,6 +31,7 @@ export default function UsersScreen() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [expiry, setExpiry] = useState('');
+    const [showPicker, setShowPicker] = useState(false);
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
@@ -248,11 +250,24 @@ export default function UsersScreen() {
                                         onChange={(e: any) => setExpiry(e.target.value ? new Date(e.target.value).toISOString() : '')}
                                     />
                                 ) : (
-                                    <TextInput
-                                        style={styles.input}
-                                        value={expiry}
-                                        onChangeText={setExpiry}
-                                        placeholder="YYYY-MM-DD"
+                                    <Pressable 
+                                        style={[styles.input, { justifyContent: 'center' }]} 
+                                        onPress={() => setShowPicker(true)}
+                                    >
+                                        <Text style={{ color: expiry ? '#1E293B' : '#94A3B8' }}>
+                                            {expiry ? new Date(expiry).toISOString().split('T')[0] : "YYYY-MM-DD"}
+                                        </Text>
+                                    </Pressable>
+                                )}
+                                {showPicker && Platform.OS !== 'web' && (
+                                    <DateTimePicker
+                                        value={expiry ? new Date(expiry) : new Date()}
+                                        mode="date"
+                                        display="default"
+                                        onChange={(event: any, selectedDate?: Date) => {
+                                            if (Platform.OS !== 'ios') setShowPicker(false);
+                                            if (selectedDate) setExpiry(selectedDate.toISOString().split('T')[0]);
+                                        }}
                                     />
                                 )}
                             </View>

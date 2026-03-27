@@ -27,27 +27,25 @@ export const remove = async (id: number) => {
 };
 
 export const convertText = async (text: string, mode: 'toHex' | 'toText'): Promise<{ converted: string }> => {
+    // The client's Java code strictly masks the UTF-16 char to its lower byte to derive ASCII.
     if (mode === 'toHex') {
-        // Convert each character to its hex representation (UTF-8 bytes)
-        const buffer = Buffer.from(text, 'utf-8');
-        const hexParts: string[] = [];
-        for (const byte of buffer) {
-            hexParts.push(byte.toString(16).toUpperCase().padStart(2, '0'));
+        let result = '';
+        for (let i = 0; i < text.length; i++) {
+            const charCode = text.charCodeAt(i);
+            const lowerByte = charCode & 0xFF; // Exactly matches the substring(1,3) truncation logic in Java
+            result += String.fromCharCode(lowerByte);
         }
-        return { converted: hexParts.join(' ') };
+        return { converted: result };
     } else {
-        // Convert hex string back to UTF-8 text
-        const cleanHex = text.replace(/\s+/g, '');
-        if (!/^[0-9A-Fa-f]+$/.test(cleanHex)) {
-            throw new Error('INVALID_HEX');
+        // Reverse logical operation for toText (If they input "E1-('", we shift logic)
+        // Since the truncation loses Information (e.g. discards 0x06), we assume the original characters were Arabic (0x06XX block)
+        let result = '';
+        for (let i = 0; i < text.length; i++) {
+            const charCode = text.charCodeAt(i);
+            // Reconstruct the Arabic char by prepending the 0x06 high byte
+            const arabicCode = 0x0600 | (charCode & 0xFF);
+            result += String.fromCharCode(arabicCode);
         }
-        if (cleanHex.length % 2 !== 0) {
-            throw new Error('INVALID_HEX');
-        }
-        const bytes = Buffer.alloc(cleanHex.length / 2);
-        for (let i = 0; i < bytes.length; i++) {
-            bytes[i] = parseInt(cleanHex.substring(i * 2, i * 2 + 2), 16);
-        }
-        return { converted: bytes.toString('utf-8') };
+        return { converted: result };
     }
 };
