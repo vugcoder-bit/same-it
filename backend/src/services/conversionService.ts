@@ -27,23 +27,35 @@ export const remove = async (id: number) => {
 };
 
 export const convertText = async (text: string, mode: 'toHex' | 'toText'): Promise<{ converted: string }> => {
-    // The client's Java code strictly masks the UTF-16 char to its lower byte to derive ASCII.
     if (mode === 'toHex') {
-        let result = '';
+        let hexResult = "";
         for (let i = 0; i < text.length; i++) {
-            const charCode = text.charCodeAt(i);
-            const lowerByte = charCode & 0xFF; // Exactly matches the substring(1,3) truncation logic in Java
-            result += String.fromCharCode(lowerByte);
+            let code = text.charCodeAt(i).toString(16).toUpperCase();
+            if (code.length === 1) code = "0" + code;
+            if (code.length === 3) code = code.substring(1, 3);
+            hexResult += code + " ";
+        }
+        
+        // Decode back to the corrupted ASCII format matching the client's output
+        const hexText = hexResult.replace(/ /g, "");
+        let result = "";
+        for (let i = 0; i < hexText.length; i += 2) {
+            result += String.fromCharCode(parseInt(hexText.substring(i, i + 2), 16));
         }
         return { converted: result };
     } else {
-        // Reverse logical operation for toText (If they input "E1-('", we shift logic)
-        // Since the truncation loses Information (e.g. discards 0x06), we assume the original characters were Arabic (0x06XX block)
-        let result = '';
+        // Assume input is the ASCII "E1-('" format. We decode it back to Hex, then pre-pend the Arabic 0x06 byte
+        let hexResult = "";
         for (let i = 0; i < text.length; i++) {
-            const charCode = text.charCodeAt(i);
-            // Reconstruct the Arabic char by prepending the 0x06 high byte
-            const arabicCode = 0x0600 | (charCode & 0xFF);
+            let code = text.charCodeAt(i).toString(16).toUpperCase();
+            if (code.length === 1) code = "0" + code;
+            hexResult += code;
+        }
+        
+        let result = "";
+        for (let i = 0; i < hexResult.length; i += 2) {
+            // Reconstruct Arabic by combining 0x06 with the parsed hex code
+            const arabicCode = 0x0600 | parseInt(hexResult.substring(i, i + 2), 16);
             result += String.fromCharCode(arabicCode);
         }
         return { converted: result };
