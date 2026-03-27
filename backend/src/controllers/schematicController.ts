@@ -8,23 +8,8 @@ import prisma from '../utils/prisma';
 import { deleteUploadedFile } from '../utils/fileHelper';
 
 // ── One-Time Token Store ──
-// Each token can only be used once and is bound to the requester's IP.
-interface PdfToken {
-    schematicId: number;
-    ip: string;
-    usedCount: number;
-    expiresAt: number; // Unix timestamp in ms
-}
-
-const tokenStore = new Map<string, PdfToken>();
-
-// Clean up expired tokens every 5 minutes
-setInterval(() => {
-    const now = Date.now();
-    for (const [id, token] of tokenStore.entries()) {
-        if (now > token.expiresAt) tokenStore.delete(id);
-    }
-}, 5 * 60 * 1000);
+// With PM2 cluster mode, in-memory stores don't work across instances.
+// We rely solely on JWT verification (expiry, IP binding, action validation).
 
 // ── CRUD (Admin) ──
 
@@ -141,26 +126,15 @@ export const generateTempUrl = async (req: AuthRequest, res: Response, next: Nex
             }
         }
 
-        // Generate one-time token
-        const tokenId = randomUUID();
         const requesterIp = req.ip || req.socket.remoteAddress || 'unknown';
-        const expiresInMs = 2 * 60 * 1000; // 2 minutes
-
-        tokenStore.set(tokenId, {
-            schematicId,
-            ip: requesterIp,
-            usedCount: 0,
-            expiresAt: Date.now() + expiresInMs,
-        });
-
-        console.log(`[PDF TOKEN] Generated: ${tokenId} for schematic ${schematicId} (IP: ${requesterIp})`);
-
         const secret = process.env.JWT_SECRET || 'fallback_secret';
         const token = jwt.sign(
-            { tokenId, id: schematicId, action: 'view_pdf', ip: requesterIp },
+            { id: schematicId, action: 'view_pdf', ip: requesterIp },
             secret,
             { expiresIn: '2m' }
         );
+
+        console.log(`[PDF TOKEN] Generated for schematic ${schematicId} (IP: ${requesterIp})`);
 
         const url = `/api/schematics/view?token=${token}`;
         res.json({ success: true, data: { url } });
@@ -180,44 +154,18 @@ export const viewPdf = async (req: Request, res: Response, next: NextFunction): 
         const secret = process.env.JWT_SECRET || 'fallback_secret';
         const decoded = jwt.verify(token as string, secret) as any;
 
-        if (decoded.action !== 'view_pdf' || !decoded.id || !decoded.tokenId) {
+        if (decoded.action !== 'view_pdf' || !decoded.id) {
             res.status(401).json({ success: false, message: 'Invalid token' });
-            return;
-        }
-
-        // One-time token validation
-        const storedToken = tokenStore.get(decoded.tokenId);
-        if (!storedToken) {
-            console.error(`[PDF VIEW] Token not found or expired in store: ${decoded.tokenId}`);
-            res.status(401).json({ success: false, message: 'Token not found or expired' });
-            return;
-        }
-
-        if (storedToken.usedCount >= 5) {
-            console.error(`[PDF VIEW] Token usage limit exceeded (5): ${decoded.tokenId}`);
-            res.status(401).json({ success: false, message: 'Token usage limit exceeded' });
-            return;
-        }
-
-        if (Date.now() > storedToken.expiresAt) {
-            tokenStore.delete(decoded.tokenId);
-            console.error(`[PDF VIEW] Token expired: ${decoded.tokenId}`);
-            res.status(401).json({ success: false, message: 'Token expired' });
             return;
         }
 
         // IP binding check
         const requesterIp = req.ip || req.socket.remoteAddress || 'unknown';
-        console.log(`[PDF VIEW] Token ${decoded.tokenId} usage ${storedToken.usedCount + 1}. Requester IP: ${requesterIp}, Stored IP: ${storedToken.ip}`);
-        
-        if (storedToken.ip !== requesterIp) {
-            console.error(`[PDF VIEW] IP mismatch: stored=${storedToken.ip}, requester=${requesterIp}`);
+        if (decoded.ip !== requesterIp) {
+            console.error(`[PDF VIEW] IP mismatch: stored=${decoded.ip}, requester=${requesterIp}`);
             res.status(403).json({ success: false, message: 'IP mismatch. Access denied.' });
             return;
         }
-
-        // Increment usage count
-        storedToken.usedCount += 1;
 
         const schematic = await schematicService.getById(decoded.id);
         if (!schematic) {

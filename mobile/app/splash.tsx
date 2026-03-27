@@ -13,12 +13,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     logo: {
-        width: 200,
-        height: 200,
-        marginBottom: 40,
+        width: 120,
+        height: 120,
+        marginBottom: 10,
     },
     brandText: {
-        fontSize: 34,
+        fontSize: 24,
         fontWeight: '300',
         letterSpacing: 3,
         textAlign: 'center',
@@ -53,7 +53,7 @@ export default function SplashRoute() {
     useEffect(() => {
         const hideSplash = async () => {
             await new Promise(resolve => setTimeout(resolve, 2000));
-            
+
             if (token) {
                 router.replace('/(drawer)/(tabs)');
             } else {
