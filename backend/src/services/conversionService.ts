@@ -27,10 +27,13 @@ export const remove = async (id: number) => {
 };
 
 export const convertText = async (text: string, mode: 'toHex' | 'toText'): Promise<{ converted: string }> => {
+    // Strip Arabic diacritics (Tashkeel) like Fathatan (ً) which invisibly add characters like 0x064B to the string
+    const sanitizedText = text.replace(/[\u064B-\u065F\u0670]/g, '');
+
     if (mode === 'toHex') {
         let hexResult = "";
-        for (let i = 0; i < text.length; i++) {
-            let code = text.charCodeAt(i).toString(16).toUpperCase();
+        for (let i = 0; i < sanitizedText.length; i++) {
+            let code = sanitizedText.charCodeAt(i).toString(16).toUpperCase();
             if (code.length === 1) code = "0" + code;
             if (code.length === 3) code = code.substring(1, 3);
             hexResult += code + " ";
