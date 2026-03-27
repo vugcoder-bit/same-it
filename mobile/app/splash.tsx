@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useLocale } from '@/hooks/use-locale';
-
+import { Image } from 'expo-image';
 
 
 const styles = StyleSheet.create({
@@ -72,6 +72,7 @@ export default function SplashRoute() {
                 { backgroundColor: '#E8632B' },
             ]}
         >
+            <Image source={require('@/assets/images/logo.png')} style={styles.logo} />
             <Text style={[styles.brandText, { color: '#FFFFFF' }]}>{t('sameIt') || 'SAME IT'}</Text>
 
             <View style={styles.poweredByContainer}>

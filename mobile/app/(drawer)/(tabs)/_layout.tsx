@@ -1,7 +1,7 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { withLayoutContext } from 'expo-router';
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, Text, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 
 import { useLocale } from '@/hooks/use-locale';
@@ -10,6 +10,62 @@ import { AdvertisementCarousel } from '@/components/AdvertisementCarousel';
 import { StatusBar } from 'expo-status-bar';
 
 const MaterialTopTabs = withLayoutContext(createMaterialTopTabNavigator().Navigator);
+
+// Custom Tab Bar to reliably update active colors on swipe
+function CustomTabBar({ state, descriptors, navigation }: any) {
+  const { t } = useLocale();
+  return (
+    <View style={{
+      flexDirection: 'row',
+      backgroundColor: '#E8632B',
+      height: Platform.OS === 'ios' ? 90 : 75,
+      paddingBottom: Platform.OS === 'ios' ? 25 : 5,
+      paddingTop: 5,
+    }}>
+      {state.routes.map((route: any, index: number) => {
+        const { options } = descriptors[route.key];
+        const isFocused = state.index === index;
+        const color = isFocused ? '#FFF' : '#FFD1B3';
+
+        const onPress = () => {
+          const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name, route.params);
+          }
+        };
+
+        const iconMap: any = {
+          index: require('@/assets/svg/home.svg'),
+          tools: require('@/assets/svg/tool.svg')
+        };
+        const labelMap: any = {
+          index: t('home') || 'Home',
+          tools: t('tools') || 'Tools'
+        };
+
+        return (
+          <TouchableOpacity
+            key={route.key}
+            accessibilityRole="button"
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            onPress={onPress}
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Image
+              source={iconMap[route.name]}
+              style={{ width: 24, height: 24, tintColor: color, opacity: isFocused ? 1 : 0.7, marginBottom: 4 }}
+            />
+            <Text style={{ color, fontSize: 12, fontWeight: isFocused ? 'bold' : 'normal' }}>
+              {labelMap[route.name]}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+}
 
 export default function TabLayout() {
   const { t } = useLocale();
@@ -30,56 +86,17 @@ export default function TabLayout() {
         borderBottomStartRadius: 30,
         zIndex: 0,
       }} />
-      <View style={{ zIndex: 1, paddingTop: 24 }}>
+      <View style={{ zIndex: 1, paddingTop: 24, paddingHorizontal: 16 }}>
         <AdvertisementCarousel />
       </View>
 
       <MaterialTopTabs
         tabBarPosition="bottom"
-        screenOptions={{
-          tabBarActiveTintColor: '#FFF',
-          tabBarInactiveTintColor: '#FFD1B3',
-          tabBarStyle: {
-            backgroundColor: '#E8632B',
-            height: Platform.OS === 'ios' ? 90 : 70,
-            paddingBottom: Platform.OS === 'ios' ? 25 : 10,
-            paddingTop: 10,
-          },
-          tabBarIndicatorStyle: {
-            backgroundColor: '#FFF',
-            height: 3,
-            top: 0,
-          },
-          tabBarLabelStyle: {
-            fontSize: 12,
-            marginTop: 4,
-            textTransform: 'none',
-          },
-        }}>
-        <MaterialTopTabs.Screen
-          name="index"
-          options={{
-            title: t('home'),
-            tabBarIcon: ({ color, focused }) => (
-              <Image
-                source={require('@/assets/svg/home.svg')}
-                style={{ width: 24, height: 24, tintColor: color, opacity: focused ? 1 : 0.7 }}
-              />
-            ),
-          }}
-        />
-        <MaterialTopTabs.Screen
-          name="tools"
-          options={{
-            title: t('tools'),
-            tabBarIcon: ({ color, focused }) => (
-              <Image
-                source={require('@/assets/svg/tool.svg')}
-                style={{ width: 24, height: 24, tintColor: color, opacity: focused ? 1 : 0.7 }}
-              />
-            ),
-          }}
-        />
+        tabBar={(props) => <CustomTabBar {...props} />}
+        screenOptions={{ swipeEnabled: true }}
+      >
+        <MaterialTopTabs.Screen name="index" />
+        <MaterialTopTabs.Screen name="tools" />
       </MaterialTopTabs>
     </View>
   );

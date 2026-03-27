@@ -62,6 +62,7 @@ export default function SearchScreen() {
 
       const res = await apiClient.get('/compatibility/search', { params });
       setResults(res.data.data || []);
+      setSearched(true);
     } catch (e) {
       console.error(e);
       setResults([]);
@@ -71,10 +72,8 @@ export default function SearchScreen() {
   };
 
   useEffect(() => {
-    fetchResults();
+    fetchResults(); // Fetch all initially
   }, [type, brandId, subCategoryId]);
-
-  const handleSearch = () => fetchResults(query);
 
   const getDisplayModels = (rawValue: any): string => {
     if (Array.isArray(rawValue)) return rawValue.join(', ');
@@ -86,6 +85,19 @@ export default function SearchScreen() {
       return rawValue;
     }
     return JSON.stringify(rawValue);
+  };
+
+  const displayedResults = results.filter((item) => {
+    if (!query.trim()) return true;
+    const q = query.toLowerCase();
+    const modelName = item.deviceModel?.name?.toLowerCase() || '';
+    const deviceName = item.deviceModel?.device?.name?.toLowerCase() || '';
+    const compModels = getDisplayModels(item.compatibleModels).toLowerCase();
+    return modelName.includes(q) || deviceName.includes(q) || compModels.includes(q);
+  });
+
+  const handleSearch = () => {
+    // Local filter is already applied via displayedResults
   };
 
   return (
@@ -112,15 +124,15 @@ export default function SearchScreen() {
         <Text style={styles.resultsLabel}>{t('results')}</Text>
       </View>
 
-      {loading ? (
+      {loading && results.length === 0 ? (
         <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
       ) : (
         <FlatList
-          data={results}
+          data={displayedResults}
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={styles.list}
           ListHeaderComponent={
-            searched && results.length === 0 ? (
+            searched && displayedResults.length === 0 ? (
               <Text style={{ textAlign: 'center', color: '#94A3B8', marginTop: 40 }}>{t('noResultsFound')}</Text>
             ) : null
           }

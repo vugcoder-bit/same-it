@@ -26,7 +26,7 @@ const ServiceCategoriesScreen = () => {
     >
       <View style={styles.imageContainer}>
         {item.imageUrl ? (
-          <Image source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${item.imageUrl}` }} style={styles.image} />
+          <Image source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${item.imageUrl}` }} style={styles.image} resizeMode="contain" />
         ) : (
           <View style={[styles.image, styles.placeholder]}>
             <Ionicons name="apps-outline" size={40} color="#E8632B" />
@@ -47,7 +47,7 @@ const ServiceCategoriesScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <AppHeader title={t('serviceCategories')} />
+      <AppHeader title={t('serviceCategories') || 'Service Categories'} />
       <FlatList
         data={categories}
         renderItem={renderItem}
@@ -79,14 +79,19 @@ const styles = StyleSheet.create({
   },
   list: {
     padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   card: {
-    flex: 1,
-    margin: 10,
+    width: '40%',
+    marginHorizontal: '5%',
+    marginVertical: 10,
     backgroundColor: '#fff',
     borderRadius: 15,
     padding: 15,
     alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: '#E8632B',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -96,12 +101,9 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 80,
     height: 80,
-    borderRadius: 40,
-    backgroundColor: '#FFF4F0',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
-    overflow: 'hidden',
   },
   image: {
     width: '100%',
