@@ -81,11 +81,6 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
 
 export const remove = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        // Delete the image file from disk before removing the DB record
-        const existing = await serviceService.getById(parseInt(req.params.id as string));
-        if (existing?.image) {
-            deleteUploadedFile(existing.image);
-        }
         await serviceService.remove(parseInt(req.params.id as string));
         res.json({ success: true, message: 'Service deleted' });
     } catch (error) {

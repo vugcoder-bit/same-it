@@ -230,13 +230,31 @@ export default function UsersScreen() {
                             </View>
 
                             <View style={styles.inputGroup}>
-                                <Text style={styles.label}>Subscription Expiry (YYYY-MM-DD)</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    value={expiry}
-                                    onChangeText={setExpiry}
-                                    placeholder="2024-12-31"
-                                />
+                                <Text style={styles.label}>Subscription Expiry</Text>
+                                {Platform.OS === 'web' ? (
+                                    <input 
+                                        type="date"
+                                        style={{
+                                            height: 48,
+                                            borderWidth: 1,
+                                            borderColor: '#E2E8F0',
+                                            borderRadius: 10,
+                                            paddingHorizontal: 12,
+                                            fontSize: 15,
+                                            width: '100%',
+                                            fontFamily: 'inherit'
+                                        }}
+                                        value={expiry ? new Date(expiry).toISOString().split('T')[0] : ''}
+                                        onChange={(e: any) => setExpiry(e.target.value ? new Date(e.target.value).toISOString() : '')}
+                                    />
+                                ) : (
+                                    <TextInput
+                                        style={styles.input}
+                                        value={expiry}
+                                        onChangeText={setExpiry}
+                                        placeholder="YYYY-MM-DD"
+                                    />
+                                )}
                             </View>
 
                             <View style={styles.modalButtons}>

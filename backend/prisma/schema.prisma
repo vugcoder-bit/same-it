@@ -188,6 +188,7 @@ model Service {
   deliveryTime    String?
   image           String?
   requiresSN      Boolean         @default(false)
+  isDeleted       Boolean         @default(false)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @default(now()) @updatedAt
   orders          Order[]

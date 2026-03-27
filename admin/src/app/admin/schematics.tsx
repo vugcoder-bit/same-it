@@ -13,7 +13,7 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 
 interface Schematic {
     id: number;
-    title: string;
+    schematicType: string;
     filePath: string;
     deviceModelId: number;
     deviceModelName?: string;
@@ -77,7 +77,7 @@ export default function SchematicsManagementScreen() {
         try {
             setUploading(true);
             const formData = new FormData();
-            formData.append('title', title);
+            formData.append('schematicType', title);
             formData.append('deviceModelId', selectedModelId.toString());
             
             const asset = selectedFile.assets[0];
@@ -157,7 +157,7 @@ export default function SchematicsManagementScreen() {
                                 <Ionicons name="document-text" size={40} color="#E8632B" />
                             </View>
                             <View style={styles.cardContent}>
-                                <Text style={styles.itemTitle} numberOfLines={1}>{item.title}</Text>
+                                <Text style={styles.itemTitle} numberOfLines={1}>{item.schematicType}</Text>
                                 <Text style={styles.itemModel}>{item.deviceModelName || `Model ID: ${item.deviceModelId}`}</Text>
                                 <View style={styles.cardFooter}>
                                     <Text style={styles.fileLabel}>PDF Schematic</Text>

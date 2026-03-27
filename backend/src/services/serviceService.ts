@@ -28,6 +28,7 @@ export const create = async (data: ServiceData) => {
 
 export const getAll = async () => {
     return prisma.service.findMany({
+        where: { isDeleted: false },
         include: { category: { select: { name: true } } },
         orderBy: { createdAt: 'desc' },
     });
@@ -35,7 +36,7 @@ export const getAll = async () => {
 
 export const getByCategoryId = async (categoryId: number) => {
     return prisma.service.findMany({
-        where: { categoryId },
+        where: { categoryId, isDeleted: false },
         orderBy: { title: 'asc' },
     });
 };
@@ -49,5 +50,5 @@ export const update = async (id: number, data: Partial<ServiceData>) => {
 };
 
 export const remove = async (id: number) => {
-    return prisma.service.delete({ where: { id } });
+    return prisma.service.update({ where: { id }, data: { isDeleted: true } });
 };
