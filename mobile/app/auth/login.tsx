@@ -249,7 +249,7 @@ export default function LoginScreen() {
                     </View>
 
                     <Formik
-                        initialValues={{ username: 'admin', password: 'admin123' }}
+                        initialValues={{ username: '', password: '' }}
                         validationSchema={validationSchema}
                         onSubmit={(values, { setSubmitting }) => {
                             setSubmitting(true);
