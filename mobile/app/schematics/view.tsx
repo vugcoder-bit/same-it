@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useLocale } from '@/hooks/use-locale';
@@ -7,6 +7,12 @@ import { StatusBar } from 'expo-status-bar';
 import { PdfView } from '@kishannareshpal/expo-pdf';
 import { apiClient } from '@/api/apiClient';
 import * as FileSystem from 'expo-file-system/legacy';
+import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+} from 'react-native-reanimated';
 
 export default function PdfViewerScreen() {
   const { token, title } = useLocalSearchParams();
@@ -15,7 +21,36 @@ export default function PdfViewerScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Set up the remote and local paths
+  const scale = useSharedValue(1);
+  const savedScale = useSharedValue(1);
+
+  const pinchGesture = Gesture.Pinch()
+    .onUpdate((e) => {
+      scale.value = Math.max(1, Math.min(savedScale.value * e.scale, 8));
+    })
+    .onEnd(() => {
+      savedScale.value = scale.value;
+    });
+
+  const doubleTap = Gesture.Tap()
+    .numberOfTaps(2)
+    .onEnd(() => {
+      if (scale.value > 1) {
+        scale.value = withSpring(1);
+        savedScale.value = 1;
+      } else {
+        scale.value = withSpring(2.5);
+        savedScale.value = 2.5;
+      }
+    });
+
+  const composed = Gesture.Simultaneous(pinchGesture, doubleTap);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+    flex: 1,
+  }));
+
   const baseUrl = apiClient.defaults.baseURL?.replace('/api', '') || '';
   const fullUrl = token ? `${baseUrl}/api/schematics/view?token=${token}` : null;
 
@@ -28,22 +63,19 @@ export default function PdfViewerScreen() {
       try {
         setLoading(true);
         setError(null);
-        
-        console.log('[PDF VIEW] Downloading to cache:', fullUrl);
+
         const fileName = `temp_schematic_${Date.now()}.pdf`;
         const localPath = `${FileSystem.cacheDirectory}${fileName}`;
-        
+
         const downloadRes = await FileSystem.downloadAsync(fullUrl, localPath);
-        
+
         if (downloadRes.status !== 200) {
           throw new Error(`Failed to download: Status ${downloadRes.status}`);
         }
 
-        console.log('[PDF VIEW] Local file ready:', downloadRes.uri);
         downloadedUri = downloadRes.uri;
         setLocalUri(downloadRes.uri);
       } catch (err: any) {
-        console.error('[PDF VIEW] Download error:', err);
         setError(err.message || 'Failed to download PDF');
       } finally {
         setLoading(false);
@@ -52,19 +84,15 @@ export default function PdfViewerScreen() {
 
     downloadPdf();
 
-    // Cleanup local file on unmount
     return () => {
       if (downloadedUri) {
-        console.log('[PDF VIEW] Cleaning up temporary file:', downloadedUri);
-        FileSystem.deleteAsync(downloadedUri, { idempotent: true }).catch((err) => {
-          console.error('[PDF VIEW] Cleanup error:', err);
-        });
+        FileSystem.deleteAsync(downloadedUri, { idempotent: true }).catch(() => {});
       }
     };
   }, [fullUrl]);
 
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       <StatusBar style="light" backgroundColor="#E8632B" />
       <AppHeader title={(title as string) || t('pdfViewer')} />
 
@@ -82,21 +110,21 @@ export default function PdfViewerScreen() {
       )}
 
       {!loading && !error && localUri ? (
-        <View style={styles.pdfContainer}>
-          <PdfView
-            uri={localUri}
-            autoScale={true}
-            style={styles.pdfView}
-            key={localUri}
-            doubleTapToZoom
-          />
-        </View>
+        <GestureDetector gesture={composed}>
+          <Animated.View style={[styles.pdfContainer, animatedStyle]}>
+            <PdfView
+              uri={localUri}
+              style={styles.pdfView}
+              key={localUri}
+            />
+          </Animated.View>
+        </GestureDetector>
       ) : !loading && !error && (
         <View style={styles.center}>
-           <ActivityIndicator size="large" color="#E8632B" />
+          <ActivityIndicator size="large" color="#E8632B" />
         </View>
       )}
-    </View>
+    </GestureHandlerRootView>
   );
 }
 

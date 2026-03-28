@@ -14,7 +14,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '../api/queryClient';
 import { useLocale } from '@/hooks/use-locale';
 import { useFonts } from 'expo-font';
-import { I18nManager } from 'react-native';
+import { I18nManager, Text } from 'react-native';
 import ToastManager from 'toastify-react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAuthStore } from '../store/authStore';
@@ -44,6 +44,15 @@ export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     'CoconNextArabic': require('@/assets/cocon-next-arabic.ttf'),
   });
+
+  // Set CoconNextArabic as the default font for ALL Text in the app once loaded
+  if (fontsLoaded) {
+    const oldRender = (Text as any).defaultProps;
+    (Text as any).defaultProps = {
+      ...oldRender,
+      style: [{ fontFamily: 'CoconNextArabic' }, oldRender?.style],
+    };
+  }
 
   useEffect(() => {
     if (_hasAuthHydrated && _hasLocaleHydrated && fontsLoaded) {
