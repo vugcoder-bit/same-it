@@ -73,8 +73,7 @@
         "expo-build-properties",
         {
           "android": {
-            "usesCleartextTraffic": true,
-            "gradleVersion": "8.13"
+            "usesCleartextTraffic": true
           }
         }
       ]

@@ -1,16 +1,14 @@
-name: Local EAS Dev Build (Android)
+name: EAS Build (Android)
 on:
   push:
     branches:
-      - dev
-  pull_request:
-    branches:
+      - main
       - dev
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build Android Development APKs Locally
+    name: Build Android APKs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -33,30 +31,30 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Build Mobile App (Android - Dev)
+      - name: Build Mobile App (Android APK)
         run: |
           yarn install
-          eas build -p android --profile development --local --non-interactive --output build-mobile-dev.apk
+          eas build -p android --profile preview --local --non-interactive --output build-mobile.apk
         working-directory: ./mobile
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Upload Mobile Dev APK
+      - name: Upload Mobile APK
         uses: actions/upload-artifact@v4
         with:
-          name: mobile-dev-apk
-          path: mobile/build-mobile-dev.apk
+          name: mobile-apk
+          path: mobile/build-mobile.apk
 
-      - name: Build Admin App (Android - Dev)
+      - name: Build Admin App (Android APK)
         run: |
           yarn install
-          eas build -p android --profile development --local --non-interactive --output build-admin-dev.apk
+          eas build -p android --profile preview --local --non-interactive --output build-admin.apk
         working-directory: ./admin
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Upload Admin Dev APK
+      - name: Upload Admin APK
         uses: actions/upload-artifact@v4
         with:
-          name: admin-dev-apk
-          path: admin/build-admin-dev.apk
+          name: admin-apk
+          path: admin/build-admin.apk
