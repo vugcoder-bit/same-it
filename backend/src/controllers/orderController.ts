@@ -2,6 +2,8 @@ import { Response, NextFunction } from 'express';
 import { AuthRequest } from '../middleware/auth';
 import * as orderService from '../services/orderService';
 import { OrderStatus } from '@prisma/client';
+import prisma from '../utils/prisma';
+import { sendPushNotification } from '../services/notificationService';
 
 export const create = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -19,6 +21,17 @@ export const create = async (req: AuthRequest, res: Response, next: NextFunction
             notes: req.body.notes || undefined,
         };
         const order = await orderService.create(data);
+
+        // Notify all admins of new order
+        const admins = await prisma.user.findMany({ where: { role: 'ADMIN' }, select: { pushToken: true } });
+        const adminTokens = admins.map(a => a.pushToken);
+        await sendPushNotification(
+            adminTokens,
+            '🛒 New Order Received',
+            `Order #${order.id} has been placed. Tap to review.`,
+            { orderId: order.id }
+        );
+
         res.status(201).json({ success: true, data: order });
     } catch (error) {
         next(error);
@@ -63,6 +76,27 @@ export const updateOrderStatus = async (req: AuthRequest, res: Response, next: N
         }
         
         const order = await orderService.updateStatus(parseInt(req.params.id as string), status as OrderStatus, adminNotes, adminFileUrl);
+
+        // Notify the user who placed this order
+        const userWithToken = await prisma.user.findUnique({
+            where: { id: order.userId },
+            select: { pushToken: true, username: true }
+        });
+
+        if (userWithToken?.pushToken) {
+            const statusLabels: Record<string, string> = {
+                PROCESSING: '⏳ Processing',
+                SUCCESSFUL: '✅ Completed',
+                FAILED: '❌ Failed',
+            };
+            await sendPushNotification(
+                [userWithToken.pushToken],
+                `Order #${order.id} Update`,
+                `Your order status changed to: ${statusLabels[status] || status}`,
+                { orderId: order.id, status }
+            );
+        }
+
         res.json({ success: true, data: order });
     } catch (error) {
         next(error);

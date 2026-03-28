@@ -36,3 +36,17 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
         next(error);
     }
 };
+
+import prisma from '../utils/prisma';
+
+export const clearDevice = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        await prisma.user.update({
+            where: { id: parseInt(req.params.id as string) },
+            data: { deviceId: null },
+        });
+        res.json({ success: true, message: 'Device unlinked. User can now log in on a new device.' });
+    } catch (error) {
+        next(error);
+    }
+};

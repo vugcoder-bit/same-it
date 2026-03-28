@@ -92,6 +92,15 @@ export default function UsersScreen() {
         }
     };
 
+    const handleClearDevice = async (id: number) => {
+        try {
+            await apiClient.delete(`/admin/users/${id}/device`);
+            Toast.success('Device unlinked. User can now log in on a new device.');
+        } catch (error: any) {
+            Toast.error(error.response?.data?.message || 'Failed to clear device');
+        }
+    };
+
     const openEditModal = (user: User) => {
         setEditingUser(user);
         setUsername(user.username);
@@ -182,6 +191,9 @@ export default function UsersScreen() {
                             <View style={[styles.actions, { flex: 1 }]}>
                                 <TouchableOpacity onPress={() => openEditModal(user)}>
                                     <Ionicons name="pencil-outline" size={18} color="#3B82F6" />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => handleClearDevice(user.id)} style={{ marginLeft: 4 }}>
+                                    <Ionicons name="phone-portrait-outline" size={18} color="#F59E0B" />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => handleDelete(user.id)}>
                                     <Ionicons name="trash-outline" size={18} color="#EF4444" />

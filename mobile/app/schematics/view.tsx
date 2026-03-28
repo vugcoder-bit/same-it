@@ -85,8 +85,10 @@ export default function PdfViewerScreen() {
         <View style={styles.pdfContainer}>
           <PdfView
             uri={localUri}
+            autoScale={true}
             style={styles.pdfView}
             key={localUri}
+            doubleTapToZoom
           />
         </View>
       ) : !loading && !error && (

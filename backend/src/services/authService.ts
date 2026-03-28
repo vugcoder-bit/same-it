@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import prisma from '../utils/prisma';
 import config from '../config';
 
-export const login = async (username: string, password: string) => {
+export const login = async (username: string, password: string, deviceId?: string) => {
     const user = await prisma.user.findUnique({ where: { username } });
     if (!user) {
         const err = new Error('Invalid credentials') as Error & { statusCode: number };
@@ -17,6 +17,7 @@ export const login = async (username: string, password: string) => {
         err.statusCode = 401;
         throw err;
     }
+
     // Subscription expiration check — admins bypass
     if (user.role !== 'ADMIN' && user.subscriptionExpireDate) {
         if (new Date(user.subscriptionExpireDate) < new Date()) {
@@ -25,6 +26,20 @@ export const login = async (username: string, password: string) => {
             throw err;
         }
     }
+
+    // Device lock check — only applies to regular users, not admins
+    if (user.role !== 'ADMIN' && deviceId) {
+        if (user.deviceId && user.deviceId !== deviceId) {
+            const err = new Error('This account is linked to another device. Please contact admin to switch devices.') as Error & { statusCode: number };
+            err.statusCode = 403;
+            throw err;
+        }
+        // Save device ID if not already set
+        if (!user.deviceId) {
+            await prisma.user.update({ where: { id: user.id }, data: { deviceId } });
+        }
+    }
+
     const token = jwt.sign(
         { id: user.id, username: user.username, role: user.role },
         config.jwtSecret,

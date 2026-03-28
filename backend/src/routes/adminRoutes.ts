@@ -42,6 +42,8 @@ router.post(
 router.get('/users', userController.getUsers);
 router.put('/users/:id', userController.updateUser);
 router.delete('/users/:id', userController.deleteUser);
+// Admin: clear a user's linked device ID so they can log in on a new device
+router.delete('/users/:id/device', userController.clearDevice);
 
 // ─── Devices ──────────────────────────────────────────
 router.post(

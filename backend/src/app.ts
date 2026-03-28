@@ -21,6 +21,7 @@ import serviceCategoryRoutes from './routes/serviceCategoryRoutes';
 import paymentMethodRoutes from './routes/paymentMethodRoutes';
 import settingsRoutes from './routes/settingsRoutes';
 import contactRoutes from './routes/contactRoutes';
+import notificationRoutes from './routes/notificationRoutes';
 
 // Middleware
 import errorHandler from './middleware/errorHandler';
@@ -85,6 +86,7 @@ app.use('/api/service-categories', serviceCategoryRoutes);
 app.use('/api/payment-methods', paymentMethodRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Public sub-category routes for mobile
 import { Router } from 'express';

@@ -14,6 +14,15 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '../api/queryClient';
 import { useLocale } from '@/hooks/use-locale';
 import { useFonts } from 'expo-font';
+import { I18nManager } from 'react-native';
+import ToastManager from 'toastify-react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useAuthStore } from '../store/authStore';
+import { useLocaleStore } from '@/store/localeStore';
+
+// Force LTR layout regardless of locale — prevents Arabic from flipping drawer/back button
+I18nManager.forceRTL(false);
+I18nManager.allowRTL(false);
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -26,39 +35,15 @@ const i18n = new I18n({
 i18n.locale = getLocales().at(0)?.languageCode ?? 'en';
 SplashScreen.preventAutoHideAsync();
 
-import ToastManager from 'toastify-react-native';
-import { Pressable, Text as RNText } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useAuthStore } from '../store/authStore';
-import { useLocaleStore } from '@/store/localeStore';
-
 export default function RootLayout() {
   const router = useRouter();
-  const { t, language } = useLocale();
+  const { t } = useLocale();
   const _hasAuthHydrated = useAuthStore(state => state._hasHydrated);
   const _hasLocaleHydrated = useLocaleStore(state => state._hasHydrated);
 
   const [fontsLoaded] = useFonts({
     'CoconNextArabic': require('@/assets/cocon-next-arabic.ttf'),
   });
-
-  // Apply Arabic font globally when locale is Arabic
-  useEffect(() => {
-    if (fontsLoaded) {
-      const defaultStyle = (RNText as any).defaultProps?.style || {};
-      if (language === 'ar') {
-        (RNText as any).defaultProps = {
-          ...(RNText as any).defaultProps,
-          style: { ...defaultStyle, fontFamily: 'CoconNextArabic' },
-        };
-      } else {
-        (RNText as any).defaultProps = {
-          ...(RNText as any).defaultProps,
-          style: { ...defaultStyle, fontFamily: undefined },
-        };
-      }
-    }
-  }, [language, fontsLoaded]);
 
   useEffect(() => {
     if (_hasAuthHydrated && _hasLocaleHydrated && fontsLoaded) {
@@ -77,30 +62,12 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <ToastManager />
-          <Stack screenOptions={{
-            // Hide the header for all other routes.
-            headerShown: false,
-            
-            
-          }} >
+          <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="splash" options={{ headerShown: false }} />
             <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: 'modal', title: t('modal') }} />
-
-            {/* <Stack.Screen
-              name="order-history"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="convert-arabic"
-              options={{
-                headerShown: false,
-              }}
-            /> */}
           </Stack>
-          <StatusBar style="light"  backgroundColor="#E8632B" />
+          <StatusBar style="light" backgroundColor="#E8632B" />
         </ThemeProvider>
       </QueryClientProvider>
     </SafeAreaProvider>

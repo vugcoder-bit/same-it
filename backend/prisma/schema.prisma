@@ -215,6 +215,8 @@ model User {
   password               String
   role                   Role      @default(USER)
   subscriptionExpireDate DateTime?
+  deviceId               String?
+  pushToken              String?
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @default(now()) @updatedAt
   orders                 Order[]
