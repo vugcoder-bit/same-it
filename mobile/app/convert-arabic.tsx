@@ -41,9 +41,9 @@ export default function ConvertArabicScreen() {
 
     return (
         <View style={styles.container}>
-            <StatusBar style="light" backgroundColor="#E8632B" />
+            <StatusBar style="light" backgroundColor="#FB5507" />
             <AppHeader title={t('convertArabic') || 'Convert Arabic Password'} />
-            
+
             <View style={styles.content}>
                 {/* Input */}
                 <View style={styles.formGroup}>
@@ -73,7 +73,7 @@ export default function ConvertArabicScreen() {
                         </Text>
                         {result !== '' && (
                             <Pressable onPress={copyResult} style={styles.copyBtn}>
-                                <Ionicons name="copy-outline" size={20} color="#E8632B" />
+                                <Ionicons name="copy-outline" size={20} color="#FB5507" />
                             </Pressable>
                         )}
                     </View>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         paddingHorizontal: 8,
         fontSize: 12,
-        color: '#E8632B',
+        color: '#FB5507',
         fontWeight: 'bold',
         zIndex: 1,
     },
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 60,
         borderWidth: 1.5,
-        borderColor: '#E8632B',
+        borderColor: '#FB5507',
         borderRadius: 12,
         fontSize: 18,
         color: '#333',
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 60,
         borderWidth: 1,
-        borderColor: '#E8632B',
+        borderColor: '#FB5507',
         borderRadius: 12,
         paddingHorizontal: 16,
         flexDirection: 'row',
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     convertButton: {
         width: '60%',
         height: 50,
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 2,
         marginRight: 6,
-        color: '#E8632B',
+        color: '#FB5507',
     },
     warningText: {
         flex: 1,

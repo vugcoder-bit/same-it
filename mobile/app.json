@@ -75,6 +75,42 @@
             "usesCleartextTraffic": true
           }
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/cocon-next-arabic.ttf"
+          ],
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "CoconNextArabic",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/cocon-next-arabic.ttf",
+                    "weight": 700,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/cocon-next-arabic.ttf",
+                    "weight": 700
+                  }
+                ]
+              }
+            ]
+          },
+          "ios": {
+            "fonts": ["./assets/cocon-next-arabic.ttf", "./assets/cocon-next-arabic.ttf"]
+          }
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#FB5507"
+        }
       ]
     ],
     "experiments": {

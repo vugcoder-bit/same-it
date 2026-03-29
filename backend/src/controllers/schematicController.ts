@@ -1,15 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import * as schematicService from '../services/schematicService';
+import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import { randomUUID } from 'crypto';
 import { AuthRequest } from '../middleware/auth';
 import prisma from '../utils/prisma';
 import { deleteUploadedFile } from '../utils/fileHelper';
+import { isSubscriptionExpired } from '../utils/dateHelper';
 
 // ── One-Time Token Store ──
 // With PM2 cluster mode, in-memory stores don't work across instances.
 // We rely solely on JWT verification (expiry, IP binding, action validation).
+const normalizeIp = (ip: string) => (ip === '::1' || ip === '127.0.0.1') ? '127.0.0.1' : ip.replace(/^::ffff:/, '');
 
 // ── CRUD (Admin) ──
 
@@ -118,15 +121,13 @@ export const generateTempUrl = async (req: AuthRequest, res: Response, next: Nex
         // Subscription check
         if (req.user) {
             const user = await prisma.user.findUnique({ where: { id: req.user.id } });
-            if (user && user.role !== 'ADMIN') {
-                if (!user.subscriptionExpireDate || new Date(user.subscriptionExpireDate) < new Date()) {
-                    res.status(401).json({ success: false, message: 'Subscription expired. Please renew your subscription.' });
-                    return;
-                }
+            if (user && user.role !== 'ADMIN' && isSubscriptionExpired(user.subscriptionExpireDate)) {
+                res.status(401).json({ success: false, message: 'Subscription expired. Please renew your subscription.' });
+                return;
             }
         }
 
-        const requesterIp = req.ip || req.socket.remoteAddress || 'unknown';
+        const requesterIp = normalizeIp(req.ip || req.socket.remoteAddress || 'unknown');
         const secret = process.env.JWT_SECRET || 'fallback_secret';
         const token = jwt.sign(
             { id: schematicId, action: 'view_pdf', ip: requesterIp },
@@ -145,6 +146,7 @@ export const generateTempUrl = async (req: AuthRequest, res: Response, next: Nex
 
 export const viewPdf = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        console.log(`[PDF VIEW] Hit with token: ${req.query.token?.toString().substring(0, 15)}...`);
         const { token } = req.query;
         if (!token) {
             res.status(401).json({ success: false, message: 'No token provided' });
@@ -160,7 +162,7 @@ export const viewPdf = async (req: Request, res: Response, next: NextFunction): 
         }
 
         // IP binding check
-        const requesterIp = req.ip || req.socket.remoteAddress || 'unknown';
+        const requesterIp = normalizeIp(req.ip || req.socket.remoteAddress || 'unknown');
         if (decoded.ip !== requesterIp) {
             console.error(`[PDF VIEW] IP mismatch: stored=${decoded.ip}, requester=${requesterIp}`);
             res.status(403).json({ success: false, message: 'IP mismatch. Access denied.' });
@@ -174,7 +176,19 @@ export const viewPdf = async (req: Request, res: Response, next: NextFunction): 
         }
 
         const filePath = path.join(__dirname, '../../uploads/schematics', schematic.pdfFile);
-        res.sendFile(filePath);
+        console.log(`[PDF VIEW] Serving file: ${filePath}, Exists: ${fs.existsSync(filePath)}`);
+        
+        res.sendFile(filePath, (err) => {
+            if (err) {
+                console.error(`[PDF VIEW] SendFile Error: ${err.message}`);
+                // Only send error if headers not already sent
+                if (!res.headersSent) {
+                    res.status(500).json({ success: false, message: 'Error serving PDF file' });
+                }
+            } else {
+                console.log(`[PDF VIEW] File served successfully: ${schematic.pdfFile}`);
+            }
+        });
     } catch (error: any) {
         console.error(`[PDF VIEW] Error: ${error.message}`);
         res.status(401).json({ success: false, message: 'Token expired or invalid' });

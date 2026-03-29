@@ -69,7 +69,7 @@ export default function SplashRoute() {
             className='flex-1 items-center justify-center'
             style={[
                 styles.container,
-                { backgroundColor: '#E8632B' },
+                { backgroundColor: '#FB5507' },
             ]}
         >
             <Image source={require('@/assets/images/logo.png')} style={styles.logo} />

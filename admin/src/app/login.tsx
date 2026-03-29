@@ -25,7 +25,7 @@ export default function LoginScreen() {
             setError('');
             console.log('Attempting login for:', username, 'at', apiClient.defaults.baseURL);
             const response = await apiClient.post('/auth/login', { username, password });
-            
+
             console.log('Login response:', response.data);
 
             // Backend returns { success, data: { token, user, role } }
@@ -65,8 +65,8 @@ export default function LoginScreen() {
     };
 
     return (
-        <KeyboardAvoidingView 
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.container}
         >
             <StatusBar style="dark" />
@@ -79,7 +79,7 @@ export default function LoginScreen() {
 
                 <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} style={styles.form}>
                     {error ? <Text style={styles.errorText}>{error}</Text> : null}
-                    
+
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Username</Text>
                         <TextInput
@@ -104,12 +104,12 @@ export default function LoginScreen() {
                         />
                     </View>
 
-                    <Pressable 
+                    <Pressable
                         style={({ pressed }) => [
                             styles.loginButton,
                             pressed && styles.buttonPressed,
                             loading && styles.buttonDisabled
-                        ]} 
+                        ]}
                         onPress={handleLogin}
                         disabled={loading}
                     >
@@ -120,9 +120,9 @@ export default function LoginScreen() {
                         )}
                     </Pressable>
                 </Animated.View>
-                
-                <Animated.Text 
-                    entering={FadeInDown.delay(400).duration(1000)} 
+
+                <Animated.Text
+                    entering={FadeInDown.delay(400).duration(1000)}
                     style={styles.footerText}
                 >
                     Secured by Same-It Backend
@@ -152,14 +152,14 @@ const styles = StyleSheet.create({
     },
     adminText: {
         fontSize: 36,
-        color: '#E8632B',
+        color: '#FB5507',
         fontWeight: 'bold',
         marginTop: 5,
     },
     underline: {
         height: 4,
         width: 60,
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         marginTop: 10,
         borderRadius: 2,
     },
@@ -193,13 +193,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8FAFC',
     },
     loginButton: {
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         height: 56,
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10,
-        shadowColor: '#E8632B',
+        shadowColor: '#FB5507',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     errorText: {
-        color: '#EF4444',
+        color: '#FB5507',
         marginBottom: 15,
         textAlign: 'center',
         fontWeight: '500',

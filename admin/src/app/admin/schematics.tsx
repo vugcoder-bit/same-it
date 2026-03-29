@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    View, Text, StyleSheet, ScrollView, Pressable, 
+import {
+    View, Text, StyleSheet, ScrollView, Pressable,
     TextInput, ActivityIndicator, Modal, TouchableOpacity,
     FlatList, Platform,
     useWindowDimensions
@@ -31,7 +31,7 @@ export default function SchematicsManagementScreen() {
     const [models, setModels] = useState<DeviceModel[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
-    
+
     // Form fields
     const [title, setTitle] = useState('');
     const [selectedModelId, setSelectedModelId] = useState<number | null>(null);
@@ -52,8 +52,8 @@ export default function SchematicsManagementScreen() {
             ]);
             setSchematics(schemRes.data.data || []);
             setModels(modRes.data.data || []);
-        } catch (error) { 
-            console.error(error); 
+        } catch (error) {
+            console.error(error);
             Toast.error('Failed to load schematics data');
         }
         finally { setLoading(false); }
@@ -73,15 +73,15 @@ export default function SchematicsManagementScreen() {
 
     const handleUpload = async () => {
         if (!title || !selectedModelId || !selectedFile || selectedFile.canceled) return;
-        
+
         try {
             setUploading(true);
             const formData = new FormData();
             formData.append('schematicType', title);
             formData.append('deviceModelId', selectedModelId.toString());
-            
+
             const asset = selectedFile.assets[0];
-            
+
             // For web/mobile compatibility
             if (Platform.OS === 'web') {
                 const response = await fetch(asset.uri);
@@ -103,11 +103,11 @@ export default function SchematicsManagementScreen() {
             resetForm();
             fetchData();
             Toast.success('Schematic uploaded successfully');
-        } catch (error: any) { 
-            console.error('Upload failed:', error); 
+        } catch (error: any) {
+            console.error('Upload failed:', error);
             Toast.error(error.response?.data?.message || 'Upload failed');
-        } finally { 
-            setUploading(false); 
+        } finally {
+            setUploading(false);
         }
     };
 
@@ -123,8 +123,8 @@ export default function SchematicsManagementScreen() {
             await apiClient.delete(`/admin/schematics/${id}`);
             Toast.success('Schematic deleted');
             fetchData();
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to delete schematic');
         }
     };
@@ -143,7 +143,7 @@ export default function SchematicsManagementScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <FlatList
                     data={schematics}
@@ -154,7 +154,7 @@ export default function SchematicsManagementScreen() {
                     renderItem={({ item, index }) => (
                         <Animated.View entering={FadeInUp.delay(index * 50)} style={[styles.card, !isDesktop && { maxWidth: '100%' }]}>
                             <View style={styles.pdfIcon}>
-                                <Ionicons name="document-text" size={40} color="#E8632B" />
+                                <Ionicons name="document-text" size={40} color="#FB5507" />
                             </View>
                             <View style={styles.cardContent}>
                                 <Text style={styles.itemTitle} numberOfLines={1}>{item.schematicType}</Text>
@@ -162,7 +162,7 @@ export default function SchematicsManagementScreen() {
                                 <View style={styles.cardFooter}>
                                     <Text style={styles.fileLabel}>PDF Schematic</Text>
                                     <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                                        <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                                        <Ionicons name="trash-outline" size={18} color="#FB5507" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -175,27 +175,27 @@ export default function SchematicsManagementScreen() {
                 <View style={styles.modalOverlay}>
                     <View style={[styles.modalContent, !isDesktop && { width: '90%', padding: 20 }]}>
                         <Text style={styles.modalTitle}>Upload Schematic</Text>
-                        
+
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Schematic Title</Text>
                             <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="e.g. iPhone 13 Pro Logic Board" />
                         </View>
 
                         <Text style={styles.label}>Select Device Model</Text>
-                        <TextInput 
-                            style={[styles.input, { marginBottom: 12, height: 40 }]} 
-                            value={searchModel} 
-                            onChangeText={setSearchModel} 
-                            placeholder="Type to filter models..." 
+                        <TextInput
+                            style={[styles.input, { marginBottom: 12, height: 40 }]}
+                            value={searchModel}
+                            onChangeText={setSearchModel}
+                            placeholder="Type to filter models..."
                         />
                         <ScrollView style={{ maxHeight: 150, marginBottom: 16 }}>
                             {models.filter(m => m.name.toLowerCase().includes(searchModel.toLowerCase())).map(m => (
-                                <Pressable 
-                                    key={m.id} 
+                                <Pressable
+                                    key={m.id}
                                     onPress={() => setSelectedModelId(m.id)}
                                     style={[styles.selectItem, selectedModelId === m.id && styles.activeSelect]}
                                 >
-                                    <Text style={selectedModelId === m.id && { color: '#E8632B', fontWeight: 'bold' }}>{m.name}</Text>
+                                    <Text style={selectedModelId === m.id && { color: '#FB5507', fontWeight: 'bold' }}>{m.name}</Text>
                                 </Pressable>
                             ))}
                         </ScrollView>
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 },
     title: { fontSize: 24, fontWeight: 'bold', color: '#1E293B' },
     subtitle: { fontSize: 14, color: '#64748B', marginTop: 4 },
-    addButton: { backgroundColor: '#E8632B', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, gap: 8 },
+    addButton: { backgroundColor: '#FB5507', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, gap: 8 },
     addButtonText: { color: '#FFF', fontWeight: 'bold' },
     list: { gap: 20 },
     card: { flex: 1, backgroundColor: '#FFF', borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: '#E2E8F0', maxWidth: '31%' },
@@ -243,13 +243,13 @@ const styles = StyleSheet.create({
     label: { fontSize: 13, fontWeight: 'bold', color: '#64748B', marginBottom: 8 },
     input: { height: 48, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, paddingHorizontal: 16 },
     selectItem: { padding: 10, borderRadius: 8, marginBottom: 4, backgroundColor: '#F8FAFC' },
-    activeSelect: { backgroundColor: '#FDF2F0', borderWidth: 1, borderColor: '#E8632B' },
+    activeSelect: { backgroundColor: '#FDF2F0', borderWidth: 1, borderColor: '#FB5507' },
     filePicker: { height: 60, borderWidth: 1, borderColor: '#E2E8F0', borderStyle: 'dashed', borderRadius: 12, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, gap: 12, marginBottom: 20 },
     filePickerText: { color: '#64748B', fontSize: 14 },
     modalButtons: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12 },
     button: { paddingHorizontal: 24, paddingVertical: 12, borderRadius: 12 },
     cancelBtn: { backgroundColor: '#F1F5F9' },
-    saveBtn: { backgroundColor: '#E8632B' },
+    saveBtn: { backgroundColor: '#FB5507' },
     saveBtnText: { color: '#FFF', fontWeight: 'bold' },
     center: { flex: 1, justifyContent: 'center', alignItems: 'center' }
 });

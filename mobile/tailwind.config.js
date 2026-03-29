@@ -11,8 +11,11 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      fontFamily: {
+        cocon: ["CoconNextArabic", "sans-serif"],
+      },
       colors: {
-        primary: "#E8632B",
+        primary: "#FB5507",
       },
     },
   },

@@ -23,12 +23,12 @@ const styles = StyleSheet.create({
         minWidth: 120,
     },
     primaryButton: {
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
     },
     secondaryButton: {
         backgroundColor: 'transparent',
         borderWidth: 2,
-        borderColor: '#E8632B',
+        borderColor: '#FB5507',
     },
     buttonText: {
         fontSize: 16,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         color: '#FFF',
     },
     secondaryText: {
-        color: '#E8632B',
+        color: '#FB5507',
     },
     pressedPrimary: {
         backgroundColor: '#D4521F',

@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import prisma from '../utils/prisma';
 import config from '../config';
+import { isSubscriptionExpired } from '../utils/dateHelper';
 
 export const login = async (username: string, password: string, deviceId?: string) => {
     const user = await prisma.user.findUnique({ where: { username } });
@@ -19,12 +20,10 @@ export const login = async (username: string, password: string, deviceId?: strin
     }
 
     // Subscription expiration check — admins bypass
-    if (user.role !== 'ADMIN' && user.subscriptionExpireDate) {
-        if (new Date(user.subscriptionExpireDate) < new Date()) {
-            const err = new Error('Subscription expired. Please renew your subscription.') as Error & { statusCode: number };
-            err.statusCode = 401;
-            throw err;
-        }
+    if (user.role !== 'ADMIN' && isSubscriptionExpired(user.subscriptionExpireDate)) {
+        const err = new Error('Subscription expired. Please renew your subscription.') as Error & { statusCode: number };
+        err.statusCode = 401;
+        throw err;
     }
 
     // Device lock check — only applies to regular users, not admins
@@ -43,10 +42,16 @@ export const login = async (username: string, password: string, deviceId?: strin
     const token = jwt.sign(
         { id: user.id, username: user.username, role: user.role },
         config.jwtSecret,
-        { expiresIn: '7d' }
+        { expiresIn: '5d' }
     );
 
     const { password: _, ...userWithoutPassword } = user;
-
     return { token, user: userWithoutPassword, role: user.role };
+};
+
+export const updatePushToken = async (userId: number, pushToken: string) => {
+    return prisma.user.update({
+        where: { id: userId },
+        data: { pushToken },
+    });
 };

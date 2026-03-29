@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    View, Text, StyleSheet, ScrollView, Pressable, 
+import {
+    View, Text, StyleSheet, ScrollView, Pressable,
     TextInput, ActivityIndicator, Modal, TouchableOpacity,
     FlatList,
     useWindowDimensions
@@ -32,7 +32,7 @@ export default function CompatibilityManagementScreen() {
     const [searchQuery, setSearchQuery] = useState('');
     const [modelSearch, setModelSearch] = useState('');
     const [filterType, setFilterType] = useState('ALL');
-    
+
     // Form fields
     const [componentType, setComponentType] = useState('SCREEN');
     const [selectedId, setSelectedId] = useState<number | null>(null); // This can be modelId or subCategoryId
@@ -67,10 +67,10 @@ export default function CompatibilityManagementScreen() {
         try {
             const modelsArray = compatibleModels.split(',').map(m => m.trim()).filter(Boolean);
             const isSubCatType = ['IC', 'CONNECTOR', 'ADHESIVE'].includes(componentType);
-            
-            const payload = { 
-                componentType, 
-                [isSubCatType ? 'subCategoryId' : 'deviceModelId']: selectedId, 
+
+            const payload = {
+                componentType,
+                [isSubCatType ? 'subCategoryId' : 'deviceModelId']: selectedId,
                 compatibleModels: modelsArray
             };
             if (editingId) {
@@ -81,8 +81,8 @@ export default function CompatibilityManagementScreen() {
             setModalVisible(false);
             fetchData();
             Toast.success('Compatibility mapping saved');
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to save mapping');
         }
     };
@@ -92,8 +92,8 @@ export default function CompatibilityManagementScreen() {
             await apiClient.delete(`/admin/compatibility/${id}`);
             Toast.success('Mapping deleted');
             fetchData();
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to delete mapping');
         }
     };
@@ -111,14 +111,14 @@ export default function CompatibilityManagementScreen() {
     });
 
     const isSubCatType = ['IC', 'CONNECTOR', 'ADHESIVE'].includes(componentType);
-    const selectionList = isSubCatType 
-        ? subCategories.filter(s => s.componentType === componentType) 
+    const selectionList = isSubCatType
+        ? subCategories.filter(s => s.componentType === componentType)
         : models;
 
     const filteredSelection = selectionList.filter((item: any) =>
         item.name.toLowerCase().includes(modelSearch.toLowerCase())
     );
-    
+
     const getDisplayModels = (rawValue: any): string => {
         if (Array.isArray(rawValue)) return rawValue.join(', ');
         if (typeof rawValue === 'string') return rawValue;
@@ -142,8 +142,8 @@ export default function CompatibilityManagementScreen() {
             <View style={styles.filterContainer}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterList}>
                     {['ALL', 'SCREEN', 'BATTERY', 'IC', 'CONNECTOR', 'ADHESIVE'].map((type) => (
-                        <Pressable 
-                            key={type} 
+                        <Pressable
+                            key={type}
                             onPress={() => setFilterType(type)}
                             style={[styles.filterPill, filterType === type && styles.activeFilterPill]}
                         >
@@ -171,7 +171,7 @@ export default function CompatibilityManagementScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <FlatList
                     data={filteredCompatibilities}
@@ -196,7 +196,7 @@ export default function CompatibilityManagementScreen() {
                                         <Ionicons name="pencil-outline" size={18} color="#3B82F6" />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                                        <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                                        <Ionicons name="trash-outline" size={18} color="#FB5507" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -216,7 +216,7 @@ export default function CompatibilityManagementScreen() {
                 <View style={styles.modalOverlay}>
                     <View style={[styles.modalContent, !isDesktop && { width: '92%', padding: 20 }]}>
                         <Text style={styles.modalTitle}>{editingId ? 'Edit Mapping' : 'Add New Mapping'}</Text>
-                        
+
                         <Text style={styles.label}>Component Type</Text>
                         <View style={styles.catPicker}>
                             {[
@@ -226,8 +226,8 @@ export default function CompatibilityManagementScreen() {
                                 { value: 'CONNECTOR', label: 'Connector' },
                                 { value: 'ADHESIVE', label: 'Adhesive' },
                             ].map(({ value, label }) => (
-                                <Pressable 
-                                    key={value} 
+                                <Pressable
+                                    key={value}
                                     onPress={() => { setComponentType(value); setSelectedId(null); }}
                                     style={[styles.catBtn, componentType === value && styles.activeCatBtn]}
                                 >
@@ -250,12 +250,12 @@ export default function CompatibilityManagementScreen() {
                         </View>
                         <ScrollView style={{ maxHeight: 150, marginBottom: 16 }}>
                             {filteredSelection.map((item: any) => (
-                                <Pressable 
-                                    key={item.id} 
+                                <Pressable
+                                    key={item.id}
                                     onPress={() => setSelectedId(item.id)}
                                     style={[styles.selectItem, selectedId === item.id && styles.activeSelect]}
                                 >
-                                    <Text style={selectedId === item.id && { color: '#E8632B', fontWeight: 'bold' }}>{item.name}</Text>
+                                    <Text style={selectedId === item.id && { color: '#FB5507', fontWeight: 'bold' }}>{item.name}</Text>
                                 </Pressable>
                             ))}
                             {filteredSelection.length === 0 && (
@@ -264,12 +264,12 @@ export default function CompatibilityManagementScreen() {
                         </ScrollView>
 
                         <Text style={styles.label}>Compatible Models (Separated by comma)</Text>
-                        <TextInput 
-                            style={[styles.input, { height: 80, textAlignVertical: 'top', paddingTop: 12 }]} 
-                            placeholder="e.g. A2633, A2634, A2483" 
+                        <TextInput
+                            style={[styles.input, { height: 80, textAlignVertical: 'top', paddingTop: 12 }]}
+                            placeholder="e.g. A2633, A2634, A2483"
                             multiline
-                            value={compatibleModels} 
-                            onChangeText={setCompatibleModels} 
+                            value={compatibleModels}
+                            onChangeText={setCompatibleModels}
                         />
 
                         <View style={styles.modalButtons}>
@@ -288,12 +288,12 @@ const styles = StyleSheet.create({
     header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
     title: { fontSize: 24, fontWeight: 'bold', color: '#1E293B' },
     subtitle: { fontSize: 14, color: '#64748B', marginTop: 4 },
-    addButton: { backgroundColor: '#E8632B', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, gap: 8 },
+    addButton: { backgroundColor: '#FB5507', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, gap: 8 },
     addButtonText: { color: '#FFF', fontWeight: 'bold' },
     filterContainer: { marginBottom: 16 },
     filterList: { gap: 8 },
     filterPill: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, backgroundColor: '#FFF', borderWidth: 1, borderColor: '#E2E8F0' },
-    activeFilterPill: { backgroundColor: '#E8632B', borderColor: '#E8632B' },
+    activeFilterPill: { backgroundColor: '#FB5507', borderColor: '#FB5507' },
     filterPillText: { fontSize: 13, fontWeight: 'bold', color: '#64748B' },
     activeFilterPillText: { color: '#FFF' },
     searchRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF', borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', paddingHorizontal: 14, marginBottom: 20, height: 46 },
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     card: { backgroundColor: '#FFF', borderRadius: 16, padding: 20, borderWidth: 1, borderColor: '#E2E8F0', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05 },
     cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
     typeBadge: { backgroundColor: '#FDF2F0', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 8 },
-    typeText: { color: '#E8632B', fontSize: 12, fontWeight: 'bold' },
+    typeText: { color: '#FB5507', fontSize: 12, fontWeight: 'bold' },
     actions: { flexDirection: 'row', gap: 16 },
     mainModel: { fontSize: 18, fontWeight: 'bold', color: '#1E293B' },
     divider: { height: 1, backgroundColor: '#F1F5F9', marginVertical: 12 },
@@ -315,18 +315,18 @@ const styles = StyleSheet.create({
     label: { fontSize: 13, fontWeight: 'bold', color: '#64748B', marginBottom: 8 },
     catPicker: { flexDirection: 'row', gap: 8, marginBottom: 20, flexWrap: 'wrap' },
     catBtn: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 15, backgroundColor: '#F1F5F9' },
-    activeCatBtn: { backgroundColor: '#E8632B' },
+    activeCatBtn: { backgroundColor: '#FB5507' },
     catBtnText: { fontSize: 12, color: '#64748B', fontWeight: '600' },
     activeCatBtnText: { color: '#FFF' },
     inlineSearch: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F8FAFC', borderRadius: 8, borderWidth: 1, borderColor: '#E2E8F0', paddingHorizontal: 10, marginBottom: 8, height: 36, gap: 6 },
     inlineSearchInput: { flex: 1, fontSize: 13, color: '#1E293B' },
     selectItem: { padding: 10, borderRadius: 8, marginBottom: 4, backgroundColor: '#F8FAFC' },
-    activeSelect: { backgroundColor: '#FDF2F0', borderWidth: 1, borderColor: '#E8632B' },
+    activeSelect: { backgroundColor: '#FDF2F0', borderWidth: 1, borderColor: '#FB5507' },
     input: { borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, paddingHorizontal: 16, marginBottom: 16 },
     modalButtons: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12, marginTop: 10 },
     button: { paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 },
     cancelBtn: { backgroundColor: '#F1F5F9' },
-    saveBtn: { backgroundColor: '#E8632B' },
+    saveBtn: { backgroundColor: '#FB5507' },
     saveBtnText: { color: '#FFF', fontWeight: 'bold' },
     center: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 40 },
 });

@@ -37,12 +37,12 @@ export default function DevicesScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <AppHeader title={getCategoryTitle()} />
 
       {loading ? (
         <View style={styles.center}>
-          <ActivityIndicator size="large" color="#E8632B" />
+          <ActivityIndicator size="large" color="#FB5507" />
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -62,10 +62,10 @@ export default function DevicesScreen() {
                       pathname: `/${category}/${device.id}/models` as any,
                       params: { deviceName: device.name }
                     });
-                  }} 
+                  }}
                 >
                   {device.imageUrl ? (
-                    
+
                     <Image source={{ uri: `${baseUrl}/uploads/${device.imageUrl}` }} style={styles.cardImage} contentFit="contain" />
                   ) : (
                     <Text style={styles.cardText}>{device.name}</Text>

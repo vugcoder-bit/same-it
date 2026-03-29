@@ -17,7 +17,7 @@ function CustomTabBar({ state, descriptors, navigation }: any) {
   return (
     <View style={{
       flexDirection: 'row',
-      backgroundColor: '#E8632B',
+      backgroundColor: '#FB5507',
       height: Platform.OS === 'ios' ? 90 : 75,
       paddingBottom: Platform.OS === 'ios' ? 25 : 5,
       paddingTop: 5,
@@ -72,7 +72,7 @@ export default function TabLayout() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#F8F9FA' }}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <DashboardHeader title={t('sameIt') || 'SAME IT'} />
       {/* Background extension like login hint */}
       <View style={{
@@ -81,12 +81,12 @@ export default function TabLayout() {
         left: 0,
         right: 0,
         height: 180,
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         borderBottomEndRadius: 30,
         borderBottomStartRadius: 30,
         zIndex: 0,
       }} />
-      <View style={{ zIndex: 1, paddingTop: 24, paddingHorizontal: 16 }}>
+      <View style={{ zIndex: 1, paddingTop: 8, paddingHorizontal: 16 }}>
         <AdvertisementCarousel />
       </View>
 

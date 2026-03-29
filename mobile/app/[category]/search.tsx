@@ -40,8 +40,8 @@ export default function SearchScreen() {
   const contextLabel = brandName
     ? (brandName as string)
     : subCategoryName
-    ? (subCategoryName as string)
-    : '';
+      ? (subCategoryName as string)
+      : '';
 
   const headerTitle = type
     ? contextLabel
@@ -102,7 +102,7 @@ export default function SearchScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <AppHeader title={headerTitle} />
 
       <View style={styles.searchRow}>
@@ -125,7 +125,7 @@ export default function SearchScreen() {
       </View>
 
       {loading && results.length === 0 ? (
-        <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+        <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
       ) : (
         <FlatList
           data={displayedResults}
@@ -170,16 +170,16 @@ const styles = StyleSheet.create({
   input: {
     flex: 1, height: 50, backgroundColor: '#FFF', borderRadius: 10,
     paddingHorizontal: 16, fontSize: 15, color: '#1E293B',
-    borderWidth: 1, borderColor: '#E8632B',
+    borderWidth: 1, borderColor: '#FB5507',
   },
   searchBtn: {
-    width: 50, height: 50, backgroundColor: '#E8632B',
+    width: 50, height: 50, backgroundColor: '#FB5507',
     borderRadius: 10, justifyContent: 'center', alignItems: 'center'
   },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   list: { paddingHorizontal: 16, paddingBottom: 30 },
   resultsBar: {
-    borderBottomWidth: 2, borderBottomColor: '#E8632B',
+    borderBottomWidth: 2, borderBottomColor: '#FB5507',
     marginHorizontal: 16, paddingBottom: 8, marginBottom: 16, alignItems: 'center'
   },
   resultsLabel: { color: '#4CAF50', fontWeight: '500', fontSize: 16 },
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FDF2F0', paddingHorizontal: 12,
     paddingVertical: 4, borderRadius: 8,
   },
-  typeText: { color: '#E8632B', fontSize: 11, fontWeight: 'bold' },
+  typeText: { color: '#FB5507', fontSize: 11, fontWeight: 'bold' },
   modelName: { fontSize: 17, fontWeight: 'bold', color: '#1E293B' },
   brandName: { fontSize: 13, color: '#64748B', marginTop: 2 },
   divider: { height: 1, backgroundColor: '#F1F5F9', marginVertical: 12 },

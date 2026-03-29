@@ -6,6 +6,8 @@ import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect } from 'react';
+import { Image } from 'expo-image';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 function CustomDrawerContent(props: any) {
     const { t, language, toggleLanguage } = useLocale();
@@ -18,38 +20,66 @@ function CustomDrawerContent(props: any) {
     };
     return (
         <View style={styles.container}>
-            {/* Drawer Header */}
-            <SafeAreaView edges={['top']} style={styles.headerArea}>
-                <Text style={styles.titleText}>{t('sameIt') || 'SAME IT'}</Text>
-            </SafeAreaView>
+
+
 
             <DrawerContentScrollView {...props} contentContainerStyle={styles.scrollArea}>
-
+                <SafeAreaView edges={['top']} style={styles.headerArea}>
+                    <Image source={require('@/assets/images/logo.png')} style={styles.logo} />
+                    <Text style={styles.titleText}>{t('sameIt') || 'SAME IT'}</Text>
+                </SafeAreaView>
+                <View style={[styles.divider, { marginBlock: 10, marginHorizontal: 'auto', width: '100%', height: 2 }]} />
                 {/* Links */}
                 <View style={styles.linksContainer}>
                     <Pressable style={styles.linkItem} onPress={() => { toggleLanguage() }}>
-                        <Text style={styles.linkText}>{language === 'en' ? 'العربية' : 'English'}</Text>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="globe-outline"  size={18}  color="#FB5507"  />
+                        </View>
+                        <View style={styles.textAndDividerContainer}>
+                            <Text style={styles.linkText}>{language === 'en' ? 'العربية' : 'English'}</Text>
+                            <View style={styles.divider} />
+                        </View>
                     </Pressable>
-                    <View style={styles.divider} />
 
                     <Pressable style={styles.linkItem} onPress={() => { router.push('/drawer/contact') }}>
-                        <Text style={styles.linkText}>{t('contactUs')}</Text>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="call-outline" size={18} color="#FB5507" />
+                        </View>
+                        <View style={styles.textAndDividerContainer}>
+                            <Text style={styles.linkText}>{t('contactUs')}</Text>
+                            <View style={styles.divider} />
+                        </View>
                     </Pressable>
-                    <View style={styles.divider} />
 
                     <Pressable style={styles.linkItem} onPress={() => { router.push('/drawer/intellectual') }}>
-                        <Text style={styles.linkText}>{t('intellectualProperty')}</Text>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="shield-checkmark-outline" size={18} color="#FB5507" />
+                        </View>
+                        <View style={styles.textAndDividerContainer}>
+                            <Text style={styles.linkText}>{t('intellectualProperty')}</Text>
+                            <View style={styles.divider} />
+                        </View>
                     </Pressable>
-                    <View style={styles.divider} />
 
                     <Pressable style={styles.linkItem} onPress={() => { router.push('/drawer/about') }}>
-                        <Text style={styles.linkText}>{t('about')}</Text>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="information-circle-outline" size={18} style={{color: "#FB5507", borderColor: "#FB5507"}} color="#FB5507" />
+                        </View>
+                        <View style={styles.textAndDividerContainer}>
+                            <Text style={styles.linkText}>{t('about')}</Text>
+                            <View style={styles.divider} />
+                        </View>
                     </Pressable>
-                    <View style={styles.divider} />
 
-                    {/* Additional Logout Link for functionality */}
+                    {/* Additional Logout Link */}
                     <Pressable style={styles.linkItem} onPress={handleLogout}>
-                        <Text style={[styles.linkText, { color: '#FFEBE0' }]}>{t('logout')}</Text>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="log-out-outline" size={18} color="#FB5507" />
+                        </View>
+                        <View style={styles.textAndDividerContainer}>
+                            <Text style={[styles.linkText, { color: '#FFEBE0' }]}>{t('logout')}</Text>
+                            <View style={[styles.divider, { backgroundColor: 'transparent' }]} />
+                        </View>
                     </Pressable>
                 </View>
 
@@ -77,15 +107,17 @@ export default function DrawerLayout() {
 
     return (
         <Drawer
+
             drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
                 headerShown: false,
                 drawerStyle: {
-                    width: '75%',
-                    backgroundColor: '#E8632B',
-                    borderTopEndRadius: 40,
-                    borderBottomEndRadius: 40,
+                    width: '85%',
+                    backgroundColor: '#FB5507',
+                    // borderTopEndRadius: 40,
+                    // borderBottomEndRadius: 40,
                 },
+
             }}
         >
             <Drawer.Screen name="(tabs)" options={{ drawerLabel: t('home') }} />
@@ -96,17 +128,17 @@ export default function DrawerLayout() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#E8632B',
-        borderTopEndRadius: 40,
-        borderBottomEndRadius: 40,
+        backgroundColor: '#FB5507',
+        // borderTopEndRadius: 40,
+        // borderBottomEndRadius: 40,
     },
     headerArea: {
         marginTop: 60,
         alignItems: 'center',
-        marginBottom: 40,
+        // marginBottom: 40,
     },
     titleText: {
-        fontSize: 32,
+        fontSize: 22,
         fontWeight: '300',
         color: '#FFF',
         letterSpacing: 2,
@@ -115,19 +147,43 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
     },
     linksContainer: {
-        marginTop: 20,
+        // marginTop: 20,
+    },
+    logo: {
+        width: 100,
+        height: 100,
+        marginBottom: 1,
     },
     linkItem: {
-        paddingVertical: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 5,
+        marginTop: 10,
+    },
+    iconContainer: {
+        padding: 5,
+        borderRadius: 5,
+        backgroundColor: '#FFF',
+        color: "#FB5507",
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 15,
+    },
+    textAndDividerContainer: {
+        flex: 1,
+        justifyContent: 'center',
     },
     linkText: {
-        fontSize: 20,
+        fontSize: 16,
         color: '#FFF',
         textAlign: 'left',
+        marginBottom: 8, // Space between text and divider
+        // marginTop: 6,
     },
     divider: {
         height: 1,
         backgroundColor: '#FFF',
+        width: '80%',
         opacity: 0.6,
     },
     footer: {

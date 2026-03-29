@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    View, Text, StyleSheet, ScrollView, Pressable, 
+import {
+    View, Text, StyleSheet, ScrollView, Pressable,
     TextInput, ActivityIndicator, Modal, TouchableOpacity,
     FlatList, Platform, useWindowDimensions
 } from 'react-native';
@@ -36,11 +36,11 @@ export default function ServicesManagementScreen() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<'services' | 'categories'>('services');
-    
+
     // Modals
     const [serviceModalVisible, setServiceModalVisible] = useState(false);
     const [categoryModalVisible, setCategoryModalVisible] = useState(false);
-    
+
     // Service Form
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -49,11 +49,11 @@ export default function ServicesManagementScreen() {
     const [deliveryTime, setDeliveryTime] = useState('');
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
     const [selectedServiceImage, setSelectedServiceImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
-    
+
     // Category Form
     const [categoryName, setCategoryName] = useState('');
     const [selectedCategoryImage, setSelectedCategoryImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
-    
+
     const [editingId, setEditingId] = useState<number | null>(null);
     const [saving, setSaving] = useState(false);
 
@@ -115,8 +115,8 @@ export default function ServicesManagementScreen() {
             setCategoryModalVisible(false);
             fetchData();
             Toast.success(`Category ${editingId ? 'updated' : 'created'}`);
-        } catch (error) { 
-            console.error(error); 
+        } catch (error) {
+            console.error(error);
             Toast.error('Failed to save category');
         } finally { setSaving(false); }
     };
@@ -151,8 +151,8 @@ export default function ServicesManagementScreen() {
             setServiceModalVisible(false);
             fetchData();
             Toast.success(`Service ${editingId ? 'updated' : 'created'}`);
-        } catch (error) { 
-            console.error(error); 
+        } catch (error) {
+            console.error(error);
             Toast.error('Failed to save service');
         } finally { setSaving(false); }
     };
@@ -163,8 +163,8 @@ export default function ServicesManagementScreen() {
             await apiClient.delete(url);
             Toast.success(`${type === 'service' ? 'Service' : 'Category'} deleted`);
             fetchData();
-        } catch (error) { 
-            console.error(error); 
+        } catch (error) {
+            console.error(error);
             Toast.error('Failed to delete');
         }
     };
@@ -184,7 +184,7 @@ export default function ServicesManagementScreen() {
                         <Text style={[styles.tabText, activeTab === 'services' && styles.activeTabText]}>Services</Text>
                     </Pressable>
                 </View>
-                <Pressable 
+                <Pressable
                     onPress={() => {
                         setEditingId(null);
                         if (activeTab === 'categories') {
@@ -201,7 +201,7 @@ export default function ServicesManagementScreen() {
                             setSelectedServiceImage(null);
                             setServiceModalVisible(true);
                         }
-                    }} 
+                    }}
                     style={[styles.addButton, !isDesktop && { width: '100%', justifyContent: 'center' }]}
                 >
                     <Ionicons name="add" size={20} color="#FFF" />
@@ -210,7 +210,7 @@ export default function ServicesManagementScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <FlatList
                     data={(activeTab === 'categories' ? categories : services) as any[]}
@@ -235,7 +235,7 @@ export default function ServicesManagementScreen() {
                                             <Ionicons name="pencil" size={18} color="#3B82F6" />
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => handleDelete('category', item.id)}>
-                                            <Ionicons name="trash" size={18} color="#EF4444" />
+                                            <Ionicons name="trash" size={18} color="#FB5507" />
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -262,13 +262,13 @@ export default function ServicesManagementScreen() {
                                                 setDuration(item.duration || '');
                                                 setDeliveryTime(item.deliveryTime || '');
                                                 setSelectedCategoryId(item.categoryId || null);
-                                                setSelectedServiceImage(null); 
+                                                setSelectedServiceImage(null);
                                                 setServiceModalVisible(true);
                                             }} style={styles.actionBtn}>
                                                 <Ionicons name="pencil" size={16} color="#3B82F6" /><Text style={styles.actionBtnText}>Edit</Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity onPress={() => handleDelete('service', item.id)} style={styles.actionBtn}>
-                                                <Ionicons name="trash" size={16} color="#EF4444" /><Text style={[styles.actionBtnText, { color: '#EF4444' }]}>Delete</Text>
+                                                <Ionicons name="trash" size={16} color="#FB5507" /><Text style={[styles.actionBtnText, { color: '#FB5507' }]}>Delete</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>
@@ -289,9 +289,9 @@ export default function ServicesManagementScreen() {
                         <Pressable onPress={() => pickImage('category')} style={styles.imagePicker}>
                             {selectedCategoryImage || (editingId && categories.find(c => c.id === editingId)?.imageUrl) ? (
                                 <View style={{ flex: 1 }}>
-                                    <Image 
-                                        source={{ uri: selectedCategoryImage ? selectedCategoryImage.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${categories.find(c => c.id === editingId)?.imageUrl}` }} 
-                                        style={styles.previewImage} 
+                                    <Image
+                                        source={{ uri: selectedCategoryImage ? selectedCategoryImage.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${categories.find(c => c.id === editingId)?.imageUrl}` }}
+                                        style={styles.previewImage}
                                     />
                                     <View style={styles.cameraOverlay}>
                                         <Ionicons name="camera" size={24} color="#FFF" />
@@ -300,7 +300,7 @@ export default function ServicesManagementScreen() {
                                 </View>
                             ) : (
                                 <View style={styles.pickerInner}>
-                                    <Ionicons name="camera-outline" size={36} color="#E8632B" />
+                                    <Ionicons name="camera-outline" size={36} color="#FB5507" />
                                     <Text style={styles.pickerHint}>Tap to upload image</Text>
                                 </View>
                             )}
@@ -328,12 +328,12 @@ export default function ServicesManagementScreen() {
                                 <TextInput style={[styles.input, { flex: 1 }]} placeholder="Duration" value={duration} onChangeText={setDuration} />
                             </View>
                             <TextInput style={styles.input} placeholder="Delivery Time (e.g. 1-2 hours)" value={deliveryTime} onChangeText={setDeliveryTime} />
-                            
+
                             <Text style={styles.label}>Select Category</Text>
                             <View style={styles.categoryPicker}>
                                 {categories.map(cat => (
-                                    <Pressable 
-                                        key={cat.id} 
+                                    <Pressable
+                                        key={cat.id}
                                         onPress={() => setSelectedCategoryId(cat.id)}
                                         style={[styles.catBtn, selectedCategoryId === cat.id && styles.activeCatBtn]}
                                     >
@@ -346,9 +346,9 @@ export default function ServicesManagementScreen() {
                             <Pressable onPress={() => pickImage('service')} style={styles.imagePicker}>
                                 {selectedServiceImage || (editingId && services.find(s => s.id === editingId)?.image) ? (
                                     <View style={{ flex: 1 }}>
-                                        <Image 
-                                            source={{ uri: selectedServiceImage ? selectedServiceImage.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${services.find(s => s.id === editingId)?.image}` }} 
-                                            style={styles.previewImage} 
+                                        <Image
+                                            source={{ uri: selectedServiceImage ? selectedServiceImage.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${services.find(s => s.id === editingId)?.image}` }}
+                                            style={styles.previewImage}
                                         />
                                         <View style={styles.cameraOverlay}>
                                             <Ionicons name="camera" size={24} color="#FFF" />
@@ -357,7 +357,7 @@ export default function ServicesManagementScreen() {
                                     </View>
                                 ) : (
                                     <View style={styles.pickerInner}>
-                                        <Ionicons name="camera-outline" size={36} color="#E8632B" />
+                                        <Ionicons name="camera-outline" size={36} color="#FB5507" />
                                         <Text style={styles.pickerHint}>Tap to upload image</Text>
                                     </View>
                                 )}
@@ -386,8 +386,8 @@ const styles = StyleSheet.create({
     tab: { paddingHorizontal: 20, paddingVertical: 8, borderRadius: 10 },
     activeTab: { backgroundColor: '#FFF', elevation: 2 },
     tabText: { color: '#64748B', fontWeight: '600' },
-    activeTabText: { color: '#E8632B' },
-    addButton: { backgroundColor: '#E8632B', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, gap: 8 },
+    activeTabText: { color: '#FB5507' },
+    addButton: { backgroundColor: '#FB5507', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, gap: 8 },
     addButtonText: { color: '#FFF', fontWeight: 'bold' },
     list: { paddingBottom: 40 },
     card: { flex: 1, backgroundColor: '#FFF', borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: '#E2E8F0', margin: 8 },
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
     imageContainer: { height: 160, backgroundColor: '#F1F5F9', position: 'relative' },
     cardImage: { width: '100%', height: '100%' },
     placeholderImg: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    priceTag: { position: 'absolute', top: 12, right: 12, backgroundColor: '#E8632B', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 10 },
+    priceTag: { position: 'absolute', top: 12, right: 12, backgroundColor: '#FB5507', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 10 },
     priceText: { color: '#FFF', fontWeight: 'bold', fontSize: 14 },
     cardContent: { padding: 20 },
     itemTitle: { fontSize: 18, fontWeight: 'bold', color: '#1E293B', marginBottom: 4 },
@@ -414,19 +414,19 @@ const styles = StyleSheet.create({
     input: { height: 48, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, paddingHorizontal: 16, fontSize: 15, marginBottom: 16 },
     categoryPicker: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 16 },
     catBtn: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 15, backgroundColor: '#F1F5F9' },
-    activeCatBtn: { backgroundColor: '#E8632B' },
+    activeCatBtn: { backgroundColor: '#FB5507' },
     catBtnText: { fontSize: 12, color: '#64748B' },
     activeCatBtnText: { color: '#FFF', fontWeight: 'bold' },
-    imagePicker: { height: 160, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E8632B', borderStyle: 'dashed', borderRadius: 16, overflow: 'hidden', marginBottom: 20 },
+    imagePicker: { height: 160, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#FB5507', borderStyle: 'dashed', borderRadius: 16, overflow: 'hidden', marginBottom: 20 },
     pickerInner: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 8 },
-    pickerHint: { fontSize: 13, color: '#E8632B', fontWeight: '600' },
+    pickerHint: { fontSize: 13, color: '#FB5507', fontWeight: '600' },
     cameraOverlay: { position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.45)', paddingVertical: 8, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: 6 },
     cameraOverlayText: { color: '#FFF', fontSize: 13, fontWeight: '600' },
     previewImage: { width: '100%', height: '100%' },
     modalButtons: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12, marginTop: 12 },
     button: { paddingHorizontal: 24, paddingVertical: 12, borderRadius: 12 },
     cancelBtn: { backgroundColor: '#F1F5F9' },
-    saveBtn: { backgroundColor: '#E8632B' },
+    saveBtn: { backgroundColor: '#FB5507' },
     saveBtnText: { color: '#FFF', fontWeight: 'bold' },
     center: { flex: 1, justifyContent: 'center', alignItems: 'center' }
 });

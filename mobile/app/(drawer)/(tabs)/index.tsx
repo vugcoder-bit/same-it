@@ -7,7 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useLocale } from '@/hooks/use-locale';
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = (width - 48) / 2; // 2 columns with padding
+const CARD_WIDTH = (width - 90) / 2; // 2 columns with padding
 
 import { useRouter } from 'expo-router';
 
@@ -24,7 +24,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView overScrollMode='auto' scrollEnabled={false} contentContainerStyle={styles.scrollContent}>
         {/* Grid 2x2 */}
         <View style={styles.gridContainer}>
           {DATA.map((item) => (
@@ -53,11 +53,13 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // width: '90%',
     backgroundColor: '#F8F9FA',
   },
   scrollContent: {
-    padding: 16,
-    paddingTop: 16,
+    paddingHorizontal: 30,
+    paddingTop: 1,
+
   },
   announcementCard: {
     backgroundColor: '#FFF',
@@ -75,59 +77,64 @@ const styles = StyleSheet.create({
   },
   announcementText: {
     fontSize: 24,
-    color: '#E8632B',
+    color: '#FB5507',
     textAlign: 'center',
     fontWeight: '500',
   },
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // justifyContent: 'space-around',
+    // rowGap: 10,
+    gap: 12,
+    columnGap: 20,
   },
   gridCard: {
     width: CARD_WIDTH,
     backgroundColor: '#FFF',
     borderRadius: 16,
-    padding: 16,
+    padding: 14,
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: '#E8632B',
+    borderColor: '#FB5507',
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 5,
-    marginBottom: 8,
+    // marginBottom: 2,
   },
   cardImage: {
-    width: 60,
-    height: 80,
-    marginBottom: 12,
+    width: 55,
+    height: 70,
+    marginBottom: 8,
   },
   cardTitle: {
-    fontSize: 16,
-    color: '#E8632B',
+    fontSize: 14,
+    color: '#FB5507',
     fontWeight: '500',
   },
   fullWidthCard: {
-    width: '100%',
+    width: CARD_WIDTH * 2 + 12,
     backgroundColor: '#FFF',
     borderRadius: 16,
     padding: 16,
+    marginHorizontal: 'auto',
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: '#E8632B',
+    borderColor: '#FB5507',
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 5,
-    marginTop: 8,
+    marginTop: 12,
   },
   fullCardImage: {
     width: 140,
-    height: 120,
-    marginBottom: 12,
+    height: 80,
+    // marginBottom: 10,
   },
 });

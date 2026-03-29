@@ -291,8 +291,8 @@ async function main() {
 
   // 4.6 Payment Methods
   console.log('Seeding Payment Methods...');
-  await prisma.paymentMethod.create({ data: { title: 'Zain Cash', accountNumber: '07701234567', color: '#E8632B' } });
-  await prisma.paymentMethod.create({ data: { title: 'Asia Cell', accountNumber: '07707654321', color: '#EF4444' } });
+  await prisma.paymentMethod.create({ data: { title: 'Zain Cash', accountNumber: '07701234567', color: '#FB5507' } });
+  await prisma.paymentMethod.create({ data: { title: 'Asia Cell', accountNumber: '07707654321', color: '#FB5507' } });
   await prisma.paymentMethod.create({ data: { title: 'Mastercard', accountNumber: '5544 3322 1100', color: '#1E293B' } });
 
   // 5. Services

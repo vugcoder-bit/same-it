@@ -12,11 +12,11 @@ export function AppHeader({ title }: { title: string }) {
         <View style={[styles.container, { paddingTop: insets.top + 10 }]}>
             <View style={styles.headerBody}>
                 <Pressable onPress={() => router.back()} style={styles.backButton}>
-                   <Ionicons name="arrow-back" size={24} color="#FFF" />
+                    <Ionicons name="arrow-back" size={24} color="#FFF" />
                 </Pressable>
-                
+
                 <Text style={styles.title} numberOfLines={1}>{title}</Text>
-                
+
                 <View style={styles.spacer} />
             </View>
         </View>
@@ -25,7 +25,7 @@ export function AppHeader({ title }: { title: string }) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         elevation: 4,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },

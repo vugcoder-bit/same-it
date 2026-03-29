@@ -14,7 +14,7 @@ export function MobileHeader({ onMenuPress }: MobileHeaderProps) {
                 <Ionicons name="menu-outline" size={28} color="#1E293B" />
             </Pressable>
             <View style={styles.logoContainer}>
-                <Ionicons name="shield-checkmark" size={24} color="#E8632B" />
+                <Ionicons name="shield-checkmark" size={24} color="#FB5507" />
                 <Text style={styles.logoText}>SAME IT</Text>
             </View>
             <View style={styles.placeholder} />

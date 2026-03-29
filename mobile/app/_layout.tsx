@@ -9,7 +9,7 @@ import enLocale from '@/locale/en.json';
 import arLocale from '@/locale/ar.json';
 import "../global.css";
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '../api/queryClient';
 import { useLocale } from '@/hooks/use-locale';
@@ -19,6 +19,8 @@ import ToastManager from 'toastify-react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAuthStore } from '../store/authStore';
 import { useLocaleStore } from '@/store/localeStore';
+import { apiClient } from '@/api/apiClient';
+import { usePushNotifications } from '@/hooks/usePushNotifications';
 
 // Force LTR layout regardless of locale — prevents Arabic from flipping drawer/back button
 I18nManager.forceRTL(false);
@@ -41,23 +43,28 @@ export default function RootLayout() {
   const _hasAuthHydrated = useAuthStore(state => state._hasHydrated);
   const _hasLocaleHydrated = useLocaleStore(state => state._hasHydrated);
 
-  const [fontsLoaded] = useFonts({
-    'CoconNextArabic': require('@/assets/cocon-next-arabic.ttf'),
-  });
+  // Initialize push notifications
+  usePushNotifications();
 
-  // Set CoconNextArabic as the default font for ALL Text in the app once loaded
-  if (fontsLoaded) {
-    const oldRender = (Text as any).defaultProps;
-    (Text as any).defaultProps = {
-      ...oldRender,
-      style: [{ fontFamily: 'CoconNextArabic' }, oldRender?.style],
-    };
-  }
+  const [fontsLoaded, fontError] = useFonts({
+    'CoconNextArabic': require('../assets/cocon-next-arabic.ttf'),
+  });
 
   useEffect(() => {
     if (_hasAuthHydrated && _hasLocaleHydrated && fontsLoaded) {
       const hideSplash = async () => {
         await SplashScreen.hideAsync();
+
+        // Verify session is still valid (catches expired subscriptions on reload)
+        const token = useAuthStore.getState().token;
+        if (token) {
+          try {
+            await apiClient.get('/auth/me');
+          } catch {
+            // apiClient interceptor handles logout + will redirect via DrawerLayout guard
+          }
+        }
+
         router.replace('/splash');
       };
       hideSplash();
@@ -76,7 +83,7 @@ export default function RootLayout() {
             <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: 'modal', title: t('modal') }} />
           </Stack>
-          <StatusBar style="light" backgroundColor="#E8632B" />
+          <StatusBar style="light" backgroundColor="#FB5507" />
         </ThemeProvider>
       </QueryClientProvider>
     </SafeAreaProvider>

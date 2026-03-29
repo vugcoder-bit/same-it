@@ -20,7 +20,7 @@ const ServiceCategoriesScreen = () => {
   });
 
   const renderItem = ({ item }: { item: any }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.card}
       onPress={() => router.push(`/services/${item.id}?name=${item.name}`)}
     >
@@ -29,7 +29,7 @@ const ServiceCategoriesScreen = () => {
           <Image source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${item.imageUrl}` }} style={styles.image} resizeMode="contain" />
         ) : (
           <View style={[styles.image, styles.placeholder]}>
-            <Ionicons name="apps-outline" size={40} color="#E8632B" />
+            <Ionicons name="apps-outline" size={40} color="#FB5507" />
           </View>
         )}
       </View>
@@ -40,7 +40,7 @@ const ServiceCategoriesScreen = () => {
   if (isLoading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#E8632B" />
+        <ActivityIndicator size="large" color="#FB5507" />
       </View>
     );
   }
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: '#E8632B',
+    borderColor: '#FB5507',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

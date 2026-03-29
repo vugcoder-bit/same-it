@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useLocale } from '@/hooks/use-locale';
 import { AppHeader } from '@/components/AppHeader';
 import { StatusBar } from 'expo-status-bar';
 import { PdfView } from '@kishannareshpal/expo-pdf';
 import { apiClient } from '@/api/apiClient';
+import { useAuthStore } from '@/store/authStore';
 import * as FileSystem from 'expo-file-system/legacy';
 import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, {
@@ -16,7 +17,9 @@ import Animated, {
 
 export default function PdfViewerScreen() {
   const { token, title } = useLocalSearchParams();
+
   const { t } = useLocale();
+  const router = useRouter();
   const [localUri, setLocalUri] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +29,8 @@ export default function PdfViewerScreen() {
 
   const pinchGesture = Gesture.Pinch()
     .onUpdate((e) => {
-      scale.value = Math.max(1, Math.min(savedScale.value * e.scale, 8));
+      console.log(`[PDF VIEW] Pinch update: scale=${e.scale}, savedScale=${savedScale.value}`);
+      scale.value = Math.max(1, Math.min(savedScale.value * e.scale, 30));
     })
     .onEnd(() => {
       savedScale.value = scale.value;
@@ -51,54 +55,85 @@ export default function PdfViewerScreen() {
     flex: 1,
   }));
 
-  const baseUrl = apiClient.defaults.baseURL?.replace('/api', '') || '';
-  const fullUrl = token ? `${baseUrl}/api/schematics/view?token=${token}` : null;
-
   useEffect(() => {
-    if (!fullUrl) return;
 
+    if (!token) return;
     let downloadedUri: string | null = null;
 
-    const downloadPdf = async () => {
+    const loadPdf = async () => {
+
+      console.log(`[PDF VIEW] --- START loadPdf --- (token: ${String(token).substring(0, 15)}..., title: ${title})`);
       try {
+        console.log('[PDF VIEW] Setting loading: true');
         setLoading(true);
         setError(null);
 
+        // Use the token directly that was passed from the list screen
+        const baseUrl = apiClient.defaults.baseURL?.replace('/api', '') || '';
+        const fullUrl = `${baseUrl}/api/schematics/view?token=${token}`;
+
+        console.log(`[PDF VIEW] apiClient.baseURL: ${apiClient.defaults.baseURL}`);
+        console.log(`[PDF VIEW] Computed fullUrl: ${fullUrl}`);
+
+        // Download the PDF to local cache
         const fileName = `temp_schematic_${Date.now()}.pdf`;
         const localPath = `${FileSystem.cacheDirectory}${fileName}`;
 
+        console.log(`[PDF VIEW] localPath: ${localPath}`);
+
+        console.log('[PDF VIEW] Starting downloadAsync...');
         const downloadRes = await FileSystem.downloadAsync(fullUrl, localPath);
+        console.log('[PDF VIEW] downloadAsync completed');
+        console.log(`[PDF VIEW] HTTP Status: ${downloadRes.status}`);
+        console.log(`[PDF VIEW] Downloaded to: ${downloadRes.uri}`);
+
+        if (downloadRes.status === 401) {
+          console.log('[PDF VIEW] 401 Unauthorized - redirecting to login');
+          // Token expired mid-session — logout and redirect
+          useAuthStore.getState().logout();
+          router.replace('/auth/login');
+          return;
+        }
 
         if (downloadRes.status !== 200) {
-          throw new Error(`Failed to download: Status ${downloadRes.status}`);
+          console.error(`[PDF VIEW] Download failed with status ${downloadRes.status}`);
+          throw new Error(`Download failed (HTTP ${downloadRes.status})`);
         }
 
         downloadedUri = downloadRes.uri;
+        console.log('[PDF VIEW] Setting localUri');
         setLocalUri(downloadRes.uri);
       } catch (err: any) {
-        setError(err.message || 'Failed to download PDF');
+        console.error('[PDF VIEW] !!! ERROR !!!:', err);
+        // If 401 from apiClient, interceptor already handled logout — just exit silently
+        if (err?.response?.status === 401) {
+          console.log('[PDF VIEW] 401 from apiClient - exiting silently');
+          return;
+        }
+        setError(err.message || 'Failed to load PDF');
       } finally {
+        console.log('[PDF VIEW] Finishing loadPdf, setting loading: false');
         setLoading(false);
       }
     };
 
-    downloadPdf();
+    loadPdf();
 
     return () => {
       if (downloadedUri) {
-        FileSystem.deleteAsync(downloadedUri, { idempotent: true }).catch(() => {});
+        FileSystem.deleteAsync(downloadedUri, { idempotent: true }).catch(() => { });
       }
     };
-  }, [fullUrl]);
+  }, [token]);
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <AppHeader title={(title as string) || t('pdfViewer')} />
 
       {loading && (
         <View style={styles.center}>
-          <ActivityIndicator size="large" color="#E8632B" />
+          <ActivityIndicator size="large" color="#FB5507" />
           <Text style={styles.loadingText}>{t('downloading') || 'Downloading...'}</Text>
         </View>
       )}
@@ -110,18 +145,20 @@ export default function PdfViewerScreen() {
       )}
 
       {!loading && !error && localUri ? (
-        <GestureDetector gesture={composed}>
-          <Animated.View style={[styles.pdfContainer, animatedStyle]}>
-            <PdfView
-              uri={localUri}
-              style={styles.pdfView}
-              key={localUri}
-            />
-          </Animated.View>
-        </GestureDetector>
+        <View style={{ flex: 1 }}>
+          <GestureDetector gesture={composed}>
+            <Animated.View style={[styles.pdfContainer, animatedStyle]}>
+              <PdfView
+                uri={localUri}
+                style={styles.pdfView}
+                key={localUri}
+              />
+            </Animated.View>
+          </GestureDetector>
+        </View>
       ) : !loading && !error && (
         <View style={styles.center}>
-          <ActivityIndicator size="large" color="#E8632B" />
+          <ActivityIndicator size="large" color="#FB5507" />
         </View>
       )}
     </GestureHandlerRootView>
@@ -142,7 +179,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   errorText: {
-    color: '#E8632B',
+    color: '#FB5507',
     padding: 20,
     textAlign: 'center',
   },

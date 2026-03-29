@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         height: '40%',
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         zIndex: 0,
@@ -81,12 +81,12 @@ const styles = StyleSheet.create({
     },
     activeTab: {
         borderBottomWidth: 2,
-        borderBottomColor: '#E8632B',
+        borderBottomColor: '#FB5507',
     },
     activeTabText: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#E8632B',
+        color: '#FB5507',
     },
     inactiveTabText: {
         fontSize: 16,
@@ -142,13 +142,13 @@ const styles = StyleSheet.create({
         marginLeft: 4,
     },
     button: {
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         borderRadius: 8,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 24,
-        shadowColor: '#E8632B',
+        shadowColor: '#FB5507',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
@@ -204,9 +204,9 @@ export default function LoginScreen() {
     React.useEffect(() => {
         apiClient.get('/settings')
             .then(res => setSettings(res.data.data))
-            .catch(() => {});
+            .catch(() => { });
     }, []);
-    
+
     const validationSchema = Yup.object().shape({
         username: Yup.string()
             .min(4, t('usernameMinLength') || 'Username must be at least 4 characters')
@@ -217,12 +217,12 @@ export default function LoginScreen() {
     });
 
     const openLink = (url: string) => {
-        if (url) Linking.openURL(url).catch(() => {});
+        if (url) Linking.openURL(url).catch(() => { });
     };
 
-    return(
-        <KeyboardAvoidingView 
-            style={styles.container} 
+    return (
+        <KeyboardAvoidingView
+            style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
             {/* Split Background Layer */}
@@ -254,7 +254,7 @@ export default function LoginScreen() {
                         onSubmit={(values, { setSubmitting }) => {
                             setSubmitting(true);
                             loginMutation.mutate(values, {
-                                onSuccess:  ()  => {
+                                onSuccess: () => {
                                     Toast.success(t('loginSuccess') || 'Logged in successfully');
                                     router.replace('/(drawer)/(tabs)');
                                     setSubmitting(false);

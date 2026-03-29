@@ -50,13 +50,16 @@ export function AdvertisementCarousel() {
     if (isLoading) {
         return (
             <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#E8632B" />
+                <ActivityIndicator size="large" color="#FB5507" />
             </View>
         );
     }
 
-    if (isError || ads.length === 0) {
+    if (isError) {
         return null; // Return nothing if there are no ads or error.
+    }
+    if (ads.length === 0) {
+        return <View style={[styles.loadingContainer, { height: 100, backgroundColor: 'transparent', shadowColor: 'transparent', elevation: 0, shadowOpacity: 0, shadowRadius: 0 }]}></View>;
     }
 
     return (
@@ -87,7 +90,7 @@ export function AdvertisementCarousel() {
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 24,
+        marginBottom: 20,
         alignItems: 'center',
     },
     loadingContainer: {
@@ -129,7 +132,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 4,
     },
     activeDot: {
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         width: 12, // makes the active dot a bit wider/larger
     },
     inactiveDot: {

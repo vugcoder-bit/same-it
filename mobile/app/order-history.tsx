@@ -33,7 +33,7 @@ export default function OrderHistoryScreen() {
                 <View style={styles.cardHeader}>
                     <Text style={styles.orderId}>{t('orderId')}: #{item.id}</Text>
                     <View style={[
-                        styles.statusBadge, 
+                        styles.statusBadge,
                         isSuccessful ? styles.successBg : isFailed ? styles.failBg : styles.processingBg
                     ]}>
                         <Text style={styles.statusText}>
@@ -65,15 +65,15 @@ export default function OrderHistoryScreen() {
                                 await Clipboard.setStringAsync(item.adminNotes);
                                 Toast.success(t('copied') || 'Copied to clipboard');
                             }} style={styles.copyBtn}>
-                                <Ionicons name="copy-outline" size={18} color="#E8632B" />
+                                <Ionicons name="copy-outline" size={18} color="#FB5507" />
                             </TouchableOpacity>
                         </View>
                     </View>
                 )}
 
                 {item.adminFileUrl && (
-                    <TouchableOpacity 
-                        style={styles.downloadBtn} 
+                    <TouchableOpacity
+                        style={styles.downloadBtn}
                         onPress={() => Linking.openURL(item.adminFileUrl)}
                     >
                         <Ionicons name="download-outline" size={18} color="#FFF" />
@@ -86,11 +86,11 @@ export default function OrderHistoryScreen() {
 
     return (
         <View style={styles.container}>
-            <StatusBar style="light" backgroundColor="#E8632B" />
+            <StatusBar style="light" backgroundColor="#FB5507" />
             <AppHeader title={t('orderHistory')} />
-            
+
             {isLoading ? (
-                <ActivityIndicator size="large" color="#E8632B" style={{ marginTop: 50 }} />
+                <ActivityIndicator size="large" color="#FB5507" style={{ marginTop: 50 }} />
             ) : isError ? (
                 <Text style={styles.errorText}>{t('errorFetchingOrders')}</Text>
             ) : (
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         padding: 16,
         marginBottom: 16,
         borderWidth: 1,
-        borderColor: '#E8632B', // Orange border per screenshot
+        borderColor: '#FB5507', // Orange border per screenshot
         elevation: 3,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     },
     orderId: {
         fontSize: 16,
-        color: '#E8632B',
+        color: '#FB5507',
         fontWeight: '600',
     },
     statusBadge: {
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     },
     itemPrice: {
         fontSize: 16,
-        color: '#E8632B',
+        color: '#FB5507',
         fontWeight: 'bold',
     },
     pmText: {
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     codeBox: {
         marginTop: 12,
         borderWidth: 1,
-        borderColor: '#E8632B',
+        borderColor: '#FB5507',
         borderRadius: 8,
         padding: 10,
         backgroundColor: '#FDF7F4'
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     adminNotesLabel: {
         fontSize: 12,
         fontWeight: 'bold',
-        color: '#E8632B',
+        color: '#FB5507',
         marginBottom: 4,
     },
     adminNotesRow: {
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         paddingVertical: 12,
         borderRadius: 8,
         gap: 8,

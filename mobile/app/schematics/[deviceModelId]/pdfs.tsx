@@ -27,9 +27,9 @@ export default function SchematicsPdfListScreen() {
       const fullUrl = await generateTempPdfUrl(schematic.id);
       // Extract the token from the URL to avoid router encoding issues
       const token = fullUrl.split('token=')[1];
-      router.push({ 
-        pathname: '/schematics/view' as any, 
-        params: { token, title: schematic.schematicType } 
+      router.push({
+        pathname: '/schematics/view' as any,
+        params: { token, title: schematic.schematicType }
       });
     } catch (error) {
       console.error('Failed to get PDF URL', error);
@@ -39,12 +39,12 @@ export default function SchematicsPdfListScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <AppHeader title={(modelName as string) || t('schematics')} />
 
       {loading ? (
         <View style={styles.center}>
-          <ActivityIndicator size="large" color="#E8632B" />
+          <ActivityIndicator size="large" color="#FB5507" />
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#E8632B',
+    borderColor: '#FB5507',
     marginBottom: 12,
   },
   fileIcon: {

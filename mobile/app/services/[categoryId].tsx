@@ -22,13 +22,13 @@ const ServicesListScreen = () => {
     }
   });
 
-  const filteredServices = services?.filter((s: any) => 
+  const filteredServices = services?.filter((s: any) =>
     s.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     s.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderItem = ({ item }: { item: any }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.serviceItem}
       onPress={() => router.push(`/services/details/${item.id}`)}
     >
@@ -49,7 +49,7 @@ const ServicesListScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <AppHeader title={(Array.isArray(name) ? name[0] : name) || t('services')} />
 
       <View style={styles.searchRow}>
@@ -71,7 +71,7 @@ const ServicesListScreen = () => {
 
       {isLoading ? (
         <View style={styles.centered}>
-          <ActivityIndicator size="large" color="#E8632B" />
+          <ActivityIndicator size="large" color="#FB5507" />
         </View>
       ) : (
         <FlatList
@@ -112,14 +112,14 @@ const styles = StyleSheet.create({
   input: {
     flex: 1, height: 50, backgroundColor: '#FFF', borderRadius: 10,
     paddingHorizontal: 16, fontSize: 15, color: '#1E293B',
-    borderWidth: 1, borderColor: '#E8632B',
+    borderWidth: 1, borderColor: '#FB5507',
   },
   searchBtn: {
-    width: 50, height: 50, backgroundColor: '#E8632B',
+    width: 50, height: 50, backgroundColor: '#FB5507',
     borderRadius: 10, justifyContent: 'center', alignItems: 'center'
   },
   resultsBar: {
-    borderBottomWidth: 2, borderBottomColor: '#E8632B',
+    borderBottomWidth: 2, borderBottomColor: '#FB5507',
     marginHorizontal: 16, paddingBottom: 8, marginBottom: 16, alignItems: 'center'
   },
   resultsLabel: { color: '#4CAF50', fontWeight: '500', fontSize: 16 },
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     fontSize: 11,
-    color: '#E8632B',
+    color: '#FB5507',
     fontWeight: '600',
   },
   priceContainer: {
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#E8632B',
+    color: '#FB5507',
     marginRight: 5,
   },
   centered: {

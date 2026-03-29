@@ -45,15 +45,15 @@ export default function ContactScreen() {
 
     return (
         <View style={styles.container}>
-            <StatusBar style="light" backgroundColor="#E8632B" />
+            <StatusBar style="light" backgroundColor="#FB5507" />
             <AppHeader title={t('contactUs')} />
             <ScrollView contentContainerStyle={styles.scroll}>
-                
+
                 <Text style={styles.sectionTitle}>{t('sendUsAMessage')}</Text>
                 <TextInput style={styles.input} placeholder={t('name')} value={name} onChangeText={setName} />
                 <TextInput style={styles.input} placeholder={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" />
                 <TextInput style={[styles.input, styles.textArea]} placeholder={t('message')} value={message} onChangeText={setMessage} multiline numberOfLines={5} />
-                
+
                 <TouchableOpacity style={styles.sendBtn} onPress={sendMessage} disabled={sending}>
                     {sending ? <ActivityIndicator color="#FFF" /> : <Text style={styles.sendText}>{t('sendMessage')}</Text>}
                 </TouchableOpacity>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     sectionTitle: { fontSize: 18, fontWeight: 'bold', color: '#1E293B', marginBottom: 16 },
     input: { backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 10, padding: 14, fontSize: 16, marginBottom: 12 },
     textArea: { height: 120, textAlignVertical: 'top' },
-    sendBtn: { backgroundColor: '#E8632B', padding: 16, borderRadius: 12, alignItems: 'center', marginTop: 8 },
+    sendBtn: { backgroundColor: '#FB5507', padding: 16, borderRadius: 12, alignItems: 'center', marginTop: 8 },
     sendText: { color: '#FFF', fontWeight: 'bold', fontSize: 16 },
     divider: { height: 1, backgroundColor: '#E2E8F0', marginVertical: 32 },
     socialRow: { flexDirection: 'row', gap: 16, justifyContent: 'center' },

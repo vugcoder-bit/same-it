@@ -45,7 +45,7 @@ export default function MessagesScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <FlatList
                     data={messages}
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     card: { backgroundColor: '#FFF', borderRadius: 16, padding: 20, borderWidth: 1, borderColor: '#E2E8F0', elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 3 },
     cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 },
     name: { fontSize: 16, fontWeight: 'bold', color: '#1E293B' },
-    email: { fontSize: 14, color: '#E8632B', marginTop: 2 },
+    email: { fontSize: 14, color: '#FB5507', marginTop: 2 },
     date: { fontSize: 12, color: '#94A3B8' },
     messageBox: { backgroundColor: '#F1F5F9', padding: 16, borderRadius: 12 },
     messageText: { fontSize: 15, color: '#334155', lineHeight: 22 },

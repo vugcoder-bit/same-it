@@ -58,7 +58,7 @@ export default function SettingsScreen() {
     };
 
     if (loading) {
-        return <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>;
+        return <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>;
     }
 
     return (
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, gap: 16 },
     title: { fontSize: 26, fontWeight: 'bold', color: '#1E293B' },
     subtitle: { fontSize: 14, color: '#64748B', marginTop: 4 },
-    saveBtn: { backgroundColor: '#E8632B', flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 },
+    saveBtn: { backgroundColor: '#FB5507', flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 },
     saveBtnText: { color: '#FFF', fontWeight: 'bold', fontSize: 15 },
     tabs: { flexDirection: 'row', backgroundColor: '#F1F5F9', borderRadius: 12, padding: 4, marginBottom: 24, alignSelf: 'flex-start' },
     tab: { paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10 },

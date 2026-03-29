@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    View, Text, StyleSheet, ScrollView, Pressable, 
+import {
+    View, Text, StyleSheet, ScrollView, Pressable,
     ActivityIndicator, TouchableOpacity, FlatList,
     useWindowDimensions, Modal, Platform, TextInput
 } from 'react-native';
@@ -38,7 +38,7 @@ export default function OrdersManagementScreen() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<'ALL' | 'PROCESSING' | 'SUCCESSFUL' | 'FAILED'>('ALL');
-    
+
     // Details Modal
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
     const [adminNotes, setAdminNotes] = useState('');
@@ -54,8 +54,8 @@ export default function OrdersManagementScreen() {
             setLoading(true);
             const response = await apiClient.get('/admin/orders');
             setOrders(response.data.data || []);
-        } catch (error) { 
-            console.error(error); 
+        } catch (error) {
+            console.error(error);
             Toast.error('Failed to load orders');
         }
         finally { setLoading(false); }
@@ -66,11 +66,11 @@ export default function OrdersManagementScreen() {
             setUpdating(true);
             const formData = new FormData();
             formData.append('status', status);
-            
+
             if (adminNotes) {
                 formData.append('adminNotes', adminNotes);
             }
-            
+
             if (adminFile && !adminFile.canceled) {
                 const asset = adminFile.assets[0];
                 if (Platform.OS === 'web') {
@@ -94,8 +94,8 @@ export default function OrdersManagementScreen() {
             setAdminNotes('');
             setAdminFile(null);
             fetchOrders();
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to update order status');
         } finally {
             setUpdating(false);
@@ -113,14 +113,14 @@ export default function OrdersManagementScreen() {
         } catch (error) { console.error(error); }
     };
 
-    const filteredOrders = orders.filter(o => 
+    const filteredOrders = orders.filter(o =>
         filter === 'ALL' ? true : o.status === filter
     );
 
     const getStatusStyle = (status: string) => {
         switch (status) {
             case 'SUCCESSFUL': return { bg: '#F0FDF4', text: '#22C55E' };
-            case 'FAILED': return { bg: '#FEF2F2', text: '#EF4444' };
+            case 'FAILED': return { bg: '#FEF2F2', text: '#FB5507' };
             default: return { bg: '#FFFBEB', text: '#F59E0B' };
         }
     };
@@ -134,8 +134,8 @@ export default function OrdersManagementScreen() {
                 </View>
                 <View style={[styles.filterBar, !isDesktop && { width: '100%', overflow: 'scroll' }]}>
                     {(['ALL', 'PROCESSING', 'SUCCESSFUL', 'FAILED'] as const).map(f => (
-                        <Pressable 
-                            key={f} 
+                        <Pressable
+                            key={f}
                             onPress={() => setFilter(f)}
                             style={[styles.filterBtn, filter === f && styles.activeFilter]}
                         >
@@ -146,7 +146,7 @@ export default function OrdersManagementScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <View style={styles.tableCard}>
                     <ScrollView horizontal={!isDesktop} showsHorizontalScrollIndicator={false}>
@@ -174,7 +174,7 @@ export default function OrdersManagementScreen() {
                                                 <Text style={styles.userName}>{item.user?.username || 'Unknown'}</Text>
                                             </View>
                                             <Text style={[styles.cellText, { flex: 2, fontWeight: '600' }]}>{item.service?.title || 'Unknown Service'}</Text>
-                                            <Text style={[styles.cellText, { flex: 1, fontWeight: 'bold', color: '#E8632B' }]}>${item.totalPrice}</Text>
+                                            <Text style={[styles.cellText, { flex: 1, fontWeight: 'bold', color: '#FB5507' }]}>${item.totalPrice}</Text>
                                             <Text style={[styles.cellText, { flex: 1, fontSize: 12 }]}>{item.paymentMethod?.title || 'Direct'}</Text>
                                             <View style={[styles.cellView, { flex: 1 }]}>
                                                 <View style={[styles.pill, { backgroundColor: styles_status.bg }]}>
@@ -183,7 +183,7 @@ export default function OrdersManagementScreen() {
                                             </View>
                                             <View style={[styles.cellView, { flex: 1, flexDirection: 'row', justifyContent: 'flex-end', gap: 12 }]}>
                                                 <TouchableOpacity onPress={() => { setSelectedOrder(item); setAdminNotes(''); setAdminFile(null); }} style={styles.actionIcon}>
-                                                    <Ionicons name="eye-outline" size={22} color="#E8632B" />
+                                                    <Ionicons name="eye-outline" size={22} color="#FB5507" />
                                                 </TouchableOpacity>
                                             </View>
                                         </Animated.View>
@@ -203,13 +203,13 @@ export default function OrdersManagementScreen() {
                             <Text style={styles.modalTitle}>Order Details #{selectedOrder?.id}</Text>
                             <TouchableOpacity onPress={() => setSelectedOrder(null)}><Ionicons name="close" size={24} color="#333" /></TouchableOpacity>
                         </View>
-                        
+
                         <ScrollView style={styles.detailsScroll}>
                             <View style={styles.detailsGrid}>
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Technician</Text><Text style={styles.detailValue}>{selectedOrder?.user?.username}</Text></View>
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Service</Text><Text style={styles.detailValue}>{selectedOrder?.service?.title || 'Unknown Service'}</Text></View>
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Quantity</Text><Text style={styles.detailValue}>{selectedOrder?.quantity}</Text></View>
-                                <View style={styles.detailItem}><Text style={styles.detailLabel}>Total Price</Text><Text style={[styles.detailValue, { color: '#E8632B', fontWeight: 'bold' }]}>${selectedOrder?.totalPrice}</Text></View>
+                                <View style={styles.detailItem}><Text style={styles.detailLabel}>Total Price</Text><Text style={[styles.detailValue, { color: '#FB5507', fontWeight: 'bold' }]}>${selectedOrder?.totalPrice}</Text></View>
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Payment Method</Text><Text style={styles.detailValue}>{selectedOrder?.paymentMethod?.title || 'Unknown'}</Text></View>
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Date Added</Text><Text style={styles.detailValue}>{selectedOrder?.createdAt ? new Date(selectedOrder.createdAt).toLocaleDateString() : ''}</Text></View>
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Phone 1</Text><Text style={styles.detailValue}>{selectedOrder?.phone1}</Text></View>
@@ -227,28 +227,28 @@ export default function OrdersManagementScreen() {
 
                             <Text style={[styles.detailLabel, { marginTop: 20 }]}>Payment Screenshot</Text>
                             {selectedOrder?.paymentScreenshot ? (
-                                <Image 
-                                    source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/payments/${selectedOrder.paymentScreenshot.split('/').pop()}` }} 
-                                    style={styles.screenshot} 
+                                <Image
+                                    source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/payments/${selectedOrder.paymentScreenshot.split('/').pop()}` }}
+                                    style={styles.screenshot}
                                     contentFit="contain"
                                 />
                             ) : (
                                 <Text style={{ color: '#94A3B8', fontStyle: 'italic' }}>No screenshot provided</Text>
                             )}
-                            
+
                             {selectedOrder?.status !== 'SUCCESSFUL' && (
                                 <View style={styles.adminSection}>
                                     <Text style={styles.adminSectionTitle}>Admin Approval Actions</Text>
-                                    
+
                                     <Text style={styles.detailLabel}>Additional Notes (Optional, sent to user)</Text>
-                                    <TextInput 
-                                        style={[styles.input, styles.textArea]} 
-                                        placeholder="e.g., Download link or setup instructions..." 
-                                        value={adminNotes} 
-                                        onChangeText={setAdminNotes} 
-                                        multiline 
+                                    <TextInput
+                                        style={[styles.input, styles.textArea]}
+                                        placeholder="e.g., Download link or setup instructions..."
+                                        value={adminNotes}
+                                        onChangeText={setAdminNotes}
+                                        multiline
                                     />
-                                    
+
                                     <Text style={styles.detailLabel}>Additional File (Optional)</Text>
                                     <Pressable onPress={pickDocument} style={styles.filePicker}>
                                         <Ionicons name="document-attach" size={24} color={adminFile ? '#10B981' : '#94A3B8'} />
@@ -286,13 +286,13 @@ const styles = StyleSheet.create({
     filterBtn: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 10 },
     activeFilter: { backgroundColor: '#FFF', elevation: 2 },
     filterBtnText: { fontSize: 13, fontWeight: 'bold', color: '#64748B' },
-    activeFilterText: { color: '#E8632B' },
+    activeFilterText: { color: '#FB5507' },
     tableCard: { flex: 1, backgroundColor: '#FFF', borderRadius: 20, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden' },
     tableHeader: { flexDirection: 'row', padding: 20, backgroundColor: '#F8FAFC', borderBottomWidth: 1, borderBottomColor: '#E2E8F0' },
     col: { fontSize: 12, fontWeight: 'bold', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: 0.5 },
     row: { flexDirection: 'row', padding: 20, alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
     cellText: { fontSize: 14, color: '#1E293B' },
-    cellView: { },
+    cellView: {},
     avatar: { width: 32, height: 32, borderRadius: 16, backgroundColor: '#1E293B', justifyContent: 'center', alignItems: 'center' },
     avatarText: { color: '#FFF', fontSize: 12, fontWeight: 'bold' },
     userName: { fontWeight: '500' },
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     statusBtn: { flex: 1, height: 50, borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
     btnText: { color: '#FFF', fontWeight: 'bold' },
     successBtn: { backgroundColor: '#22C55E' },
-    failBtn: { backgroundColor: '#EF4444' },
+    failBtn: { backgroundColor: '#FB5507' },
     adminSection: { marginTop: 24, paddingTop: 20, borderTopWidth: 1, borderTopColor: '#E2E8F0' },
     adminSectionTitle: { fontSize: 16, fontWeight: 'bold', color: '#1E293B', marginBottom: 16 },
     input: { borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, paddingHorizontal: 16, marginBottom: 16, backgroundColor: '#FFF' },

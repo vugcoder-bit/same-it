@@ -6,12 +6,15 @@ import { useAuthStore } from '../store/authStore';
 import { StatusBar } from 'expo-status-bar';
 import ToastManager from 'toastify-react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { usePushNotifications } from '../hooks/usePushNotifications';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const { token, user, _hasHydrated } = useAuthStore();
   const segments = useSegments();
   const router = useRouter();
+
+  usePushNotifications();
 
   const [isReady, setIsReady] = React.useState(false);
 

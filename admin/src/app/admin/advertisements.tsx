@@ -108,7 +108,7 @@ export default function AdvertisementsScreen() {
                     <View style={styles.previewBox}>
                         <Image source={{ uri: selectedImage.uri }} style={styles.previewImage} contentFit="cover" />
                         <Pressable onPress={() => setSelectedImage(null)} style={styles.removeBtn}>
-                            <Ionicons name="close-circle" size={22} color="#EF4444" />
+                            <Ionicons name="close-circle" size={22} color="#FB5507" />
                         </Pressable>
                     </View>
                 ) : (
@@ -134,7 +134,7 @@ export default function AdvertisementsScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <FlatList
                     data={ads}
@@ -154,7 +154,7 @@ export default function AdvertisementsScreen() {
                                     {new Date(item.createdAt).toLocaleDateString()}
                                 </Text>
                                 <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                                    <Ionicons name="trash-outline" size={20} color="#EF4444" />
+                                    <Ionicons name="trash-outline" size={20} color="#FB5507" />
                                 </TouchableOpacity>
                             </View>
                         </Animated.View>
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     previewBox: { flex: 1, height: 80, position: 'relative' },
     previewImage: { width: '100%', height: '100%', borderRadius: 10 },
     removeBtn: { position: 'absolute', top: -8, right: -8 },
-    uploadBtn: { backgroundColor: '#E8632B', flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingVertical: 14, borderRadius: 12 },
+    uploadBtn: { backgroundColor: '#FB5507', flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingVertical: 14, borderRadius: 12 },
     uploadBtnText: { color: '#FFF', fontWeight: 'bold', fontSize: 15 },
     grid: { gap: 16, paddingBottom: 20 },
     card: { backgroundColor: '#FFF', borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: '#E2E8F0' },

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import config from '../config';
 import prisma from '../utils/prisma';
+import { isSubscriptionExpired } from '../utils/dateHelper';
 
 export interface AuthRequest extends Request {
     user?: {
@@ -29,11 +30,9 @@ export const authMiddleware = async (req: AuthRequest, res: Response, next: Next
         }
 
         // Subscription expiration check — admins bypass
-        if (user.role !== 'ADMIN' && user.subscriptionExpireDate) {
-            if (new Date(user.subscriptionExpireDate) < new Date()) {
-                res.status(401).json({ success: false, message: 'Subscription expired. Please renew your subscription.' });
-                return;
-            }
+        if (user.role !== 'ADMIN' && isSubscriptionExpired(user.subscriptionExpireDate)) {
+            res.status(401).json({ success: false, message: 'Subscription expired. Please renew your subscription.' });
+            return;
         }
 
         req.user = { id: user.id, username: user.username, role: user.role };

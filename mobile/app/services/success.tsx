@@ -15,20 +15,20 @@ const OrderSuccessScreen = () => {
           <Ionicons name="checkmark-circle" size={100} color="#4CAF50" />
         </View>
         <Text style={styles.title}>{t('orderSuccessful')}</Text>
-        <Text style={styles.message}>{t('orderProcessingMessage')}</Text> 
+        <Text style={styles.message}>{t('orderProcessingMessage')}</Text>
 
-        <TouchableOpacity 
-          style={styles.btn} 
+        <TouchableOpacity
+          style={styles.btn}
           onPress={() => router.replace('/(drawer)/(tabs)')}
         >
           <Text style={styles.btnText}>{t('home')}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={[styles.btn, styles.outlineBtn]} 
+        <TouchableOpacity
+          style={[styles.btn, styles.outlineBtn]}
           onPress={() => router.replace('/order-history')}
         >
-          <Text style={[styles.btnText, { color: '#E8632B' }]}>{t('myRequests')}</Text>
+          <Text style={[styles.btnText, { color: '#FB5507' }]}>{t('myRequests')}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
   iconContainer: { marginBottom: 20 },
   title: { fontSize: 24, fontWeight: 'bold', color: '#333', marginBottom: 10 },
   message: { fontSize: 16, color: '#666', textAlign: 'center', marginBottom: 40 },
-  btn: { backgroundColor: '#E8632B', width: '100%', borderRadius: 12, height: 55, justifyContent: 'center', alignItems: 'center', marginBottom: 15 },
+  btn: { backgroundColor: '#FB5507', width: '100%', borderRadius: 12, height: 55, justifyContent: 'center', alignItems: 'center', marginBottom: 15 },
   btnText: { color: '#FFF', fontSize: 18, fontWeight: 'bold' },
-  outlineBtn: { backgroundColor: 'transparent', borderWidth: 2, borderColor: '#E8632B' }
+  outlineBtn: { backgroundColor: 'transparent', borderWidth: 2, borderColor: '#FB5507' }
 });
 
 export default OrderSuccessScreen;

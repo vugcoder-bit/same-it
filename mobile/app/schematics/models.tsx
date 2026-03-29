@@ -28,13 +28,13 @@ export default function SchematicsModelsScreen() {
     }
   }, [brandId]);
 
-  const filteredModels = models.filter(m => 
+  const filteredModels = models.filter(m =>
     m.name.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <AppHeader title={(brandName as string) || t('diagrams')} />
 
       <View style={styles.searchRow}>
@@ -56,7 +56,7 @@ export default function SchematicsModelsScreen() {
 
       {loading ? (
         <View style={styles.center}>
-          <ActivityIndicator size="large" color="#E8632B" />
+          <ActivityIndicator size="large" color="#FB5507" />
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -71,10 +71,10 @@ export default function SchematicsModelsScreen() {
                 });
               }}
             >
-              <Image 
+              <Image
                 source={require('@/assets/images/icons/folder.png')} // We'll assume this exists or use fallback
-                style={styles.folderIcon} 
-                contentFit="contain" 
+                style={styles.folderIcon}
+                contentFit="contain"
               />
               <Text style={styles.cardTitle}>{item.name}</Text>
             </Pressable>
@@ -95,21 +95,21 @@ const styles = StyleSheet.create({
   input: {
     flex: 1, height: 50, backgroundColor: '#FFF', borderRadius: 10,
     paddingHorizontal: 16, fontSize: 15, color: '#1E293B',
-    borderWidth: 1, borderColor: '#E8632B',
+    borderWidth: 1, borderColor: '#FB5507',
   },
   searchBtn: {
-    width: 50, height: 50, backgroundColor: '#E8632B',
+    width: 50, height: 50, backgroundColor: '#FB5507',
     borderRadius: 10, justifyContent: 'center', alignItems: 'center'
   },
   resultsBar: {
-    borderBottomWidth: 2, borderBottomColor: '#E8632B',
+    borderBottomWidth: 2, borderBottomColor: '#FB5507',
     marginHorizontal: 16, paddingBottom: 8, marginBottom: 16, alignItems: 'center'
   },
   resultsLabel: { color: '#4CAF50', fontWeight: '500', fontSize: 16 },
   scrollContent: { paddingHorizontal: 16, paddingBottom: 24 },
   card: {
     flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF',
-    borderWidth: 1, borderColor: '#E8632B', borderRadius: 8,
+    borderWidth: 1, borderColor: '#FB5507', borderRadius: 8,
     padding: 16, marginBottom: 16
   },
   folderIcon: { width: 32, height: 32, marginRight: 16 },

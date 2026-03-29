@@ -8,7 +8,7 @@ import { useRouter } from 'expo-router';
 import { AdvertisementCarousel } from '@/components/AdvertisementCarousel';
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = (width - 48) / 2; // 2 columns with padding
+const CARD_WIDTH = (width - 95) / 2; // 2 columns with padding
 
 export default function ToolsScreen() {
   const { t } = useLocale();
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-    paddingTop: 16,
+    paddingTop: 6,
   },
   announcementCard: {
     backgroundColor: '#FFF',
@@ -78,41 +78,42 @@ const styles = StyleSheet.create({
   },
   announcementText: {
     fontSize: 24,
-    color: '#E8632B',
+    color: '#FB5507',
     textAlign: 'center',
     fontWeight: '500',
   },
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: 16,
+    justifyContent: 'center',
+    gap: 15,
   },
   gridCard: {
     width: CARD_WIDTH,
     backgroundColor: '#FFF',
-    borderRadius: 24,
-    padding: 16,
+    borderRadius: 16,
+    padding: 14,
+    paddingHorizontal: 10,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1.5,
-    borderColor: '#E8632B',
+    borderColor: '#FB5507',
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 5,
-    marginBottom: 8,
-    minHeight: 160,
+    // marginBottom: 8,
+    // minHeight: 160,
   },
   cardImage: {
     width: 60,
     height: 60,
-    marginBottom: 16,
+    marginBottom: 8,
   },
   cardTitle: {
     fontSize: 16,
-    color: '#E8632B',
+    color: '#FB5507',
     fontWeight: '500',
   },
 });

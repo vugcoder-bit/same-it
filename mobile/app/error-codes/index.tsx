@@ -43,8 +43,8 @@ export default function ErrorCodesScreen() {
     }
   };
 
-  const filteredData = data.filter(item => 
-    item.errorCode.toLowerCase().includes(query.toLowerCase()) || 
+  const filteredData = data.filter(item =>
+    item.errorCode.toLowerCase().includes(query.toLowerCase()) ||
     item.description.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -55,9 +55,9 @@ export default function ErrorCodesScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <AppHeader title={t('errorLog')} />
-      
+
       <View style={styles.searchRow}>
         <TextInput
           style={styles.input}
@@ -76,7 +76,7 @@ export default function ErrorCodesScreen() {
       </View>
 
       {loading ? (
-        <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+        <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
       ) : (
         <FlatList
           data={filteredData}
@@ -117,15 +117,15 @@ const styles = StyleSheet.create({
   input: {
     flex: 1, height: 50, backgroundColor: '#FFF', borderRadius: 10,
     paddingHorizontal: 16, fontSize: 15, color: '#1E293B',
-    borderWidth: 1, borderColor: '#E8632B',
+    borderWidth: 1, borderColor: '#FB5507',
   },
   searchBtn: {
-    width: 50, height: 50, backgroundColor: '#E8632B',
+    width: 50, height: 50, backgroundColor: '#FB5507',
     borderRadius: 10, justifyContent: 'center', alignItems: 'center'
   },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   resultsBar: {
-    borderBottomWidth: 2, borderBottomColor: '#E8632B',
+    borderBottomWidth: 2, borderBottomColor: '#FB5507',
     marginHorizontal: 16, paddingBottom: 8, marginBottom: 16, alignItems: 'center'
   },
   resultsLabel: { color: '#4CAF50', fontWeight: '500', fontSize: 16 },
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05, shadowRadius: 3
   },
   cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  errorCode: { fontSize: 18, fontWeight: 'bold', color: '#EF4444', marginBottom: 4 },
+  errorCode: { fontSize: 18, fontWeight: 'bold', color: '#FB5507', marginBottom: 4 },
   errorDesc: { fontSize: 14, color: '#475569' },
   solutionBox: {
     marginTop: 16, paddingTop: 16, borderTopWidth: 1, borderTopColor: '#F1F5F9'

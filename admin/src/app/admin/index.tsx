@@ -52,8 +52,8 @@ export default function DashboardScreen() {
     ];
 
     return (
-        <ScrollView 
-            style={styles.content} 
+        <ScrollView
+            style={styles.content}
             contentContainerStyle={styles.scrollContent}
             refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#3B82F6" />
@@ -62,10 +62,10 @@ export default function DashboardScreen() {
             <Animated.View entering={FadeIn.duration(800)}>
                 <Text style={styles.headerTitle}>Dashboard Overview</Text>
                 <Text style={styles.headerSubtitle}>Monitor your system performance and user activity.</Text>
-                
+
                 {error && (
                     <View style={styles.errorContainer}>
-                        <Ionicons name="alert-circle" size={20} color="#EF4444" />
+                        <Ionicons name="alert-circle" size={20} color="#FB5507" />
                         <Text style={styles.errorText}>{error}</Text>
                     </View>
                 )}
@@ -99,12 +99,12 @@ export default function DashboardScreen() {
                                         <Text style={styles.listSubText} numberOfLines={1}>by {order.user.username} • {new Date(order.createdAt).toLocaleDateString()}</Text>
                                     </View>
                                     <View style={[
-                                        styles.statusPill, 
+                                        styles.statusPill,
                                         { backgroundColor: order.status === 'SUCCESSFUL' ? '#ECFDF5' : order.status === 'FAILED' ? '#FEF2F2' : '#FFFBEB' }
                                     ]}>
                                         <Text style={[
                                             styles.statusText,
-                                            { color: order.status === 'SUCCESSFUL' ? '#10B981' : order.status === 'FAILED' ? '#EF4444' : '#F59E0B' }
+                                            { color: order.status === 'SUCCESSFUL' ? '#10B981' : order.status === 'FAILED' ? '#FB5507' : '#F59E0B' }
                                         ]}>
                                             {order.status}
                                         </Text>
@@ -117,7 +117,7 @@ export default function DashboardScreen() {
                             </View>
                         )}
                     </View>
-                    
+
                     <View style={[styles.smallCard, !isDesktop && { minWidth: '100%' }]}>
                         <Text style={styles.cardTitle}>System Status</Text>
                         <View style={styles.divider} />

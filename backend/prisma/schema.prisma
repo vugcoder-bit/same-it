@@ -156,7 +156,7 @@ model PaymentMethod {
   id            Int      @id @default(autoincrement())
   title         String
   accountNumber String
-  color         String   @default("#E8632B")
+  color         String   @default("#FB5507")
   note          String?  @db.Text
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now()) @updatedAt

@@ -133,7 +133,7 @@ export default function SubCategoriesScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <FlatList
                     data={items}
@@ -155,7 +155,7 @@ export default function SubCategoriesScreen() {
                                     />
                                 ) : (
                                     <View style={styles.fallbackIcon}>
-                                        <Text style={{ color: '#E8632B', fontWeight: 'bold', fontSize: 16 }}>
+                                        <Text style={{ color: '#FB5507', fontWeight: 'bold', fontSize: 16 }}>
                                             {item.name.charAt(0)}
                                         </Text>
                                     </View>
@@ -175,7 +175,7 @@ export default function SubCategoriesScreen() {
                                     <Ionicons name="pencil-outline" size={20} color="#3B82F6" />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                                    <Ionicons name="trash-outline" size={20} color="#EF4444" />
+                                    <Ionicons name="trash-outline" size={20} color="#FB5507" />
                                 </TouchableOpacity>
                             </View>
                         </Animated.View>
@@ -198,7 +198,7 @@ export default function SubCategoriesScreen() {
                                 )}
                             </Pressable>
                             <Pressable onPress={pickImage}>
-                                <Text style={{ color: '#E8632B', fontWeight: '600' }}>
+                                <Text style={{ color: '#FB5507', fontWeight: '600' }}>
                                     {icon ? 'Change Image' : 'Pick Image'}
                                 </Text>
                             </Pressable>
@@ -231,13 +231,13 @@ const styles = StyleSheet.create({
     header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 },
     title: { fontSize: 26, fontWeight: 'bold', color: '#1E293B' },
     subtitle: { fontSize: 14, color: '#64748B', marginTop: 4 },
-    addButton: { backgroundColor: '#E8632B', flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10 },
+    addButton: { backgroundColor: '#FB5507', flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10 },
     addButtonText: { color: '#FFF', fontWeight: 'bold' },
     tabRow: { flexDirection: 'row', backgroundColor: '#F1F5F9', borderRadius: 12, padding: 4, marginBottom: 24, gap: 4 },
     tab: { flex: 1, paddingVertical: 10, borderRadius: 10, alignItems: 'center' },
     activeTab: { backgroundColor: '#FFF', elevation: 2 },
     tabText: { color: '#64748B', fontWeight: '600', fontSize: 13 },
-    activeTabText: { color: '#E8632B' },
+    activeTabText: { color: '#FB5507' },
     list: { gap: 8, paddingBottom: 20 },
     listItem: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF', padding: 16, borderRadius: 14, borderWidth: 1, borderColor: '#E2E8F0' },
     iconContainer: { marginRight: 12 },
@@ -256,6 +256,6 @@ const styles = StyleSheet.create({
     modalButtons: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12 },
     btn: { paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 },
     cancelBtn: { backgroundColor: '#F1F5F9' },
-    saveBtn: { backgroundColor: '#E8632B' },
+    saveBtn: { backgroundColor: '#FB5507' },
     center: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 40 },
 });

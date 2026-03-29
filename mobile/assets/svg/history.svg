@@ -4,5 +4,5 @@
 <path d="M24 18C24 18.5523 23.5523 19 23 19H13C12.4477 19 12 18.5523 12 18V18C12 17.4477 12.4477 17 13 17H23C23.5523 17 24 17.4477 24 18V18Z" fill="white"/>
 <path d="M24 14C24 14.5523 23.5523 15 23 15H20C19.4477 15 19 14.5523 19 14V14C19 13.4477 19.4477 13 20 13H23C23.5523 13 24 13.4477 24 14V14Z" fill="white"/>
 <circle cx="7" cy="7" r="7" fill="white"/>
-<path d="M6.5 4.5V7.88699H9.578" stroke="#E8632B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.5 4.5V7.88699H9.578" stroke="#FB5507" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    View, Text, StyleSheet, ScrollView, Pressable, 
+import {
+    View, Text, StyleSheet, ScrollView, Pressable,
     TextInput, ActivityIndicator, Modal, TouchableOpacity,
     FlatList,
     useWindowDimensions, Platform
@@ -41,11 +41,11 @@ export default function DevicesManagementScreen() {
     const [deviceTypes, setDeviceTypes] = useState<DeviceType[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<'devices' | 'models' | 'types'>('devices');
-    
+
     // Modals
     const [deviceModalVisible, setDeviceModalVisible] = useState(false);
     const [modelModalVisible, setModelModalVisible] = useState(false);
-    
+
     // Forms
     const [deviceName, setDeviceName] = useState('');
     const [selectedDeviceTypeId, setSelectedDeviceTypeId] = useState<number | null>(null);
@@ -54,7 +54,7 @@ export default function DevicesManagementScreen() {
     const [typeIcon, setTypeIcon] = useState<any>(null);
     const [typeModalVisible, setTypeModalVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    
+
     const [selectedDeviceId, setSelectedDeviceId] = useState<number | null>(null);
     const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -150,9 +150,9 @@ export default function DevicesManagementScreen() {
     const handleSaveDevice = async () => {
         if (!deviceName) return;
         try {
-            const payload = { 
-                name: deviceName, 
-                deviceTypeId: selectedDeviceTypeId 
+            const payload = {
+                name: deviceName,
+                deviceTypeId: selectedDeviceTypeId
             };
             if (editingId) {
                 await apiClient.put(`/admin/devices/${editingId}`, payload);
@@ -163,8 +163,8 @@ export default function DevicesManagementScreen() {
             setEditingId(null);
             fetchData();
             Toast.success(`Device ${editingId ? 'updated' : 'created'}`);
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to save device');
         }
     };
@@ -180,8 +180,8 @@ export default function DevicesManagementScreen() {
             setModelModalVisible(false);
             fetchData();
             Toast.success(`Model ${editingId ? 'updated' : 'created'} successfully`);
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to save model');
         }
     };
@@ -191,8 +191,8 @@ export default function DevicesManagementScreen() {
             await apiClient.delete(`/admin/devices/${id}`);
             Toast.success('Device deleted successfully');
             fetchData();
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to delete device');
         }
     };
@@ -202,12 +202,12 @@ export default function DevicesManagementScreen() {
             await apiClient.delete(`/admin/device-models/${id}`);
             Toast.success('Model deleted');
             fetchData();
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to delete model');
         }
     };
-    
+
     return (
         <View style={[styles.container, { paddingTop: isDesktop ? 32 : 16 }, !isDesktop && { padding: 16 }]}>
             <View style={[styles.header, !isDesktop && { flexDirection: 'column', alignItems: 'flex-start', gap: 16 }]}>
@@ -216,20 +216,20 @@ export default function DevicesManagementScreen() {
                     <Text style={styles.subtitle}>Manage hardware devices and their specific models.</Text>
                 </View>
                 <View style={styles.tabContainer}>
-                    <Pressable 
-                        onPress={() => setActiveTab('types')} 
+                    <Pressable
+                        onPress={() => setActiveTab('types')}
                         style={[styles.tab, activeTab === 'types' && styles.activeTab]}
                     >
                         <Text style={[styles.tabText, activeTab === 'types' && styles.activeTabText]}>Brands</Text>
                     </Pressable>
-                    <Pressable 
-                        onPress={() => setActiveTab('devices')} 
+                    <Pressable
+                        onPress={() => setActiveTab('devices')}
                         style={[styles.tab, activeTab === 'devices' && styles.activeTab]}
                     >
                         <Text style={[styles.tabText, activeTab === 'devices' && styles.activeTabText]}>Devices</Text>
                     </Pressable>
-                    <Pressable 
-                        onPress={() => setActiveTab('models')} 
+                    <Pressable
+                        onPress={() => setActiveTab('models')}
                         style={[styles.tab, activeTab === 'models' && styles.activeTab]}
                     >
                         <Text style={[styles.tabText, activeTab === 'models' && styles.activeTabText]}>Models</Text>
@@ -254,7 +254,7 @@ export default function DevicesManagementScreen() {
                         </Pressable>
                     )}
                 </View>
-                <Pressable 
+                <Pressable
                     onPress={() => {
                         setEditingId(null);
                         if (activeTab === 'types') {
@@ -270,7 +270,7 @@ export default function DevicesManagementScreen() {
                             setSelectedDeviceId(null);
                             setModelModalVisible(true);
                         }
-                    }} 
+                    }}
                     style={[styles.addButton, !isDesktop && { width: '100%', justifyContent: 'center' }]}
                 >
                     <Ionicons name="add" size={20} color="#FFF" />
@@ -279,7 +279,7 @@ export default function DevicesManagementScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <View style={styles.contentCard}>
                     {activeTab === 'types' ? (
@@ -309,7 +309,7 @@ export default function DevicesManagementScreen() {
                                             <Ionicons name="pencil-outline" size={18} color="#3B82F6" />
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => handleDeleteType(item.id)}>
-                                            <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                                            <Ionicons name="trash-outline" size={18} color="#FB5507" />
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -336,7 +336,7 @@ export default function DevicesManagementScreen() {
                                             <Ionicons name="pencil-outline" size={18} color="#3B82F6" />
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => handleDeleteDevice(item.id)}>
-                                            <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                                            <Ionicons name="trash-outline" size={18} color="#FB5507" />
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -363,7 +363,7 @@ export default function DevicesManagementScreen() {
                                             <Ionicons name="pencil-outline" size={18} color="#3B82F6" />
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => handleDeleteModel(item.id)}>
-                                            <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                                            <Ionicons name="trash-outline" size={18} color="#FB5507" />
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -378,13 +378,13 @@ export default function DevicesManagementScreen() {
                 <View style={styles.modalOverlay}>
                     <View style={[styles.modalContent, !isDesktop && { width: '95%', padding: 20 }]}>
                         <Text style={styles.modalTitle}>{editingId ? 'Edit' : 'Add'} Brand</Text>
-                        
+
                         <View style={styles.imageUploadRow}>
                             <Pressable onPress={pickImage} style={styles.imagePlaceholder}>
                                 {typeIcon || (editingId && deviceTypes.find(t => t.id === editingId)?.imageUrl) ? (
-                                    <Image 
-                                        source={{ uri: typeIcon ? typeIcon.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/services/${deviceTypes.find(t => t.id === editingId)?.imageUrl}` }} 
-                                        style={styles.uploadedImage} 
+                                    <Image
+                                        source={{ uri: typeIcon ? typeIcon.uri : `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/services/${deviceTypes.find(t => t.id === editingId)?.imageUrl}` }}
+                                        style={styles.uploadedImage}
                                     />
                                 ) : (
                                     <Ionicons name="image-outline" size={32} color="#94A3B8" />
@@ -392,17 +392,17 @@ export default function DevicesManagementScreen() {
                             </Pressable>
                             <View>
                                 <Text style={styles.label}>Brand Logo</Text>
-                                <Pressable onPress={pickImage}><Text style={{ color: '#E8632B', fontWeight: 'bold' }}>Change Logo</Text></Pressable>
+                                <Pressable onPress={pickImage}><Text style={{ color: '#FB5507', fontWeight: 'bold' }}>Change Logo</Text></Pressable>
                             </View>
                         </View>
 
-                        <TextInput 
-                            style={styles.input} 
-                            placeholder="Brand Name (e.g. iPhone, Samsung)" 
-                            value={typeName} 
-                            onChangeText={setTypeName} 
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Brand Name (e.g. iPhone, Samsung)"
+                            value={typeName}
+                            onChangeText={setTypeName}
                         />
-                        
+
                         <View style={styles.modalButtons}>
                             <Pressable onPress={() => setTypeModalVisible(false)} style={[styles.button, styles.cancelBtn]}><Text>Cancel</Text></Pressable>
                             <Pressable onPress={handleSaveType} style={[styles.button, styles.saveBtn]}><Text style={styles.saveBtnText}>Save</Text></Pressable>
@@ -416,18 +416,18 @@ export default function DevicesManagementScreen() {
                 <View style={styles.modalOverlay}>
                     <View style={[styles.modalContent, !isDesktop && { width: '95%', padding: 20 }]}>
                         <Text style={styles.modalTitle}>{editingId ? 'Edit' : 'Add'} Device</Text>
-                        <TextInput 
-                            style={styles.input} 
-                            placeholder="Device Name (e.g. iPhone 13)" 
-                            value={deviceName} 
-                            onChangeText={setDeviceName} 
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Device Name (e.g. iPhone 13)"
+                            value={deviceName}
+                            onChangeText={setDeviceName}
                         />
-                        
+
                         <Text style={styles.label}>Select Brand</Text>
                         <View style={styles.categoryPicker}>
                             {deviceTypes.map((type) => (
-                                <Pressable 
-                                    key={type.id} 
+                                <Pressable
+                                    key={type.id}
                                     onPress={() => setSelectedDeviceTypeId(type.id)}
                                     style={[styles.catBtn, selectedDeviceTypeId === type.id && styles.activeCatBtn]}
                                 >
@@ -449,21 +449,21 @@ export default function DevicesManagementScreen() {
                 <View style={styles.modalOverlay}>
                     <View style={[styles.modalContent, !isDesktop && { width: '95%', padding: 20 }]}>
                         <Text style={styles.modalTitle}>{editingId ? 'Edit' : 'Add'} Model</Text>
-                        <TextInput 
-                            style={styles.input} 
-                            placeholder="Model Name (e.g. A2633)" 
-                            value={modelName} 
-                            onChangeText={setModelName} 
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Model Name (e.g. A2633)"
+                            value={modelName}
+                            onChangeText={setModelName}
                         />
                         <Text style={styles.label}>Select Device</Text>
                         <ScrollView style={{ maxHeight: 200, marginTop: 8 }}>
                             {devices.map(dev => (
-                                <Pressable 
-                                    key={dev.id} 
+                                <Pressable
+                                    key={dev.id}
                                     onPress={() => setSelectedDeviceId(dev.id)}
                                     style={[styles.devSelectItem, selectedDeviceId === dev.id && styles.activeDevSelect]}
                                 >
-                                    <Text style={selectedDeviceId === dev.id && { color: '#E8632B', fontWeight: 'bold' }}>{dev.name}</Text>
+                                    <Text style={selectedDeviceId === dev.id && { color: '#FB5507', fontWeight: 'bold' }}>{dev.name}</Text>
                                 </Pressable>
                             ))}
                         </ScrollView>
@@ -487,11 +487,11 @@ const styles = StyleSheet.create({
     tab: { paddingHorizontal: 20, paddingVertical: 8, borderRadius: 10 },
     activeTab: { backgroundColor: '#FFF', elevation: 2 },
     tabText: { color: '#64748B', fontWeight: '600' },
-    activeTabText: { color: '#E8632B' },
+    activeTabText: { color: '#FB5507' },
     actionRow: { marginBottom: 20, gap: 12 },
     searchContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF', borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', paddingHorizontal: 14, height: 46, gap: 8 },
     searchInput: { flex: 1, fontSize: 14, color: '#1E293B' },
-    addButton: { backgroundColor: '#E8632B', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, alignSelf: 'flex-start', gap: 8 },
+    addButton: { backgroundColor: '#FB5507', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, alignSelf: 'flex-start', gap: 8 },
     addButtonText: { color: '#FFF', fontWeight: 'bold' },
     contentCard: { flex: 1, backgroundColor: '#FFF', borderRadius: 20, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden' },
     listItem: { flexDirection: 'row', padding: 16, borderBottomWidth: 1, borderBottomColor: '#F1F5F9', alignItems: 'center' },
@@ -505,16 +505,16 @@ const styles = StyleSheet.create({
     input: { height: 48, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, paddingHorizontal: 16, marginBottom: 16 },
     categoryPicker: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 20 },
     catBtn: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, backgroundColor: '#F1F5F9' },
-    activeCatBtn: { backgroundColor: '#E8632B' },
+    activeCatBtn: { backgroundColor: '#FB5507' },
     catBtnText: { color: '#64748B', fontWeight: '600' },
     activeCatBtnText: { color: '#FFF' },
     label: { fontSize: 14, fontWeight: 'bold', color: '#64748B' },
     devSelectItem: { padding: 12, borderRadius: 8, marginBottom: 4, backgroundColor: '#F8FAFC' },
-    activeDevSelect: { backgroundColor: '#FDF2F0', borderWidth: 1, borderColor: '#E8632B' },
+    activeDevSelect: { backgroundColor: '#FDF2F0', borderWidth: 1, borderColor: '#FB5507' },
     modalButtons: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12, marginTop: 20 },
     button: { paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 },
     cancelBtn: { backgroundColor: '#F1F5F9' },
-    saveBtn: { backgroundColor: '#E8632B' },
+    saveBtn: { backgroundColor: '#FB5507' },
     saveBtnText: { color: '#FFF', fontWeight: 'bold' },
     avatar: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#F1F5F9', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' },
     avatarText: { color: '#64748B', fontWeight: 'bold' },

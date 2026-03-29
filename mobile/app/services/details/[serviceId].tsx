@@ -105,7 +105,7 @@ const ServiceDetailsScreen = () => {
   if (isLoadingService) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#E8632B" />
+        <ActivityIndicator size="large" color="#FB5507" />
       </View>
     );
   }
@@ -119,7 +119,7 @@ const ServiceDetailsScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <AppHeader title={t('serviceDetails')} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -149,7 +149,7 @@ const ServiceDetailsScreen = () => {
               </View>
               <View style={styles.infoBox}>
                 <Text style={styles.infoLabel}>{t('price')}</Text>
-                <Text style={[styles.infoValue, { color: '#E8632B' }]}>${service?.price}</Text>
+                <Text style={[styles.infoValue, { color: '#FB5507' }]}>${service?.price}</Text>
               </View>
             </View>
           </View>
@@ -159,11 +159,11 @@ const ServiceDetailsScreen = () => {
               <Text style={styles.sectionTitle}>{t('quantity')}</Text>
               <View style={styles.quantityControls}>
                 <TouchableOpacity onPress={() => setQuantity(Math.max(1, quantity - 1))} style={styles.qBtn}>
-                  <Ionicons name="remove" size={20} color="#E8632B" />
+                  <Ionicons name="remove" size={20} color="#FB5507" />
                 </TouchableOpacity>
                 <Text style={styles.quantityText}>{quantity}</Text>
                 <TouchableOpacity onPress={() => setQuantity(quantity + 1)} style={styles.qBtn}>
-                  <Ionicons name="add" size={20} color="#E8632B" />
+                  <Ionicons name="add" size={20} color="#FB5507" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -285,8 +285,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   headerTitle: { fontSize: 18, fontWeight: 'bold' },
-  card: { backgroundColor: '#FFF', margin: 15, padding: 20, borderRadius: 15, elevation: 3, borderWidth: 1.5, borderColor: '#E8632B' },
-  serviceImage: { width: 70, height: 70, borderRadius: 12, marginRight: 10, borderWidth: 1, borderColor: '#E8632B' },
+  card: { backgroundColor: '#FFF', margin: 15, padding: 20, borderRadius: 15, elevation: 3, borderWidth: 1.5, borderColor: '#FB5507' },
+  serviceImage: { width: 70, height: 70, borderRadius: 12, marginRight: 10, borderWidth: 1, borderColor: '#FB5507' },
   serviceTitle: { fontSize: 20, fontWeight: 'bold', color: '#333', marginBottom: 10 },
   serviceDesc: { fontSize: 14, color: '#666', lineHeight: 20, marginBottom: 20 },
   infoRow: { flexDirection: 'row', justifyContent: 'space-between' },
@@ -314,8 +314,8 @@ const styles = StyleSheet.create({
   footer: { position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: '#FFF', padding: 20, elevation: 10, borderTopWidth: 1, borderTopColor: '#EEE' },
   totalRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 },
   totalLabel: { fontSize: 16, color: '#333' },
-  totalValue: { fontSize: 22, fontWeight: 'bold', color: '#E8632B' },
-  orderBtn: { backgroundColor: '#E8632B', borderRadius: 12, height: 55, justifyContent: 'center', alignItems: 'center' },
+  totalValue: { fontSize: 22, fontWeight: 'bold', color: '#FB5507' },
+  orderBtn: { backgroundColor: '#FB5507', borderRadius: 12, height: 55, justifyContent: 'center', alignItems: 'center' },
   orderBtnText: { color: '#FFF', fontSize: 18, fontWeight: 'bold' }
 });
 

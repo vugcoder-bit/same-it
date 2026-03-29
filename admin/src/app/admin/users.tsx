@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    View, Text, StyleSheet, ScrollView, Pressable, 
+import {
+    View, Text, StyleSheet, ScrollView, Pressable,
     TextInput, ActivityIndicator, Modal, TouchableOpacity,
     useWindowDimensions, KeyboardAvoidingView, Platform
 } from 'react-native';
@@ -26,7 +26,7 @@ export default function UsersScreen() {
     const [search, setSearch] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [editingUser, setEditingUser] = useState<User | null>(null);
-    
+
     // Form fields
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -54,7 +54,7 @@ export default function UsersScreen() {
 
     const handleSave = async () => {
         if (!username || (!editingUser && !password)) return;
-        
+
         try {
             setSaving(true);
             const payload = {
@@ -68,7 +68,7 @@ export default function UsersScreen() {
             } else {
                 await apiClient.post('/admin/users', payload);
             }
-            
+
             setModalVisible(false);
             resetForm();
             fetchUsers();
@@ -116,7 +116,7 @@ export default function UsersScreen() {
         setExpiry('');
     };
 
-    const filteredUsers = users.filter(u => 
+    const filteredUsers = users.filter(u =>
         u.username.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -132,8 +132,8 @@ export default function UsersScreen() {
                     <Text style={[styles.title, !isDesktop && { fontSize: 24 }]}>User Management</Text>
                     <Text style={styles.subtitle}>Manage system users and their service subscriptions.</Text>
                 </View>
-                <Pressable 
-                    onPress={() => { setEditingUser(null); setUsername(''); setModalVisible(true); }} 
+                <Pressable
+                    onPress={() => { setEditingUser(null); setUsername(''); setModalVisible(true); }}
                     style={[styles.addButton, !isDesktop && { width: '100%', justifyContent: 'center' }]}
                 >
                     <Ionicons name="add" size={20} color="#FFF" />
@@ -153,7 +153,7 @@ export default function UsersScreen() {
 
             {loading ? (
                 <View style={styles.center}>
-                    <ActivityIndicator size="large" color="#E8632B" />
+                    <ActivityIndicator size="large" color="#FB5507" />
                 </View>
             ) : (
                 <ScrollView contentContainerStyle={styles.tableContainer}>
@@ -165,8 +165,8 @@ export default function UsersScreen() {
                     </View>
 
                     {filteredUsers.map((user, index) => (
-                        <Animated.View 
-                            key={user.id} 
+                        <Animated.View
+                            key={user.id}
                             entering={FadeInUp.delay(index * 50)}
                             layout={Layout.springify()}
                             style={styles.row}
@@ -174,12 +174,12 @@ export default function UsersScreen() {
                             <Text style={[styles.cell, { flex: 2, fontWeight: '600' }]}>{user.username}</Text>
                             <View style={{ flex: 1 }}>
                                 <View style={[
-                                    styles.pill, 
+                                    styles.pill,
                                     { backgroundColor: isExpired(user.subscriptionExpireDate) ? '#FEF2F2' : '#F0FDF4' }
                                 ]}>
                                     <Text style={[
-                                        styles.pillText, 
-                                        { color: isExpired(user.subscriptionExpireDate) ? '#EF4444' : '#22C55E' }
+                                        styles.pillText,
+                                        { color: isExpired(user.subscriptionExpireDate) ? '#FB5507' : '#22C55E' }
                                     ]}>
                                         {isExpired(user.subscriptionExpireDate) ? 'Inactive' : 'Active'}
                                     </Text>
@@ -196,7 +196,7 @@ export default function UsersScreen() {
                                     <Ionicons name="phone-portrait-outline" size={18} color="#F59E0B" />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => handleDelete(user.id)}>
-                                    <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                                    <Ionicons name="trash-outline" size={18} color="#FB5507" />
                                 </TouchableOpacity>
                             </View>
                         </Animated.View>
@@ -219,7 +219,7 @@ export default function UsersScreen() {
                             <Text style={styles.modalTitle}>
                                 {editingUser ? 'Edit User' : 'Add New User'}
                             </Text>
-                            
+
                             <View style={styles.inputGroup}>
                                 <Text style={styles.label}>Username</Text>
                                 <TextInput
@@ -246,7 +246,7 @@ export default function UsersScreen() {
                             <View style={styles.inputGroup}>
                                 <Text style={styles.label}>Subscription Expiry</Text>
                                 {Platform.OS === 'web' ? (
-                                    <input 
+                                    <input
                                         type="date"
                                         style={{
                                             height: 48,
@@ -262,8 +262,8 @@ export default function UsersScreen() {
                                         onChange={(e: any) => setExpiry(e.target.value ? new Date(e.target.value).toISOString() : '')}
                                     />
                                 ) : (
-                                    <Pressable 
-                                        style={[styles.input, { justifyContent: 'center' }]} 
+                                    <Pressable
+                                        style={[styles.input, { justifyContent: 'center' }]}
                                         onPress={() => setShowPicker(true)}
                                     >
                                         <Text style={{ color: expiry ? '#1E293B' : '#94A3B8' }}>
@@ -285,14 +285,14 @@ export default function UsersScreen() {
                             </View>
 
                             <View style={styles.modalButtons}>
-                                <Pressable 
-                                    onPress={() => setModalVisible(false)} 
+                                <Pressable
+                                    onPress={() => setModalVisible(false)}
                                     style={[styles.button, styles.cancelButton]}
                                 >
                                     <Text style={styles.cancelButtonText}>Cancel</Text>
                                 </Pressable>
-                                <Pressable 
-                                    onPress={handleSave} 
+                                <Pressable
+                                    onPress={handleSave}
                                     style={[styles.button, styles.saveButton]}
                                     disabled={saving}
                                 >
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
         marginTop: 4,
     },
     addButton: {
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
@@ -466,7 +466,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F1F5F9',
     },
     saveButton: {
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         minWidth: 100,
     },
     cancelButtonText: {

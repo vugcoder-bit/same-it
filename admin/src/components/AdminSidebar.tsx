@@ -55,7 +55,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         ]}>
             <View style={styles.header}>
                 <View style={styles.logoContainer}>
-                    <Ionicons name="shield-checkmark" size={32} color="#E8632B" />
+                    <Ionicons name="shield-checkmark" size={32} color="#FB5507" />
                 </View>
                 {(IS_DESKTOP || isOpen) && (
                     <View style={{ flex: 1 }}>
@@ -82,10 +82,10 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                                 isActive(item.route) && styles.activeMenuItem
                             ]}
                         >
-                            <Ionicons 
-                                name={item.icon as any} 
-                                size={22} 
-                                color={isActive(item.route) ? '#E8632B' : '#64748B'} 
+                            <Ionicons
+                                name={item.icon as any}
+                                size={22}
+                                color={isActive(item.route) ? '#FB5507' : '#64748B'}
                             />
                             {(IS_DESKTOP || isOpen) && (
                                 <Text style={[
@@ -113,7 +113,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                     </View>
                 )}
                 <Pressable onPress={logout} style={styles.logoutButton}>
-                    <Ionicons name="log-out-outline" size={22} color="#EF4444" />
+                    <Ionicons name="log-out-outline" size={22} color="#FB5507" />
                     {(IS_DESKTOP || isOpen) && <Text style={styles.logoutText}>Logout</Text>}
                 </Pressable>
             </View>
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     activeMenuItemText: {
-        color: '#E8632B',
+        color: '#FB5507',
         fontWeight: '600',
     },
     footer: {
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     logoutText: {
-        color: '#EF4444',
+        color: '#FB5507',
         fontSize: 14,
         fontWeight: '600',
     },

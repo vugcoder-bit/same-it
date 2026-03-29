@@ -32,12 +32,12 @@ export default function ModelsScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" backgroundColor="#E8632B" />
+      <StatusBar style="light" backgroundColor="#FB5507" />
       <AppHeader title={(deviceName as string) || t('selectModel')} />
 
       {loading ? (
         <View style={styles.center}>
-          <ActivityIndicator size="large" color="#E8632B" />
+          <ActivityIndicator size="large" color="#FB5507" />
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent}>

@@ -19,10 +19,10 @@ export default function AboutScreen() {
 
     return (
         <View style={styles.container}>
-            <StatusBar style="light" backgroundColor="#E8632B" />
+            <StatusBar style="light" backgroundColor="#FB5507" />
             <AppHeader title={t('about')} />
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <ScrollView contentContainerStyle={styles.scroll}>
                     <Text style={styles.text}>{content}</Text>

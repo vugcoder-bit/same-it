@@ -4,6 +4,8 @@ import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DrawerActions } from '@react-navigation/native';
 import { useRouter, useNavigation } from 'expo-router';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 export function DashboardHeader({ title = 'SAME IT' }: { title?: string }) {
     const insets = useSafeAreaInsets();
@@ -35,7 +37,7 @@ export function DashboardHeader({ title = 'SAME IT' }: { title?: string }) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#E8632B',
+        backgroundColor: '#FB5507',
         borderBottomEndRadius: 30,
         borderBottomStartRadius: 30,
         flexDirection: 'row',

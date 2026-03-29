@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    View, Text, StyleSheet, ScrollView, Pressable, 
+import {
+    View, Text, StyleSheet, ScrollView, Pressable,
     TextInput, ActivityIndicator, Modal, TouchableOpacity,
     FlatList,
     useWindowDimensions
@@ -24,7 +24,7 @@ export default function ErrorLogsManagementScreen() {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
-    
+
     // Form fields
     const [errorCode, setErrorCode] = useState('');
     const [description, setDescription] = useState('');
@@ -41,8 +41,8 @@ export default function ErrorLogsManagementScreen() {
             setLoading(true);
             const response = await apiClient.get('/admin/errors');
             setLogs(response.data.data || []);
-        } catch (error) { 
-            console.error(error); 
+        } catch (error) {
+            console.error(error);
             Toast.error('Failed to load error codes');
         }
         finally { setLoading(false); }
@@ -61,8 +61,8 @@ export default function ErrorLogsManagementScreen() {
             setModalVisible(false);
             fetchLogs();
             Toast.success('Error code saved successfully');
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to save error code');
         }
         finally { setSaving(false); }
@@ -73,13 +73,13 @@ export default function ErrorLogsManagementScreen() {
             await apiClient.delete(`/admin/errors/${id}`);
             Toast.success('Error code deleted');
             fetchLogs();
-        } catch (error: any) { 
-            console.error(error); 
+        } catch (error: any) {
+            console.error(error);
             Toast.error('Failed to delete error code');
         }
     };
 
-    const filteredLogs = logs.filter(l => 
+    const filteredLogs = logs.filter(l =>
         l.errorCode.toLowerCase().includes(search.toLowerCase()) ||
         l.description.toLowerCase().includes(search.toLowerCase())
     );
@@ -100,9 +100,9 @@ export default function ErrorLogsManagementScreen() {
             <View style={styles.searchRow}>
                 <View style={[styles.searchBar, !isDesktop && styles.mobileSearchBar]}>
                     <Ionicons name="search" size={20} color="#64748B" />
-                    <TextInput 
-                        style={styles.searchInput} 
-                        placeholder="Search by error code or description..." 
+                    <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search by error code or description..."
                         value={search}
                         onChangeText={setSearch}
                     />
@@ -110,7 +110,7 @@ export default function ErrorLogsManagementScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.center}><ActivityIndicator size="large" color="#E8632B" /></View>
+                <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <FlatList
                     data={filteredLogs}
@@ -133,7 +133,7 @@ export default function ErrorLogsManagementScreen() {
                                         <Ionicons name="pencil-outline" size={18} color="#3B82F6" />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                                        <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                                        <Ionicons name="trash-outline" size={18} color="#FB5507" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -151,7 +151,7 @@ export default function ErrorLogsManagementScreen() {
                 <View style={styles.modalOverlay}>
                     <View style={[styles.modalContent, !isDesktop && { width: '90%', padding: 20 }]}>
                         <Text style={styles.modalTitle}>{editingId ? 'Edit' : 'Add'} Error Documentation</Text>
-                        
+
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Error Code</Text>
                             <TextInput style={styles.input} value={errorCode} onChangeText={setErrorCode} placeholder="e.g. ERR_001" />
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     title: { fontSize: 24, fontWeight: 'bold', color: '#1E293B' },
     mobileTitle: { fontSize: 20 },
     subtitle: { fontSize: 14, color: '#64748B', marginTop: 4 },
-    addButton: { backgroundColor: '#E8632B', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, gap: 8 },
+    addButton: { backgroundColor: '#FB5507', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, gap: 8 },
     mobileAddButton: { width: '100%', justifyContent: 'center' },
     addButtonText: { color: '#FFF', fontWeight: 'bold' },
     searchRow: { marginBottom: 24 },
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     list: { gap: 20 },
     card: { flex: 1, backgroundColor: '#FFF', borderRadius: 20, padding: 24, borderWidth: 1, borderColor: '#E2E8F0', minHeight: 220 },
     cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
-    codeText: { fontSize: 18, fontWeight: 'bold', color: '#E8632B', backgroundColor: '#FDF2F0', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 8 },
+    codeText: { fontSize: 18, fontWeight: 'bold', color: '#FB5507', backgroundColor: '#FDF2F0', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 8 },
     actions: { flexDirection: 'row', gap: 16 },
     descTitle: { fontSize: 12, fontWeight: 'bold', color: '#94A3B8', textTransform: 'uppercase', marginBottom: 4 },
     descText: { fontSize: 14, color: '#1E293B', marginBottom: 16, lineHeight: 20 },
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     modalButtons: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12, marginTop: 10 },
     button: { paddingHorizontal: 24, paddingVertical: 12, borderRadius: 12 },
     cancelBtn: { backgroundColor: '#F1F5F9' },
-    saveBtn: { backgroundColor: '#E8632B' },
+    saveBtn: { backgroundColor: '#FB5507' },
     saveBtnText: { color: '#FFF', fontWeight: 'bold' },
     center: { flex: 1, justifyContent: 'center', alignItems: 'center' }
 });
