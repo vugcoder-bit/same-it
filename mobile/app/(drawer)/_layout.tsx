@@ -5,6 +5,7 @@ import { useLocale } from '@/hooks/use-locale';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useEffect } from 'react';
 
 function CustomDrawerContent(props: any) {
     const { t, language, toggleLanguage } = useLocale();
@@ -64,6 +65,16 @@ function CustomDrawerContent(props: any) {
 
 export default function DrawerLayout() {
     const { t } = useLocale();
+    const token = useAuthStore((state) => state.token);
+    const router = useRouter();
+
+    // Global auth guard — redirect to login when token is cleared (e.g., subscription expired)
+    useEffect(() => {
+        if (!token) {
+            router.replace('/auth/login');
+        }
+    }, [token]);
+
     return (
         <Drawer
             drawerContent={(props) => <CustomDrawerContent {...props} />}
