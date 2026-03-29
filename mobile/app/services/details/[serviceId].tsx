@@ -25,7 +25,7 @@ const ServiceDetailsScreen = () => {
   const [phone1, setPhone1] = useState('');
   const [phone2, setPhone2] = useState('');
   const [telegram, setTelegram] = useState('');
-  const [serialNumber, setSerialNumber] = useState('');
+  const [formResponses, setFormResponses] = useState<Record<string, string>>({});
   const [notes, setNotes] = useState('');
   const [paymentMethodId, setPaymentMethodId] = useState<number | null>(null);
   const [image, setImage] = useState<string | null>(null);
@@ -73,8 +73,15 @@ const ServiceDetailsScreen = () => {
   };
 
   const handlePlaceOrder = () => {
-    if (!phone1 || !paymentMethodId || !image || (service?.requiresSN && !serialNumber)) {
-      Alert.alert(t('error'), t('pleaseFillRequiredFields')); // Add to locale if needed
+    let missingRequired = false;
+    if (service?.formFields) {
+      service.formFields.forEach((f: any) => {
+        if (f.required && !formResponses[f.id]) missingRequired = true;
+      });
+    }
+
+    if (!phone1 || !paymentMethodId || !image || missingRequired) {
+      Alert.alert(t('error'), t('pleaseFillRequiredFields') || 'Please fill required fields');
       return;
     }
 
@@ -86,7 +93,7 @@ const ServiceDetailsScreen = () => {
     formData.append('phone1', phone1);
     if (phone2) formData.append('phone2', phone2);
     if (telegram) formData.append('telegramUsername', telegram);
-    if (serialNumber) formData.append('serialNumber', serialNumber);
+    if (Object.keys(formResponses).length > 0) formData.append('formResponses', JSON.stringify(formResponses));
     if (notes) formData.append('notes', notes);
 
     const filename = image.split('/').pop();
@@ -193,14 +200,20 @@ const ServiceDetailsScreen = () => {
               placeholder={t('telegramPlaceholder')}
             />
 
-            <Text style={styles.fieldLabel}>
-              {t('serialNumber')} {service?.requiresSN ? '*' : `(${t('optional') || 'Optional'})`}
-            </Text>
-            <TextInput
-              style={styles.input}
-              value={serialNumber}
-              onChangeText={setSerialNumber}
-            />
+            {service?.formFields?.map((field: any) => (
+              <View key={field.id}>
+                <Text style={styles.fieldLabel}>
+                  {field.title} {field.required ? '*' : `(${t('optional') || 'Optional'})`}
+                </Text>
+                <TextInput
+                  style={[styles.input, field.type === 'textarea' && { height: 80, textAlignVertical: 'top' }]}
+                  multiline={field.type === 'textarea'}
+                  placeholder={field.placeholder || ''}
+                  value={formResponses[field.id] || ''}
+                  onChangeText={(text) => setFormResponses(prev => ({ ...prev, [field.id]: text }))}
+                />
+              </View>
+            ))}
 
             <Text style={styles.fieldLabel}>{t('notes')}</Text>
             <TextInput
@@ -226,8 +239,8 @@ const ServiceDetailsScreen = () => {
 
                   <View style={styles.accountRow}>
                     <Text style={styles.pmAccount}>{pm.accountNumber}</Text>
-                    <TouchableOpacity onPress={() => handleCopy(pm.accountNumber)}>
-                      <Ionicons name="copy-outline" size={18} color="#666" style={{ marginLeft: 8 }} />
+                    <TouchableOpacity onPress={() => handleCopy(pm.accountNumber)} style={{ padding: 4 }}>
+                      <Ionicons name="copy-outline" size={20} color="#666" />
                     </TouchableOpacity>
                   </View>
 
@@ -304,8 +317,8 @@ const styles = StyleSheet.create({
   paymentContainer: { gap: 10 },
   paymentCard: { backgroundColor: '#FFF', padding: 15, borderRadius: 12, borderWidth: 1 },
   pmTitle: { fontSize: 16, fontWeight: 'bold' },
-  accountRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 },
-  pmAccount: { fontSize: 15, color: '#333' },
+  accountRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginTop: 8 },
+  pmAccount: { fontSize: 15, color: '#333', flex: 1, marginRight: 10 },
   pmNote: { fontSize: 12, color: '#666', marginTop: 4 },
   uploadBtn: { backgroundColor: '#FFF', height: 180, borderRadius: 12, borderStyle: 'dashed', borderWidth: 2, borderColor: '#CCC', overflow: 'hidden' },
   uploadPlaceholder: { flex: 1, justifyContent: 'center', alignItems: 'center' },

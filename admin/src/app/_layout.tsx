@@ -1,12 +1,16 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, I18nManager } from 'react-native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { useAuthStore } from '../store/authStore';
 import { StatusBar } from 'expo-status-bar';
 import ToastManager from 'toastify-react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { usePushNotifications } from '../hooks/usePushNotifications';
+
+// Force LTR layout regardless of locale — prevents Arabic from flipping layout
+I18nManager.forceRTL(false);
+I18nManager.allowRTL(false);
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

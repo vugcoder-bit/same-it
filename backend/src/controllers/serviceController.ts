@@ -12,7 +12,7 @@ export const create = async (req: Request, res: Response, next: NextFunction): P
             duration: req.body.duration,
             deliveryTime: req.body.deliveryTime,
             image: req.file ? `services/${req.file.filename}` : undefined,
-            requiresSN: req.body.requiresSN === 'true' || req.body.requiresSN === true,
+            formFields: req.body.formFields ? JSON.parse(req.body.formFields) : undefined,
         };
         const item = await serviceService.create(data);
         res.status(201).json({ success: true, data: item });
@@ -61,7 +61,7 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
         if (req.body.price) data.price = parseFloat(req.body.price);
         if (req.body.duration) data.duration = req.body.duration;
         if (req.body.deliveryTime) data.deliveryTime = req.body.deliveryTime;
-        if (req.body.requiresSN !== undefined) data.requiresSN = req.body.requiresSN === 'true' || req.body.requiresSN === true;
+        if (req.body.formFields !== undefined) data.formFields = JSON.parse(req.body.formFields);
 
         if (req.file) {
             // Delete old image from disk before saving the new one

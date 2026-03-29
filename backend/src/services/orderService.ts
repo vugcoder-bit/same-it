@@ -10,7 +10,7 @@ interface CreateOrderData {
     phone1: string;
     phone2?: string;
     telegramUsername?: string;
-    serialNumber?: string;
+    formResponses?: any;
     paymentScreenshot?: string;
     notes?: string;
 }
@@ -26,7 +26,7 @@ export const create = async (data: CreateOrderData) => {
             phone1: data.phone1,
             phone2: data.phone2 || null,
             telegramUsername: data.telegramUsername || null,
-            serialNumber: data.serialNumber || null,
+            formResponses: data.formResponses || null,
             paymentScreenshot: data.paymentScreenshot || null,
             notes: data.notes || null,
             status: 'PROCESSING',

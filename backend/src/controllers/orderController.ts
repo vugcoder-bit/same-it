@@ -16,7 +16,7 @@ export const create = async (req: AuthRequest, res: Response, next: NextFunction
             phone1: req.body.phone1,
             phone2: req.body.phone2 || undefined,
             telegramUsername: req.body.telegramUsername || undefined,
-            serialNumber: req.body.serialNumber || undefined,
+            formResponses: req.body.formResponses ? JSON.parse(req.body.formResponses) : undefined,
             paymentScreenshot: req.file ? req.file.filename : undefined,
             notes: req.body.notes || undefined,
         };

@@ -8,7 +8,7 @@ interface ServiceData {
     duration?: string;
     deliveryTime?: string;
     image?: string;
-    requiresSN?: boolean;
+    formFields?: any;
 }
 
 export const create = async (data: ServiceData) => {
@@ -21,7 +21,7 @@ export const create = async (data: ServiceData) => {
             duration: data.duration || null,
             deliveryTime: data.deliveryTime || null,
             image: data.image || null,
-            requiresSN: data.requiresSN || false,
+            formFields: data.formFields || null,
         },
     });
 };

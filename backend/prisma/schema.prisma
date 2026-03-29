@@ -134,7 +134,7 @@ model Order {
   phone1            String
   phone2            String?
   telegramUsername  String?
-  serialNumber      String?
+  formResponses     Json?
   paymentScreenshot String?
   notes             String?       @db.Text
   status            OrderStatus   @default(PROCESSING)
@@ -187,7 +187,7 @@ model Service {
   duration        String?
   deliveryTime    String?
   image           String?
-  requiresSN      Boolean         @default(false)
+  formFields      Json?
   isDeleted       Boolean         @default(false)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @default(now()) @updatedAt

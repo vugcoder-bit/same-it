@@ -11,6 +11,14 @@ import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
+export interface FormField {
+    id: string;
+    title: string;
+    type: 'text' | 'textarea';
+    placeholder?: string;
+    required: boolean;
+}
+
 interface Category {
     id: number;
     name: string;
@@ -22,11 +30,12 @@ interface Service {
     title: string;
     description: string;
     price: number;
-    imagePath: string;
+    image?: string;
     duration?: string;
     deliveryTime?: string;
     categoryId?: number;
     category?: { name: string };
+    formFields?: FormField[];
 }
 
 export default function ServicesManagementScreen() {
@@ -49,6 +58,7 @@ export default function ServicesManagementScreen() {
     const [deliveryTime, setDeliveryTime] = useState('');
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
     const [selectedServiceImage, setSelectedServiceImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
+    const [formFields, setFormFields] = useState<FormField[]>([]);
 
     // Category Form
     const [categoryName, setCategoryName] = useState('');
@@ -132,6 +142,7 @@ export default function ServicesManagementScreen() {
             formData.append('duration', duration);
             formData.append('deliveryTime', deliveryTime);
             if (selectedCategoryId) formData.append('categoryId', selectedCategoryId.toString());
+            formData.append('formFields', JSON.stringify(formFields));
 
             if (selectedServiceImage) {
                 if (Platform.OS === 'web') {
@@ -199,6 +210,7 @@ export default function ServicesManagementScreen() {
                             setDeliveryTime('');
                             setSelectedCategoryId(null);
                             setSelectedServiceImage(null);
+                            setFormFields([]);
                             setServiceModalVisible(true);
                         }
                     }}
@@ -263,6 +275,7 @@ export default function ServicesManagementScreen() {
                                                 setDeliveryTime(item.deliveryTime || '');
                                                 setSelectedCategoryId(item.categoryId || null);
                                                 setSelectedServiceImage(null);
+                                                setFormFields(item.formFields || []);
                                                 setServiceModalVisible(true);
                                             }} style={styles.actionBtn}>
                                                 <Ionicons name="pencil" size={16} color="#3B82F6" /><Text style={styles.actionBtnText}>Edit</Text>
@@ -339,6 +352,66 @@ export default function ServicesManagementScreen() {
                                     >
                                         <Text style={[styles.catBtnText, selectedCategoryId === cat.id && styles.activeCatBtnText]}>{cat.name}</Text>
                                     </Pressable>
+                                ))}
+                            </View>
+
+                            <View style={styles.dynamicFieldsSection}>
+                                <View style={styles.dynamicHeader}>
+                                    <Text style={styles.label}>Custom Form Fields (Admin Defined)</Text>
+                                    <Pressable 
+                                      style={styles.addFieldBtn} 
+                                      onPress={() => setFormFields([...formFields, { id: Date.now().toString(), title: '', type: 'text', placeholder: '', required: false }])}
+                                    >
+                                        <Ionicons name="add" size={16} color="#3B82F6" />
+                                        <Text style={styles.addFieldStr}>Add Field</Text>
+                                    </Pressable>
+                                </View>
+                                {formFields.map((field, index) => (
+                                    <View key={field.id} style={styles.fieldBox}>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <TextInput 
+                                              style={[styles.input, { flex: 1, marginBottom: 0, marginRight: 10 }]} 
+                                              placeholder="Field Title (e.g. IMEI / SN)" 
+                                              value={field.title} 
+                                              onChangeText={(t) => {
+                                                  const newFields = [...formFields];
+                                                  newFields[index].title = t;
+                                                  setFormFields(newFields);
+                                              }} 
+                                            />
+                                            <TouchableOpacity onPress={() => setFormFields(formFields.filter(f => f.id !== field.id))}>
+                                                <Ionicons name="trash" size={20} color="#FB5507" />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+                                            <TextInput 
+                                              style={[styles.input, { flex: 1, marginBottom: 0 }]} 
+                                              placeholder="Placeholder (Optional)" 
+                                              value={field.placeholder || ''} 
+                                              onChangeText={(t) => {
+                                                  const newFields = [...formFields];
+                                                  newFields[index].placeholder = t;
+                                                  setFormFields(newFields);
+                                              }} 
+                                            />
+                                            <Pressable style={[styles.toggleBtn, field.type === 'textarea' && styles.activeToggle]} onPress={() => {
+                                                const newFields = [...formFields];
+                                                newFields[index].type = field.type === 'text' ? 'textarea' : 'text';
+                                                setFormFields(newFields);
+                                            }}>
+                                                <Text style={[styles.toggleText, field.type === 'textarea' && styles.activeToggleText]}>
+                                                    {field.type === 'text' ? '1 Line' : 'Multi-Line'}
+                                                </Text>
+                                            </Pressable>
+                                            <Pressable style={[styles.toggleBtn, field.required && styles.activeToggle]} onPress={() => {
+                                                const newFields = [...formFields];
+                                                newFields[index].required = !field.required;
+                                                setFormFields(newFields);
+                                            }}>
+                                                <Text style={[styles.toggleText, field.required && styles.activeToggleText]}>Required</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
                                 ))}
                             </View>
 
@@ -428,5 +501,14 @@ const styles = StyleSheet.create({
     cancelBtn: { backgroundColor: '#F1F5F9' },
     saveBtn: { backgroundColor: '#FB5507' },
     saveBtnText: { color: '#FFF', fontWeight: 'bold' },
-    center: { flex: 1, justifyContent: 'center', alignItems: 'center' }
+    center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    dynamicFieldsSection: { marginBottom: 20 },
+    dynamicHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
+    addFieldBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#EFF6FF', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8, gap: 4 },
+    addFieldStr: { fontSize: 13, color: '#3B82F6', fontWeight: 'bold' },
+    fieldBox: { backgroundColor: '#F8FAFC', padding: 12, borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', marginBottom: 10 },
+    toggleBtn: { paddingHorizontal: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: '#E2E8F0', borderRadius: 8, height: 48 },
+    activeToggle: { backgroundColor: '#3B82F6' },
+    toggleText: { fontSize: 12, color: '#64748B', fontWeight: 'bold' },
+    activeToggleText: { color: '#FFF' }
 });

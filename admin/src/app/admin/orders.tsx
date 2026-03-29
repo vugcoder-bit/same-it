@@ -25,7 +25,7 @@ interface Order {
     phone1: string;
     phone2?: string;
     telegramUsername?: string;
-    serialNumber?: string;
+    formResponses?: Record<string, string>;
     notes?: string;
     paymentScreenshot?: string;
     adminNotes?: string;
@@ -215,7 +215,12 @@ export default function OrdersManagementScreen() {
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Phone 1</Text><Text style={styles.detailValue}>{selectedOrder?.phone1}</Text></View>
                                 {selectedOrder?.phone2 ? <View style={styles.detailItem}><Text style={styles.detailLabel}>Phone 2</Text><Text style={styles.detailValue}>{selectedOrder?.phone2}</Text></View> : null}
                                 {selectedOrder?.telegramUsername ? <View style={styles.detailItem}><Text style={styles.detailLabel}>Telegram</Text><Text style={styles.detailValue}>{selectedOrder?.telegramUsername}</Text></View> : null}
-                                {selectedOrder?.serialNumber ? <View style={styles.detailItem}><Text style={styles.detailLabel}>Serial Number</Text><Text style={styles.detailValue}>{selectedOrder?.serialNumber}</Text></View> : null}
+                                {selectedOrder?.formResponses ? Object.entries(selectedOrder.formResponses).map(([key, val]) => (
+                                    <View key={key} style={[styles.detailItem, { width: '100%' }]}>
+                                        <Text style={styles.detailLabel}>Field: {key}</Text>
+                                        <Text style={styles.detailValue}>{val}</Text>
+                                    </View>
+                                )) : null}
                             </View>
 
                             {selectedOrder?.notes && (

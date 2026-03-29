@@ -11,9 +11,11 @@ const config = getDefaultConfig(__dirname);
 const originalResolveRequest = config.resolver?.resolveRequest;
 config.resolver = config.resolver || {};
 config.resolver.resolveRequest = (context, moduleName, platform) => {
+  const isShim = context.originModulePath && context.originModulePath.match(/[\\/]shims[\\/]react-native\.js$/i);
+  
   if (
     moduleName === 'react-native' &&
-    context.originModulePath !== shimPath
+    !isShim
   ) {
     return {
       filePath: shimPath,
