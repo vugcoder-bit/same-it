@@ -1,10 +1,12 @@
-const { getDefaultConfig } = require("expo/metro-config");
 const { withNativeWind } = require('nativewind/metro');
 const path = require('path');
+const {
+  getSentryExpoConfig
+} = require("@sentry/react-native/metro");
 
 const shimPath = path.resolve(__dirname, 'shims/react-native.js');
 
-const config = getDefaultConfig(__dirname);
+const config = getSentryExpoConfig(__dirname);
 
 // Redirect all `react-native` imports from project source files to our font shim.
 // The shim itself is excluded to prevent circular reference.

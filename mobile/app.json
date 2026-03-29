@@ -101,7 +101,10 @@
             ]
           },
           "ios": {
-            "fonts": ["./assets/cocon-next-arabic.ttf", "./assets/cocon-next-arabic.ttf"]
+            "fonts": [
+              "./assets/cocon-next-arabic.ttf",
+              "./assets/cocon-next-arabic.ttf"
+            ]
           }
         }
       ],
@@ -110,6 +113,14 @@
         {
           "icon": "./assets/images/icon.png",
           "color": "#FB5507"
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "same-it",
+          "organization": "vugtech"
         }
       ]
     ],

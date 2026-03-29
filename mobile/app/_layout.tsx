@@ -21,6 +21,26 @@ import { useAuthStore } from '../store/authStore';
 import { useLocaleStore } from '@/store/localeStore';
 import { apiClient } from '@/api/apiClient';
 import { usePushNotifications } from '@/hooks/usePushNotifications';
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://b618fcba055e77a023ca4360730cf2c4@o4507321451937792.ingest.us.sentry.io/4511130023100416',
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+
+  // Enable Logs
+  enableLogs: true,
+
+  // Configure Session Replay
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1,
+  integrations: [Sentry.mobileReplayIntegration()],
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: __DEV__,
+});
 
 // Force LTR layout regardless of locale — prevents Arabic from flipping drawer/back button
 I18nManager.forceRTL(false);
@@ -37,7 +57,7 @@ const i18n = new I18n({
 i18n.locale = getLocales().at(0)?.languageCode ?? 'en';
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+export default Sentry.wrap(function RootLayout() {
   const router = useRouter();
   const { t } = useLocale();
   const _hasAuthHydrated = useAuthStore(state => state._hasHydrated);
@@ -88,4 +108,4 @@ export default function RootLayout() {
       </QueryClientProvider>
     </SafeAreaProvider>
   );
-}
+});
