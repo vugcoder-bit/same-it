@@ -24,8 +24,7 @@
       },
       "edgeToEdgeEnabled": false,
       "predictiveBackGestureEnabled": false,
-      "package": "com.qozeem.sameit",
-      "googleServicesFile": "./google-services.json"
+      "package": "com.qozeem.sameit"
     },
     "web": {
       "output": "static",
