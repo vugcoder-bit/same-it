@@ -2,7 +2,6 @@ name: EAS Build (Android)
 on:
   push:
     branches:
-      - main
       - dev
   workflow_dispatch:
 
