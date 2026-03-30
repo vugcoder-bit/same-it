@@ -24,7 +24,8 @@
       },
       "edgeToEdgeEnabled": false,
       "predictiveBackGestureEnabled": false,
-      "package": "com.qozeem.sameit"
+      "package": "com.qozeem.sameit",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "static",
@@ -32,7 +33,7 @@
       "bundler": "metro"
     },
     "extra": {
-      "supportsRTL": true,
+      "supportsRTL": false,
       "router": {},
       "eas": {
         "projectId": "291bdb13-9256-4cea-82ba-a46c0c5c5147"

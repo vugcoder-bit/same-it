@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useLocale } from '@/hooks/use-locale';
 import { useAuthStore } from '@/store/authStore';
-import { useRouter } from 'expo-router';
+import { useRouter, useRootNavigationState } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect } from 'react';
 import { Image } from 'expo-image';
@@ -97,13 +97,20 @@ export default function DrawerLayout() {
     const { t } = useLocale();
     const token = useAuthStore((state) => state.token);
     const router = useRouter();
+    const navigationState = useRootNavigationState();
 
     // Global auth guard — redirect to login when token is cleared (e.g., subscription expired)
     useEffect(() => {
-        if (!token) {
-            router.replace('/auth/login');
-        }
-    }, [token]);
+        if (!navigationState?.key) return;
+
+        const timer = setTimeout(() => {
+            if (!token) {
+                router.replace('/auth/login');
+            }
+        }, 1);
+
+        return () => clearTimeout(timer);
+    }, [token, navigationState?.key]);
 
     return (
         <Drawer

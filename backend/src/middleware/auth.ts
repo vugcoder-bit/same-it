@@ -35,6 +35,13 @@ export const authMiddleware = async (req: AuthRequest, res: Response, next: Next
             return;
         }
 
+        // Device lock check — admins bypass
+        const deviceIdHeader = req.headers['x-device-id'];
+        if (user.role !== 'ADMIN' && user.deviceId && user.deviceId !== deviceIdHeader) {
+            res.status(403).json({ success: false, message: 'Access denied. Account linked to another device.' });
+            return;
+        }
+
         req.user = { id: user.id, username: user.username, role: user.role };
         next();
     } catch (error) {

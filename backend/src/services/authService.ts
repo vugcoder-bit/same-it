@@ -49,9 +49,15 @@ export const login = async (username: string, password: string, deviceId?: strin
     return { token, user: userWithoutPassword, role: user.role };
 };
 
-export const updatePushToken = async (userId: number, pushToken: string) => {
+export const updatePushToken = async (userId: number, pushToken?: string, deviceId?: string) => {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    
     return prisma.user.update({
         where: { id: userId },
-        data: { pushToken },
+        data: { 
+            ...(pushToken ? { pushToken } : {}),
+            // Only update deviceId if it's not already set
+            ...((deviceId && !user?.deviceId) ? { deviceId } : {})
+        },
     });
 };

@@ -4,43 +4,67 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { apiClient } from '../api/apiClient';
+import { getDeviceId } from '../api/auth';
 import { useAuthStore } from '../store/authStore';
+import { Toast } from 'toastify-react-native';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
   }),
 });
 
 export function usePushNotifications() {
   const [expoPushToken, setExpoPushToken] = useState<string | undefined>();
   const [notification, setNotification] = useState<Notifications.Notification | undefined>();
-  const notificationListener = useRef<Notifications.EventSubscription>();
-  const responseListener = useRef<Notifications.EventSubscription>();
+  const notificationListener = useRef<Notifications.EventSubscription | undefined>(undefined);
+  const responseListener = useRef<Notifications.EventSubscription | undefined>(undefined);
 
   const token = useAuthStore((state) => state.token);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const _hasHydrated = useAuthStore((state) => state._hasHydrated);
+  const isDeviceSynced = useAuthStore(state => state.isDeviceSynced);
+  const setIsDeviceSynced = useAuthStore(state => state.setIsDeviceSynced);
 
   useEffect(() => {
-    // Only register for push notifications if the user is authenticated
-    if (!isAuthenticated || !token) return;
+    // Only register/sync if authenticated, hydrated, and not already synced in this session
+    if (!_hasHydrated || !token || isDeviceSynced) return;
+
+    // Always sync deviceId if authenticated, regardless of push token success
+    const syncDeviceMetadata = async (capturedPushToken?: string) => {
+        try {
+            const deviceId = await getDeviceId();
+            console.log('Syncing device metadata...', { deviceId, pushToken: capturedPushToken });
+            await apiClient.post('/auth/update-token', { 
+                pushToken: capturedPushToken, 
+                deviceId 
+            });
+            console.log('Successfully synchronized device metadata with backend');
+            setIsDeviceSynced(true);
+        } catch (error: any) {
+            console.error('Failed to sync device metadata:', error);
+        }
+    };
 
     registerForPushNotificationsAsync()
       .then(async (pushToken) => {
         if (pushToken) {
           setExpoPushToken(pushToken);
-          // Send push token to the backend
-          try {
-            await apiClient.post('/auth/update-token', { pushToken });
-            console.log('Successfully registered push token with backend');
-          } catch (error) {
-            console.error('Failed to update push token on backend:', error);
-          }
+          await syncDeviceMetadata(pushToken);
+        } else {
+          // No push token (e.g. emulator), but still sync deviceId
+          await syncDeviceMetadata();
         }
       })
-      .catch((err) => console.log('Push Token Registration Error:', err));
+      .catch(async (err) => {
+          console.log('Push Token Registration Error (Skipped Token Update):', err);
+          Toast.error("Push Registration Failed: Check Firebase Config");
+          // Still try to sync the deviceId even if Firebase crashes
+          await syncDeviceMetadata();
+      });
 
     notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
       setNotification(notification);
@@ -51,14 +75,10 @@ export function usePushNotifications() {
     });
 
     return () => {
-      if (notificationListener.current) {
-        Notifications.removeNotificationSubscription(notificationListener.current);
-      }
-      if (responseListener.current) {
-        Notifications.removeNotificationSubscription(responseListener.current);
-      }
+      notificationListener.current?.remove();
+      responseListener.current?.remove();
     };
-  }, [isAuthenticated, token]);
+  }, [_hasHydrated, token]);
 
   return { expoPushToken, notification };
 }
@@ -104,6 +124,12 @@ async function registerForPushNotificationsAsync() {
     console.log('Expo Push Token generated:', token);
   } else {
     console.log('Must use physical device for Push Notifications');
+    // For debugging, we can return a mock token in dev if needed, 
+    // but the user says they are using APK on device.
+  }
+
+  if (!token) {
+      console.log('PUSH_TOKEN_WARNING: Token generated is null or undefined');
   }
 
   return token;

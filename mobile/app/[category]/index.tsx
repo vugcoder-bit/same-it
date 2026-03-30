@@ -88,9 +88,9 @@ export default function CategoryIndexScreen() {
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          <Text style={styles.sectionTitle}>
+          {/* <Text style={styles.sectionTitle}>
             {isSubCategory ? t('selectSubCategory') : t('selectBrand')}
-          </Text>
+          </Text> */}
           <View style={cat === 'adhesive' ? styles.listContainer : styles.gridContainer}>
             {isSubCategory
               ? subCategories.map((item) => (
@@ -125,7 +125,7 @@ export default function CategoryIndexScreen() {
                     </>
                   ) : (
                     <>
-                      <View style={styles.imageContainer}>
+                      <View style={[styles.imageContainer, styles.borderStyle]}>
                         {item.imageUrl ? (
                           <Image
                             source={{ uri: `${baseUrl}/uploads/${item.imageUrl}` }}
@@ -178,7 +178,7 @@ export default function CategoryIndexScreen() {
                       </View>
                     )}
                   </View>
-                  <Text style={styles.cardTitle} numberOfLines={1}>{brand.name}</Text>
+                  {/* <Text style={styles.cardTitle} numberOfLines={1}>{brand.name}</Text> */}
                 </Pressable>
               ))
             }
@@ -198,7 +198,8 @@ const styles = StyleSheet.create({
     marginBottom: 16, marginLeft: 4,
   },
   gridContainer: {
-    flexDirection: 'row', flexWrap: 'wrap', gap: 16, justifyContent: 'center',
+    flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'center',
+    
   },
   listContainer: { paddingHorizontal: 8, paddingBottom: 20 },
   adhesiveCard: {
@@ -209,12 +210,18 @@ const styles = StyleSheet.create({
   },
   adhesiveImage: { width: 60, height: 100, marginRight: 24 },
   adhesiveText: { fontSize: 20, fontWeight: '600', color: '#FB5507', flex: 1, textAlign: 'center' },
-  gridCard: { width: '40%', alignItems: 'center', marginBottom: 12 },
+  gridCard: { width: '40%', alignItems: 'center', marginBottom: 2 },
   imageContainer: {
     width: '100%', aspectRatio: 1, backgroundColor: '#FFF', borderRadius: 16,
     padding: 8, justifyContent: 'center', alignItems: 'center', elevation: 3,
     shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1, shadowRadius: 6, marginBottom: 8,
+    shadowOpacity: 0.1, shadowRadius: 6, marginBottom: 5
+    
+  },
+  borderStyle: {
+    borderWidth: 1, borderColor: '#FB5507',
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1, shadowRadius: 6, marginBottom: 5
   },
   cardImage: { width: '100%', height: '100%' },
   fallbackAvatar: {

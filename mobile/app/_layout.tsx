@@ -1,5 +1,5 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useRouter, useRootNavigationState } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { getLocales } from 'expo-localization';
@@ -59,6 +59,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default Sentry.wrap(function RootLayout() {
   const router = useRouter();
+  const navigationState = useRootNavigationState();
   const { t } = useLocale();
   const _hasAuthHydrated = useAuthStore(state => state._hasHydrated);
   const _hasLocaleHydrated = useLocaleStore(state => state._hasHydrated);
@@ -71,6 +72,8 @@ export default Sentry.wrap(function RootLayout() {
   });
 
   useEffect(() => {
+    if (!navigationState?.key) return; // Wait until navigation is ready
+
     if (_hasAuthHydrated && _hasLocaleHydrated && fontsLoaded) {
       const hideSplash = async () => {
         await SplashScreen.hideAsync();
@@ -85,11 +88,15 @@ export default Sentry.wrap(function RootLayout() {
           }
         }
 
-        router.replace('/splash');
+        // Use a 1ms timeout to ensure Root Layout is in the tree before navigating
+        const timer = setTimeout(() => {
+          router.replace('/splash');
+        }, 1);
+        return () => clearTimeout(timer);
       };
       hideSplash();
     }
-  }, [_hasAuthHydrated, _hasLocaleHydrated, fontsLoaded]);
+  }, [_hasAuthHydrated, _hasLocaleHydrated, fontsLoaded, navigationState?.key]);
 
   const colorScheme = useColorScheme();
 

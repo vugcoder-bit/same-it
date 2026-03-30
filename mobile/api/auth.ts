@@ -17,7 +17,7 @@ export interface AuthResponse {
     role: 'ADMIN' | 'USER';
 }
 
-const getDeviceId = async (): Promise<string> => {
+export const getDeviceId = async (): Promise<string> => {
     try {
         if (Platform.OS === 'android') {
             return Application.getAndroidId() || 'unknown-android';

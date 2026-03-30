@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Alert } from 'react-native';
 
 import { useAuthStore } from '../store/authStore';
+import { getDeviceId } from './auth';
 
 // Define the base URL for the backend
 const API_URL = __DEV__ ? "http://192.168.1.171:3000/api" : process.env.EXPO_PUBLIC_API_URL || 'http://46.225.230.167:3000/api';
@@ -13,12 +14,20 @@ export const apiClient = axios.create({
     },
 });
 
-// Automatically inject JWT Token from Zustand Store persistence
-apiClient.interceptors.request.use((config) => {
+// Automatically inject JWT Token and Device ID from Zustand Store and hardware
+apiClient.interceptors.request.use(async (config) => {
     const token = useAuthStore.getState().token;
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
+
+    try {
+        const deviceId = await getDeviceId();
+        config.headers['x-device-id'] = deviceId;
+    } catch (error) {
+        console.error('Failed to attach deviceId header:', error);
+    }
+
     return config;
 });
 

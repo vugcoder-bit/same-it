@@ -34,7 +34,7 @@ jobs:
       - name: Build Mobile App (Android APK)
         run: |
           yarn install
-          eas build -p android --profile preview --local --non-interactive --output build-mobile.apk
+          eas build -p android --profile development --local --non-interactive --output build-mobile.apk
         working-directory: ./mobile
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
@@ -48,7 +48,7 @@ jobs:
       - name: Build Admin App (Android APK)
         run: |
           yarn install
-          eas build -p android --profile preview --local --non-interactive --output build-admin.apk
+          eas build -p android --profile development --local --non-interactive --output build-admin.apk
         working-directory: ./admin
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
