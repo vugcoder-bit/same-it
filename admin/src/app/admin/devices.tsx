@@ -213,9 +213,14 @@ export default function DevicesManagementScreen() {
             <View style={[styles.header, !isDesktop && { flexDirection: 'column', alignItems: 'flex-start', gap: 16 }]}>
                 <View>
                     <Text style={[styles.title, !isDesktop && { fontSize: 24 }]}>Device Catalog</Text>
-                    <Text style={styles.subtitle}>Manage hardware devices and their specific models.</Text>
+                    {/* <Text style={styles.subtitle}>Manage hardware devices and their specific models.</Text> */}
                 </View>
-                <View style={styles.tabContainer}>
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.tabContainer}
+                    style={!isDesktop && { width: '100%' }}
+                >
                     <Pressable
                         onPress={() => setActiveTab('types')}
                         style={[styles.tab, activeTab === 'types' && styles.activeTab]}
@@ -234,7 +239,7 @@ export default function DevicesManagementScreen() {
                     >
                         <Text style={[styles.tabText, activeTab === 'models' && styles.activeTabText]}>Models</Text>
                     </Pressable>
-                </View>
+                </ScrollView>
             </View>
 
             <View style={styles.actionRow}>

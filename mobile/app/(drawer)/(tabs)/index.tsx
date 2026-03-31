@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
-import { DashboardHeader } from '@/components/DashboardHeader';
-import { AdvertisementCarousel } from '@/components/AdvertisementCarousel';
-import { StatusBar } from 'expo-status-bar';
+// import { DashboardHeader } from '@/components/DashboardHeader';
+// import { StatusBar } from 'expo-status-bar';
 import { useLocale } from '@/hooks/use-locale';
 
 const { width } = Dimensions.get('window');
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // width: '90%',
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#FFFFFF',
   },
   scrollContent: {
     paddingHorizontal: 30,
@@ -99,11 +98,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1.5,
     borderColor: '#FB5507',
-    elevation: 2,
+    elevation: 4,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
     // marginBottom: 2,
   },
   cardImage: {
@@ -125,11 +124,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1.5,
     borderColor: '#FB5507',
-    elevation: 2,
+    elevation: 4,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
     marginTop: 12,
   },
   fullCardImage: {

@@ -168,7 +168,7 @@ export default function PdfViewerScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#FFFFFF',
   },
   pdfContainer: {
     flex: 1,

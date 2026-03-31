@@ -38,6 +38,12 @@ export default function SchematicsManagementScreen() {
     const [selectedFile, setSelectedFile] = useState<DocumentPicker.DocumentPickerResult | null>(null);
     const [uploading, setUploading] = useState(false);
     const [searchModel, setSearchModel] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredSchematics = schematics.filter(s =>
+        s.schematicType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (s.deviceModelName || '').toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     useEffect(() => {
         fetchData();
@@ -142,17 +148,36 @@ export default function SchematicsManagementScreen() {
                 </Pressable>
             </View>
 
+            <View style={styles.actionRow}>
+                <View style={styles.searchContainer}>
+                    <Ionicons name="search-outline" size={18} color="#94A3B8" />
+                    <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search schematics or models..."
+                        placeholderTextColor="#94A3B8"
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                    />
+                    {searchQuery.length > 0 && (
+                        <Pressable onPress={() => setSearchQuery('')}>
+                            <Ionicons name="close-circle" size={18} color="#94A3B8" />
+                        </Pressable>
+                    )}
+                </View>
+            </View>
+
             {loading ? (
                 <View style={styles.center}><ActivityIndicator size="large" color="#FB5507" /></View>
             ) : (
                 <FlatList
-                    data={schematics}
+                    data={filteredSchematics}
                     keyExtractor={(item) => item.id.toString()}
                     numColumns={isDesktop ? 3 : 1}
-                    columnWrapperStyle={isDesktop ? { gap: 20 } : undefined}
+                    ListEmptyComponent={<View style={styles.center}><Text style={{ color: '#94A3B8' }}>No schematics found matching "{searchQuery}"</Text></View>}
+                    columnWrapperStyle={isDesktop && filteredSchematics.length > 1 ? { gap: 20 } : undefined}
                     contentContainerStyle={styles.list}
                     renderItem={({ item, index }) => (
-                        <Animated.View entering={FadeInUp.delay(index * 50)} style={[styles.card, !isDesktop && { maxWidth: '100%' }]}>
+                        <Animated.View entering={FadeInUp.delay(index * 50)} style={[styles.card, { maxWidth: isDesktop ? '31.5%' : '100%' }]}>
                             <View style={styles.pdfIcon}>
                                 <Ionicons name="document-text" size={40} color="#FB5507" />
                             </View>
@@ -228,8 +253,11 @@ const styles = StyleSheet.create({
     subtitle: { fontSize: 14, color: '#64748B', marginTop: 4 },
     addButton: { backgroundColor: '#FB5507', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 10, gap: 8 },
     addButtonText: { color: '#FFF', fontWeight: 'bold' },
-    list: { gap: 20 },
-    card: { flex: 1, backgroundColor: '#FFF', borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: '#E2E8F0', maxWidth: '31%' },
+    actionRow: { marginBottom: 20 },
+    searchContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF', borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', paddingHorizontal: 14, height: 46, gap: 8 },
+    searchInput: { flex: 1, fontSize: 14, color: '#1E293B', outlineStyle: 'none' },
+    list: { gap: 20, paddingBottom: 40 },
+    card: { flex: 1, backgroundColor: '#FFF', borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: '#E2E8F0' },
     pdfIcon: { height: 100, backgroundColor: '#FDF2F0', justifyContent: 'center', alignItems: 'center' },
     cardContent: { padding: 16 },
     itemTitle: { fontSize: 16, fontWeight: 'bold', color: '#1E293B' },

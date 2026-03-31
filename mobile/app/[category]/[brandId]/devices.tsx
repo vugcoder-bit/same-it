@@ -71,7 +71,7 @@ export default function DevicesByBrandScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#FFFFFF',
   },
   center: {
     flex: 1,

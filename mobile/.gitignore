@@ -43,3 +43,7 @@ app-example
 /android
 
 .env.local
+
+# Google and Firebase configuration
+google-services.json
+*firebase-adminsdk*.json

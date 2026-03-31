@@ -93,7 +93,7 @@ const ServicesListScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
@@ -120,26 +120,29 @@ const styles = StyleSheet.create({
   },
   resultsBar: {
     borderBottomWidth: 2, borderBottomColor: '#FB5507',
-    marginHorizontal: 16, paddingBottom: 8, marginBottom: 16, alignItems: 'center'
+    marginHorizontal: 16, paddingBottom: 0, marginBottom: 0, alignItems: 'center'
   },
   resultsLabel: { color: '#4CAF50', fontWeight: '500', fontSize: 16 },
   list: {
     paddingHorizontal: 15,
-    paddingBottom: 20,
+    paddingBlock: 20,
   },
   serviceItem: {
     flexDirection: 'row',
     backgroundColor: '#FFF',
     borderRadius: 12,
+    borderWidth: 2,
+
+    borderColor: '#FB5507',
     padding: 15,
     marginBottom: 12,
     alignItems: 'center',
     justifyContent: 'space-between',
-    elevation: 2,
+    elevation: 4,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
   },
   serviceInfo: {
     flex: 1,

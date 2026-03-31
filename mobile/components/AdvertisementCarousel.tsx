@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Dimensions, ActivityIndicator, FlatList, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { View, StyleSheet, Dimensions, ActivityIndicator, FlatList, NativeSyntheticEvent, NativeScrollEvent, Pressable, Linking } from 'react-native';
 import { Image } from 'expo-image';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/api/apiClient';
@@ -56,7 +56,7 @@ export function AdvertisementCarousel() {
     }
 
     if (isError) {
-        return null; // Return nothing if there are no ads or error.
+        return <View style={[styles.loadingContainer, { height: 100, backgroundColor: 'transparent', shadowColor: 'transparent', elevation: 0, shadowOpacity: 0, shadowRadius: 0 }]}></View>; // Return nothing if there are no ads or error.
     }
     if (ads.length === 0) {
         return <View style={[styles.loadingContainer, { height: 100, backgroundColor: 'transparent', shadowColor: 'transparent', elevation: 0, shadowOpacity: 0, shadowRadius: 0 }]}></View>;
@@ -74,13 +74,20 @@ export function AdvertisementCarousel() {
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
                 renderItem={({ item }) => (
-                    <View style={styles.slide}>
+                    <Pressable
+                        style={styles.slide}
+                        onPress={() => {
+                            if (item.link) {
+                                Linking.openURL(item.link).catch((err: any) => console.error("Couldn't load page", err));
+                            }
+                        }}
+                    >
                         <Image
                             source={item.imageUrl}
                             style={styles.image}
                             contentFit="cover"
                         />
-                    </View>
+                    </Pressable>
                 )}
             />
 
@@ -112,7 +119,12 @@ const styles = StyleSheet.create({
         height: 120, // Match the original Announcement Card height
         borderRadius: 16,
         overflow: 'hidden',
-        // Optional spacing if wanted, but padding is handled by the parent scroll content
+        shadowColor: '#000',
+        backgroundColor: '#FFF',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.65,
+        shadowRadius: 16,
+        elevation: 2,
     },
     image: {
         width: '100%',

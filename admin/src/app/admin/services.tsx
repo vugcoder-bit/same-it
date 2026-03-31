@@ -132,7 +132,14 @@ export default function ServicesManagementScreen() {
     };
 
     const handleSaveService = async () => {
-        if (!title || !price) return;
+        if (!title || !price) {
+            Toast.error('Title and Price are required');
+            return;
+        }
+        if (!editingId && !selectedServiceImage) {
+            Toast.error('Service image is required');
+            return;
+        }
         try {
             setSaving(true);
             const formData = new FormData();
@@ -148,9 +155,9 @@ export default function ServicesManagementScreen() {
                 if (Platform.OS === 'web') {
                     const res = await fetch(selectedServiceImage.uri);
                     const blob = await res.blob();
-                    formData.append('file', blob, 'service.png');
+                    formData.append('image', blob, 'service.png');
                 } else {
-                    formData.append('file', { uri: selectedServiceImage.uri, name: 'service.png', type: 'image/png' } as any);
+                    formData.append('image', { uri: selectedServiceImage.uri, name: 'service.png', type: 'image/png' } as any);
                 }
             }
 
@@ -185,16 +192,21 @@ export default function ServicesManagementScreen() {
             <View style={[styles.header, !isDesktop && { flexDirection: 'column', alignItems: 'flex-start', gap: 16 }]}>
                 <View>
                     <Text style={[styles.title, !isDesktop && { fontSize: 24 }]}>Service Management</Text>
-                    <Text style={styles.subtitle}>Manage categories and services catalog.</Text>
+                    {/* <Text style={styles.subtitle}>Manage categories and services catalog.</Text> */}
                 </View>
-                <View style={styles.tabContainer}>
+                <ScrollView 
+                    horizontal 
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.tabContainer}
+                    style={!isDesktop && { width: '100%' }}
+                >
                     <Pressable onPress={() => setActiveTab('categories')} style={[styles.tab, activeTab === 'categories' && styles.activeTab]}>
                         <Text style={[styles.tabText, activeTab === 'categories' && styles.activeTabText]}>Categories</Text>
                     </Pressable>
                     <Pressable onPress={() => setActiveTab('services')} style={[styles.tab, activeTab === 'services' && styles.activeTab]}>
                         <Text style={[styles.tabText, activeTab === 'services' && styles.activeTabText]}>Services</Text>
                     </Pressable>
-                </View>
+                </ScrollView>
                 <Pressable
                     onPress={() => {
                         setEditingId(null);
@@ -356,15 +368,15 @@ export default function ServicesManagementScreen() {
                             </View>
 
                             <View style={styles.dynamicFieldsSection}>
-                                <View style={styles.dynamicHeader}>
-                                    <Text style={styles.label}>Custom Form Fields (Admin Defined)</Text>
-                                    <Pressable 
-                                      style={styles.addFieldBtn} 
-                                      onPress={() => setFormFields([...formFields, { id: Date.now().toString(), title: '', type: 'text', placeholder: '', required: false }])}
+                                <View style={[styles.dynamicHeader, !isDesktop && { flexDirection: 'column', alignItems: 'flex-start', gap: 10 }]}>
+                                    <Text style={styles.label}>Dynamic Form Fields</Text>
+                                    <TouchableOpacity 
+                                        onPress={() => setFormFields([...formFields, { id: Date.now().toString(), title: '', type: 'text', required: false }])}
+                                        style={[styles.addFieldBtn, !isDesktop && { width: '100%', justifyContent: 'center' }]}
                                     >
-                                        <Ionicons name="add" size={16} color="#3B82F6" />
+                                        <Ionicons name="add-circle-outline" size={20} color="#3B82F6" />
                                         <Text style={styles.addFieldStr}>Add Field</Text>
-                                    </Pressable>
+                                    </TouchableOpacity>
                                 </View>
                                 {formFields.map((field, index) => (
                                     <View key={field.id} style={styles.fieldBox}>
@@ -383,9 +395,9 @@ export default function ServicesManagementScreen() {
                                                 <Ionicons name="trash" size={20} color="#FB5507" />
                                             </TouchableOpacity>
                                         </View>
-                                        <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+                                        <View style={[styles.fieldRow, !isDesktop && { flexDirection: 'column' }]}>
                                             <TextInput 
-                                              style={[styles.input, { flex: 1, marginBottom: 0 }]} 
+                                              style={[styles.input, { flex: 1, marginBottom: !isDesktop ? 8 : 0 }]} 
                                               placeholder="Placeholder (Optional)" 
                                               value={field.placeholder || ''} 
                                               onChangeText={(t) => {
@@ -394,22 +406,36 @@ export default function ServicesManagementScreen() {
                                                   setFormFields(newFields);
                                               }} 
                                             />
-                                            <Pressable style={[styles.toggleBtn, field.type === 'textarea' && styles.activeToggle]} onPress={() => {
-                                                const newFields = [...formFields];
-                                                newFields[index].type = field.type === 'text' ? 'textarea' : 'text';
-                                                setFormFields(newFields);
-                                            }}>
-                                                <Text style={[styles.toggleText, field.type === 'textarea' && styles.activeToggleText]}>
-                                                    {field.type === 'text' ? '1 Line' : 'Multi-Line'}
-                                                </Text>
-                                            </Pressable>
-                                            <Pressable style={[styles.toggleBtn, field.required && styles.activeToggle]} onPress={() => {
-                                                const newFields = [...formFields];
-                                                newFields[index].required = !field.required;
-                                                setFormFields(newFields);
-                                            }}>
-                                                <Text style={[styles.toggleText, field.required && styles.activeToggleText]}>Required</Text>
-                                            </Pressable>
+                                            <View style={{ flexDirection: 'row', gap: 8, flex: !isDesktop ? 1 : 0 }}>
+                                                <Pressable 
+                                                    style={[styles.toggleBtn, { flex: 1, backgroundColor: field.type === 'textarea' ? '#DBEAFE' : '#F1F5F9', borderColor: field.type === 'textarea' ? '#3B82F6' : '#E2E8F0', borderWidth: 1 }]} 
+                                                    onPress={() => {
+                                                        const newFields = [...formFields];
+                                                        newFields[index].type = field.type === 'text' ? 'textarea' : 'text';
+                                                        setFormFields(newFields);
+                                                    }}
+                                                >
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                                                        <Ionicons name={field.type === 'textarea' ? 'reader' : 'remove'} size={14} color={field.type === 'textarea' ? '#3B82F6' : '#64748B'} />
+                                                        <Text style={[styles.toggleText, { color: field.type === 'textarea' ? '#3B82F6' : '#64748B' }]}>
+                                                            {field.type === 'text' ? 'Basic' : 'Multi'}
+                                                        </Text>
+                                                    </View>
+                                                </Pressable>
+                                                <Pressable 
+                                                    style={[styles.toggleBtn, { flex: 1, backgroundColor: field.required ? '#DCFCE7' : '#F1F5F9', borderColor: field.required ? '#22C55E' : '#E2E8F0', borderWidth: 1 }]} 
+                                                    onPress={() => {
+                                                        const newFields = [...formFields];
+                                                        newFields[index].required = !field.required;
+                                                        setFormFields(newFields);
+                                                    }}
+                                                >
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                                                        <Ionicons name={field.required ? 'checkmark-circle' : 'close-circle-outline'} size={14} color={field.required ? '#22C55E' : '#64748B'} />
+                                                        <Text style={[styles.toggleText, { color: field.required ? '#22C55E' : '#64748B' }]}>Required</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
                                         </View>
                                     </View>
                                 ))}
@@ -507,6 +533,7 @@ const styles = StyleSheet.create({
     addFieldBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#EFF6FF', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8, gap: 4 },
     addFieldStr: { fontSize: 13, color: '#3B82F6', fontWeight: 'bold' },
     fieldBox: { backgroundColor: '#F8FAFC', padding: 12, borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', marginBottom: 10 },
+    fieldRow: { flexDirection: 'row', gap: 8, marginTop: 8 },
     toggleBtn: { paddingHorizontal: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: '#E2E8F0', borderRadius: 8, height: 48 },
     activeToggle: { backgroundColor: '#3B82F6' },
     toggleText: { fontSize: 12, color: '#64748B', fontWeight: 'bold' },

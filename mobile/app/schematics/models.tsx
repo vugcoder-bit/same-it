@@ -89,7 +89,7 @@ export default function SchematicsModelsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFF' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   searchRow: { flexDirection: 'row', alignItems: 'center', gap: 10, margin: 16 },
   input: {
@@ -103,14 +103,19 @@ const styles = StyleSheet.create({
   },
   resultsBar: {
     borderBottomWidth: 2, borderBottomColor: '#FB5507',
-    marginHorizontal: 16, paddingBottom: 8, marginBottom: 16, alignItems: 'center'
+    marginHorizontal: 16, paddingBottom: 8, marginBottom: 0, alignItems: 'center'
   },
   resultsLabel: { color: '#4CAF50', fontWeight: '500', fontSize: 16 },
-  scrollContent: { paddingHorizontal: 16, paddingBottom: 24 },
+  scrollContent: { paddingHorizontal: 16, paddingBlock: 24 },
   card: {
     flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF',
     borderWidth: 1, borderColor: '#FB5507', borderRadius: 8,
-    padding: 16, marginBottom: 16
+    padding: 16, marginBottom: 16,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
   },
   folderIcon: { width: 32, height: 32, marginRight: 16 },
   cardTitle: { fontSize: 16, fontWeight: '500', color: '#1E293B' }

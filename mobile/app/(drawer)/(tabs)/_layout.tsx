@@ -3,6 +3,7 @@ import { withLayoutContext } from 'expo-router';
 import React from 'react';
 import { Platform, View, Text, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/hooks/use-locale';
 import { DashboardHeader } from '@/components/DashboardHeader';
@@ -14,12 +15,13 @@ const MaterialTopTabs = withLayoutContext(createMaterialTopTabNavigator().Naviga
 // Custom Tab Bar to reliably update active colors on swipe
 function CustomTabBar({ state, descriptors, navigation }: any) {
   const { t } = useLocale();
+  const insets = useSafeAreaInsets();
   return (
     <View style={{
       flexDirection: 'row',
       backgroundColor: '#FB5507',
-      height: Platform.OS === 'ios' ? 90 : 75,
-      paddingBottom: Platform.OS === 'ios' ? 25 : 5,
+      height: 70 + insets.bottom,
+      paddingBottom: Math.max(insets.bottom, 5),
       paddingTop: 5,
     }}>
       {state.routes.map((route: any, index: number) => {
@@ -71,7 +73,7 @@ export default function TabLayout() {
   const { t } = useLocale();
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#F8F9FA' }}>
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <StatusBar style="light" backgroundColor="#FB5507" />
       <DashboardHeader title={t('sameIt') || 'SAME IT'} />
       {/* Background extension like login hint */}
@@ -82,11 +84,11 @@ export default function TabLayout() {
         right: 0,
         height: 180,
         backgroundColor: '#FB5507',
-        borderBottomEndRadius: 30,
-        borderBottomStartRadius: 30,
+        borderBottomEndRadius: 10,
+        borderBottomStartRadius: 10,
         zIndex: 0,
       }} />
-      <View style={{ zIndex: 1, paddingTop: 8, paddingHorizontal: 16 }}>
+      <View style={{ zIndex: 1, paddingTop: 0, paddingHorizontal: 16 }}>
         <AdvertisementCarousel />
       </View>
 

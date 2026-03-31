@@ -38,6 +38,7 @@ export default function OrdersManagementScreen() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<'ALL' | 'PROCESSING' | 'SUCCESSFUL' | 'FAILED'>('ALL');
+    const [searchQuery, setSearchQuery] = useState('');
 
     // Details Modal
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -113,9 +114,19 @@ export default function OrdersManagementScreen() {
         } catch (error) { console.error(error); }
     };
 
-    const filteredOrders = orders.filter(o =>
-        filter === 'ALL' ? true : o.status === filter
-    );
+    const filteredOrders = orders.filter(o => {
+        const matchesFilter = filter === 'ALL' ? true : o.status === filter;
+        const query = searchQuery.toLowerCase();
+        const matchesSearch =
+            o.id.toString().includes(query) ||
+            (o.user?.username || '').toLowerCase().includes(query) ||
+            (o.service?.title || '').toLowerCase().includes(query) ||
+            o.totalPrice.toString().includes(query) ||
+            (o.paymentMethod?.title || 'Direct').toLowerCase().includes(query) ||
+            o.status.toLowerCase().includes(query);
+
+        return matchesFilter && matchesSearch;
+    });
 
     const getStatusStyle = (status: string) => {
         switch (status) {
@@ -130,9 +141,33 @@ export default function OrdersManagementScreen() {
             <View style={[styles.header, !isDesktop && { flexDirection: 'column', alignItems: 'flex-start', gap: 16 }]}>
                 <View>
                     <Text style={[styles.title, !isDesktop && { fontSize: 24 }]}>Service Orders Queue</Text>
-                    <Text style={styles.subtitle}>Review and process service requests from technicians.</Text>
+                    {/* <Text style={styles.subtitle}>Review and process service requests from technicians.</Text> */}
                 </View>
-                <View style={[styles.filterBar, !isDesktop && { width: '100%', overflow: 'scroll' }]}>
+
+                <View style={[styles.actionRow, { width: isDesktop ? 400 : '100%' }]}>
+                    <View style={styles.searchContainer}>
+                        <Ionicons name="search-outline" size={18} color="#94A3B8" />
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Search by ID, User, Service, Price, Payment or Status..."
+                            placeholderTextColor="#94A3B8"
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
+                        />
+                        {searchQuery.length > 0 && (
+                            <Pressable onPress={() => setSearchQuery('')}>
+                                <Ionicons name="close-circle" size={18} color="#94A3B8" />
+                            </Pressable>
+                        )}
+                    </View>
+                </View>
+
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={[styles.filterBar, !isDesktop && { paddingRight: 20 }]}
+                    style={!isDesktop && { width: '100%' }}
+                >
                     {(['ALL', 'PROCESSING', 'SUCCESSFUL', 'FAILED'] as const).map(f => (
                         <Pressable
                             key={f}
@@ -142,7 +177,7 @@ export default function OrdersManagementScreen() {
                             <Text style={[styles.filterBtnText, filter === f && styles.activeFilterText]}>{f}</Text>
                         </Pressable>
                     ))}
-                </View>
+                </ScrollView>
             </View>
 
             {loading ? (
@@ -164,6 +199,7 @@ export default function OrdersManagementScreen() {
                             <FlatList
                                 data={filteredOrders}
                                 keyExtractor={(item) => item.id.toString()}
+                                ListEmptyComponent={<View style={[styles.center, { marginTop: 40 }]}><Text style={{ color: '#94A3B8' }}>No orders found matching "{searchQuery}"</Text></View>}
                                 renderItem={({ item, index }) => {
                                     const styles_status = getStatusStyle(item.status);
                                     return (
@@ -211,7 +247,7 @@ export default function OrdersManagementScreen() {
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Quantity</Text><Text style={styles.detailValue}>{selectedOrder?.quantity}</Text></View>
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Total Price</Text><Text style={[styles.detailValue, { color: '#FB5507', fontWeight: 'bold' }]}>${selectedOrder?.totalPrice}</Text></View>
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Payment Method</Text><Text style={styles.detailValue}>{selectedOrder?.paymentMethod?.title || 'Unknown'}</Text></View>
-                                <View style={styles.detailItem}><Text style={styles.detailLabel}>Date Added</Text><Text style={styles.detailValue}>{selectedOrder?.createdAt ? new Date(selectedOrder.createdAt).toLocaleDateString() : ''}</Text></View>
+                                <View style={styles.detailItem}><Text style={styles.detailLabel}>Date Added</Text><Text style={styles.detailValue}>{selectedOrder?.createdAt ? new Date(selectedOrder.createdAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : ''}</Text></View>
                                 <View style={styles.detailItem}><Text style={styles.detailLabel}>Phone 1</Text><Text style={styles.detailValue}>{selectedOrder?.phone1}</Text></View>
                                 {selectedOrder?.phone2 ? <View style={styles.detailItem}><Text style={styles.detailLabel}>Phone 2</Text><Text style={styles.detailValue}>{selectedOrder?.phone2}</Text></View> : null}
                                 {selectedOrder?.telegramUsername ? <View style={styles.detailItem}><Text style={styles.detailLabel}>Telegram</Text><Text style={styles.detailValue}>{selectedOrder?.telegramUsername}</Text></View> : null}
@@ -241,9 +277,8 @@ export default function OrdersManagementScreen() {
                                 <Text style={{ color: '#94A3B8', fontStyle: 'italic' }}>No screenshot provided</Text>
                             )}
 
-                            {selectedOrder?.status !== 'SUCCESSFUL' && (
                                 <View style={styles.adminSection}>
-                                    <Text style={styles.adminSectionTitle}>Admin Approval Actions</Text>
+                                    <Text style={styles.adminSectionTitle}>Admin Actions & Progress Updates</Text>
 
                                     <Text style={styles.detailLabel}>Additional Notes (Optional, sent to user)</Text>
                                     <TextInput
@@ -262,19 +297,25 @@ export default function OrdersManagementScreen() {
                                         </Text>
                                     </Pressable>
                                 </View>
-                            )}
-                        </ScrollView>
+                            </ScrollView>
 
-                        {selectedOrder?.status !== 'SUCCESSFUL' && selectedOrder?.status !== 'FAILED' && (
                             <View style={styles.modalFooter}>
+                                {selectedOrder?.status !== 'PROCESSING' && (
+                                    <TouchableOpacity 
+                                        onPress={() => updateStatus(selectedOrder!.id, 'PROCESSING')} 
+                                        disabled={updating} 
+                                        style={[styles.statusBtn, { backgroundColor: '#F1F5F9', borderWidth: 1, borderColor: '#E2E8F0' }]}
+                                    >
+                                        <Text style={[styles.btnText, { color: '#64748B' }]}>Move to Pending</Text>
+                                    </TouchableOpacity>
+                                )}
                                 <TouchableOpacity onPress={() => updateStatus(selectedOrder!.id, 'FAILED')} disabled={updating} style={[styles.statusBtn, styles.failBtn]}>
-                                    <Text style={styles.btnText}>Reject</Text>
+                                    <Text style={styles.btnText}>{selectedOrder?.status === 'FAILED' ? 'Update Reject' : 'Reject'}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => updateStatus(selectedOrder!.id, 'SUCCESSFUL')} disabled={updating} style={[styles.statusBtn, styles.successBtn]}>
-                                    {updating ? <ActivityIndicator color="#FFF" /> : <Text style={styles.btnText}>Approve & Complete</Text>}
+                                    {updating ? <ActivityIndicator color="#FFF" /> : <Text style={styles.btnText}>{selectedOrder?.status === 'SUCCESSFUL' ? 'Update & Complete' : 'Approve & Complete'}</Text>}
                                 </TouchableOpacity>
                             </View>
-                        )}
                     </View>
                 </View>
             </Modal>
@@ -292,6 +333,9 @@ const styles = StyleSheet.create({
     activeFilter: { backgroundColor: '#FFF', elevation: 2 },
     filterBtnText: { fontSize: 13, fontWeight: 'bold', color: '#64748B' },
     activeFilterText: { color: '#FB5507' },
+    actionRow: { marginBottom: 16 },
+    searchContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F1F5F9', borderRadius: 12, paddingHorizontal: 14, height: 44, gap: 8 },
+    searchInput: { flex: 1, fontSize: 13, color: '#1E293B', outlineStyle: 'none' },
     tableCard: { flex: 1, backgroundColor: '#FFF', borderRadius: 20, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden' },
     tableHeader: { flexDirection: 'row', padding: 20, backgroundColor: '#F8FAFC', borderBottomWidth: 1, borderBottomColor: '#E2E8F0' },
     col: { fontSize: 12, fontWeight: 'bold', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: 0.5 },
@@ -315,9 +359,9 @@ const styles = StyleSheet.create({
     detailValue: { fontSize: 15, color: '#1E293B' },
     noteBox: { backgroundColor: '#F8FAFC', padding: 16, borderRadius: 12, marginTop: 16 },
     screenshot: { width: '100%', height: 300, borderRadius: 12, marginTop: 10, backgroundColor: '#F1F5F9' },
-    modalFooter: { flexDirection: 'row', gap: 12, marginTop: 24 },
-    statusBtn: { flex: 1, height: 50, borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
-    btnText: { color: '#FFF', fontWeight: 'bold' },
+    modalFooter: { flexDirection: 'row', gap: 8, marginTop: 24 },
+    statusBtn: { flex: 1, height: 44, borderRadius: 10, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 4 },
+    btnText: { color: '#FFF', fontWeight: 'bold', fontSize: 10, textAlign: 'center' },
     successBtn: { backgroundColor: '#22C55E' },
     failBtn: { backgroundColor: '#FB5507' },
     adminSection: { marginTop: 24, paddingTop: 20, borderTopWidth: 1, borderTopColor: '#E2E8F0' },

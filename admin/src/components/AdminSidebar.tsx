@@ -21,6 +21,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
     const menuItems = [
         { name: 'Dashboard', icon: 'grid-outline', route: '/' },
         { name: 'Users', icon: 'people-outline', route: '/admin/users' },
+        { name: 'Orders', icon: 'cart-outline', route: '/admin/orders' },
         { name: 'Devices', icon: 'phone-portrait-outline', route: '/admin/devices' },
         { name: 'Sub-Categories', icon: 'grid-outline', route: '/admin/sub-categories' },
         { name: 'Compatibility', icon: 'layers-outline', route: '/admin/compatibility' },
@@ -29,7 +30,6 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         { name: 'Schematics', icon: 'map-outline', route: '/admin/schematics' },
         { name: 'Services', icon: 'construct-outline', route: '/admin/services' },
         { name: 'Payment Methods', icon: 'card-outline', route: '/admin/payment-methods' },
-        { name: 'Orders', icon: 'cart-outline', route: '/admin/orders' },
         { name: 'App Settings', icon: 'settings-outline', route: '/admin/settings' },
         { name: 'Contact Messages', icon: 'mail-outline', route: '/admin/messages' },
     ];

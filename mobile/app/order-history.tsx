@@ -7,8 +7,10 @@ import { AppHeader } from '@/components/AppHeader';
 import { StatusBar } from 'expo-status-bar';
 import * as Clipboard from 'expo-clipboard';
 import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity, Linking } from 'react-native';
+import { TouchableOpacity, Linking, Platform } from 'react-native';
 import { Toast } from 'toastify-react-native';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 const fetchMyOrders = async () => {
     const { data } = await apiClient.get('/orders/my');
@@ -28,6 +30,24 @@ export default function OrderHistoryScreen() {
         const isFailed = item.status === 'FAILED';
         const isProcessing = item.status === 'PROCESSING';
 
+        const handleDownload = async (url: string) => {
+            try {
+                const filename = url.split('/').pop() || 'attachment';
+                const fileUri = `${FileSystem.documentDirectory}${filename}`;
+                
+                Toast.show(t('downloading') || 'Downloading...');
+                
+                const { uri } = await FileSystem.downloadAsync(url, fileUri);
+                
+                if (uri) {
+                    await Sharing.shareAsync(uri);
+                }
+            } catch (error) {
+                console.error("Download error:", error);
+                Toast.error(t('downloadFailed') || 'Download failed');
+            }
+        };
+
         return (
             <View style={styles.card}>
                 <View style={styles.cardHeader}>
@@ -43,7 +63,7 @@ export default function OrderHistoryScreen() {
                 </View>
 
                 <View style={styles.dateRow}>
-                    <Text style={styles.dateText}>📅 {new Date(item.createdAt).toLocaleDateString()}</Text>
+                    <Text style={styles.dateText}>📅 {new Date(item.createdAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</Text>
                 </View>
 
                 <View style={styles.detailsRow}>
@@ -74,7 +94,7 @@ export default function OrderHistoryScreen() {
                 {item.adminFileUrl && (
                     <TouchableOpacity
                         style={styles.downloadBtn}
-                        onPress={() => Linking.openURL(item.adminFileUrl)}
+                        onPress={() => handleDownload(item.adminFileUrl)}
                     >
                         <Ionicons name="download-outline" size={18} color="#FFF" />
                         <Text style={styles.downloadBtnText}>{t('downloadAttachment') || 'Download Attachment'}</Text>
@@ -122,11 +142,11 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         borderWidth: 1,
         borderColor: '#FB5507', // Orange border per screenshot
-        elevation: 3,
+        elevation: 4,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
     },
     cardHeader: {
         flexDirection: 'row',

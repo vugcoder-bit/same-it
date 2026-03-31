@@ -160,11 +160,28 @@ router.get('/advertisements', async (_req, res) => {
 router.post('/advertisements', uploadAdvertisement.single('image'), async (req: any, res: any) => {
     try {
         if (!req.file) return res.status(400).json({ success: false, message: 'Image required' });
+        const { link } = req.body;
         const baseUrl = req.protocol + '://' + req.get('host');
         const imageUrl = `${baseUrl}/uploads/advertisements/${req.file.filename}`;
-        const ad = await _prisma.advertisement.create({ data: { imageUrl } });
+        const ad = await _prisma.advertisement.create({ 
+            data: { 
+                imageUrl,
+                link: link || null
+            } as any
+        });
         res.status(201).json({ success: true, data: ad });
     } catch (e) { res.status(500).json({ success: false, message: 'Error creating ad' }); }
+});
+router.put('/advertisements/:id', async (req: any, res: any) => {
+    try {
+        const id = Number(req.params.id);
+        const { link } = req.body;
+        const ad = await _prisma.advertisement.update({
+            where: { id },
+            data: { link: link || null }
+        });
+        res.json({ success: true, data: ad });
+    } catch (e) { res.status(500).json({ success: false, message: 'Error updating ad' }); }
 });
 router.delete('/advertisements/:id', async (req: any, res: any) => {
     try {

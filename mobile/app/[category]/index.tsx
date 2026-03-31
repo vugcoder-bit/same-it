@@ -190,7 +190,7 @@ export default function CategoryIndexScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F9FA' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   scrollContent: { padding: 16 },
   sectionTitle: {
@@ -205,23 +205,23 @@ const styles = StyleSheet.create({
   adhesiveCard: {
     flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF',
     borderWidth: 1.5, borderColor: '#FB5507', borderRadius: 24, padding: 16,
-    marginBottom: 20, elevation: 3, shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 6,
+    marginBottom: 20, elevation: 4, shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.15, shadowRadius: 8,
   },
   adhesiveImage: { width: 60, height: 100, marginRight: 24 },
   adhesiveText: { fontSize: 20, fontWeight: '600', color: '#FB5507', flex: 1, textAlign: 'center' },
   gridCard: { width: '40%', alignItems: 'center', marginBottom: 2 },
   imageContainer: {
     width: '100%', aspectRatio: 1, backgroundColor: '#FFF', borderRadius: 16,
-    padding: 8, justifyContent: 'center', alignItems: 'center', elevation: 3,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1, shadowRadius: 6, marginBottom: 5
+    padding: 8, justifyContent: 'center', alignItems: 'center', elevation: 4,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15, shadowRadius: 8, marginBottom: 5
     
   },
   borderStyle: {
     borderWidth: 1, borderColor: '#FB5507',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1, shadowRadius: 6, marginBottom: 5
+    shadowColor: '#000', shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15, shadowRadius: 8, marginBottom: 5
   },
   cardImage: { width: '100%', height: '100%' },
   fallbackAvatar: {

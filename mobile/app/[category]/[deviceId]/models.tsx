@@ -65,7 +65,7 @@ export default function ModelsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#FFFFFF',
   },
   center: {
     flex: 1,

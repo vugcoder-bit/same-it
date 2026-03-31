@@ -162,7 +162,7 @@ export default function SearchScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F9FA' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   searchRow: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
     margin: 16, marginTop: 20,
@@ -177,10 +177,10 @@ const styles = StyleSheet.create({
     borderRadius: 10, justifyContent: 'center', alignItems: 'center'
   },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  list: { paddingHorizontal: 16, paddingBottom: 30 },
+  list: { paddingHorizontal: 16, paddingBlock: 30 },
   resultsBar: {
     borderBottomWidth: 2, borderBottomColor: '#FB5507',
-    marginHorizontal: 16, paddingBottom: 8, marginBottom: 16, alignItems: 'center'
+    marginHorizontal: 16, paddingBottom: 0, marginBottom:  0, alignItems: 'center'
   },
   resultsLabel: { color: '#4CAF50', fontWeight: '500', fontSize: 16 },
   card: {

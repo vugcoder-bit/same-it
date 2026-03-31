@@ -10,6 +10,7 @@ datasource db {
 model Advertisement {
   id        Int      @id @default(autoincrement())
   imageUrl  String   @db.Text
+  link      String?  @db.Text
   createdAt DateTime @default(now())
 
   @@map("advertisement")

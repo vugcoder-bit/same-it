@@ -112,7 +112,7 @@ export default function ErrorCodesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F9FA' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   searchRow: { flexDirection: 'row', alignItems: 'center', gap: 10, margin: 16 },
   input: {
     flex: 1, height: 50, backgroundColor: '#FFF', borderRadius: 10,
@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   resultsBar: {
     borderBottomWidth: 2, borderBottomColor: '#FB5507',
-    marginHorizontal: 16, paddingBottom: 8, marginBottom: 16, alignItems: 'center'
+    marginHorizontal: 16, paddingBottom: 0, marginBottom: 0, alignItems: 'center'
   },
   resultsLabel: { color: '#4CAF50', fontWeight: '500', fontSize: 16 },
-  list: { paddingHorizontal: 16, paddingBottom: 30 },
+  list: { paddingHorizontal: 16, paddingBlock: 15 },
   card: {
     backgroundColor: '#FFF', borderRadius: 16, padding: 16,
-    marginBottom: 12, borderWidth: 1, borderColor: '#E2E8F0',
+    marginBottom: 12, borderWidth: 2, borderColor: '#FB5507',
     elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05, shadowRadius: 3
   },
