@@ -30,6 +30,11 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Inject Mobile Config Files
+        run: |
+          echo '${{ secrets.MOBILE_GOOGLE_SERVICES }}' > ./mobile/google-services.json
+          echo '${{ secrets.MOBILE_FIREBASE_SDK }}' > ./mobile/same-it-60221-firebase-adminsdk-fbsvc-864a487c23.json
+
       - name: Build Mobile App (Android - Dev)
         run: |
           yarn install
@@ -43,6 +48,11 @@ jobs:
         with:
           name: build-mobile-dev
           path: mobile/build-mobile-dev.apk
+
+      - name: Inject Admin Config Files
+        run: |
+          echo '${{ secrets.ADMIN_GOOGLE_SERVICES }}' > ./admin/google-services.json
+          echo '${{ secrets.ADMIN_FIREBASE_SDK }}' > ./admin/same-it-admin-firebase-adminsdk-fbsvc-0729e3a855.json
 
       - name: Build Admin App (Android - Dev)
         run: |
