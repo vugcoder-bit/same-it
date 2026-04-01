@@ -38,6 +38,9 @@ jobs:
         run: |
           echo '${{ secrets.MOBILE_GOOGLE_SERVICES }}' > ./mobile/google-services.json
           echo '${{ secrets.MOBILE_FIREBASE_SDK }}' > ./mobile/same-it-60221-firebase-adminsdk-fbsvc-864a487c23.json
+          cp ./mobile/.gitignore ./mobile/.easignore
+          sed -i '/google-services.json/d' ./mobile/.easignore
+          sed -i '/firebase-adminsdk/d' ./mobile/.easignore
 
       - name: Build Mobile App (Android - Dev)
         run: |
@@ -57,6 +60,9 @@ jobs:
         run: |
           echo '${{ secrets.ADMIN_GOOGLE_SERVICES }}' > ./admin/google-services.json
           echo '${{ secrets.ADMIN_FIREBASE_SDK }}' > ./admin/same-it-admin-firebase-adminsdk-fbsvc-0729e3a855.json
+          cp ./admin/.gitignore ./admin/.easignore
+          sed -i '/google-services.json/d' ./admin/.easignore
+          sed -i '/firebase-adminsdk/d' ./admin/.easignore
 
       - name: Build Admin App (Android - Dev)
         run: |
