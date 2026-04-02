@@ -21,17 +21,15 @@ export function usePushNotifications() {
   const responseListener = useRef<Notifications.EventSubscription>();
 
   const token = useAuthStore((state) => state.token);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   useEffect(() => {
-    // Only register for push notifications if the user is authenticated
-    if (!isAuthenticated || !token) return;
+    // Only register for push notifications if the admin is authenticated
+    if (!token) return;
 
     registerForPushNotificationsAsync()
       .then(async (pushToken) => {
         if (pushToken) {
           setExpoPushToken(pushToken);
-          // Send push token to the backend
           try {
             await apiClient.post('/auth/update-token', { pushToken });
             console.log('Successfully registered admin push token with backend');
@@ -42,8 +40,8 @@ export function usePushNotifications() {
       })
       .catch((err) => console.log('Push Token Registration Error:', err));
 
-    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-      setNotification(notification);
+    notificationListener.current = Notifications.addNotificationReceivedListener((notif) => {
+      setNotification(notif);
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
@@ -58,16 +56,16 @@ export function usePushNotifications() {
         Notifications.removeNotificationSubscription(responseListener.current);
       }
     };
-  }, [isAuthenticated, token]);
+  }, [token]);
 
   return { expoPushToken, notification };
 }
 
 async function registerForPushNotificationsAsync() {
-  let token;
+  let pushToken: string | undefined;
 
   if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
+    await Notifications.setNotificationChannelAsync('default', {
       name: 'default',
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
@@ -86,25 +84,24 @@ async function registerForPushNotificationsAsync() {
       console.log('Failed to get push token for push notification!');
       return undefined;
     }
-    
+
     try {
-        const projectId =
-            Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
-        if (!projectId) {
-            console.log('Project ID not found in app configuration.');
-            // Development fallback
-            token = (await Notifications.getExpoPushTokenAsync()).data;
-        } else {
-             token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
-        }
+      const projectId =
+        Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
+      if (!projectId) {
+        console.log('Project ID not found in app configuration.');
+        pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+      } else {
+        pushToken = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
+      }
     } catch (e) {
-        token = (await Notifications.getExpoPushTokenAsync()).data;
+      pushToken = (await Notifications.getExpoPushTokenAsync()).data;
     }
-    
-    console.log('Expo Push Token generated:', token);
+
+    console.log('Expo Push Token generated:', pushToken);
   } else {
     console.log('Must use physical device for Push Notifications');
   }
 
-  return token;
+  return pushToken;
 }
