@@ -23,7 +23,7 @@ export default function ConvertArabicScreen() {
             setLoading(true);
             const { data } = await apiClient.post('/convert', { text: inputCode, mode: 'toHex' });
             setResult(data.data?.converted || '');
-            Toast.success(t('convertedSuccessfully'));
+            // Toast.success(t('convertedSuccessfully'));
         } catch (e: any) {
             setResult('');
             Toast.error(e.response?.data?.message || t('conversionFailed'));
