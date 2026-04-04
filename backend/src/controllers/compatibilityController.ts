@@ -39,12 +39,12 @@ export const remove = async (req: Request, res: Response, next: NextFunction): P
 
 export const search = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { modelId, type, brandId, query, subCategoryId } = req.query;
-        const parsedModelId = modelId ? parseInt(modelId as string) : undefined;
+        const { deviceId, type, brandId, query, subCategoryId } = req.query;
+        const parsedDeviceId = deviceId ? parseInt(deviceId as string) : undefined;
         const parsedBrandId = brandId ? parseInt(brandId as string) : undefined;
         const parsedSubCatId = subCategoryId ? parseInt(subCategoryId as string) : undefined;
         const items = await compatibilityService.search(
-            parsedModelId,
+            parsedDeviceId,
             type as string,
             parsedBrandId,
             query as string | undefined,

@@ -15,7 +15,6 @@ import serviceRoutes from './routes/serviceRoutes';
 import orderRoutes from './routes/orderRoutes';
 import advertisementRoutes from './routes/advertisementRoutes'; // Import ad routes
 import deviceRoutes from './routes/deviceRoutes';
-import deviceModelRoutes from './routes/deviceModelRoutes';
 import deviceTypeRoutes from './routes/deviceTypeRoutes';
 import serviceCategoryRoutes from './routes/serviceCategoryRoutes';
 import paymentMethodRoutes from './routes/paymentMethodRoutes';
@@ -80,7 +79,6 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/advertisements', advertisementRoutes);
 app.use('/api/devices', deviceRoutes);
-app.use('/api/device-models', deviceModelRoutes);
 app.use('/api/device-types', deviceTypeRoutes);
 app.use('/api/service-categories', serviceCategoryRoutes);
 app.use('/api/payment-methods', paymentMethodRoutes);

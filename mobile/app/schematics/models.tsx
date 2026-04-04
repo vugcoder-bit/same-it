@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Image } from 'expo-image';
 import { useLocale } from '@/hooks/use-locale';
 import { AppHeader } from '@/components/AppHeader';
-import { getDeviceModelsByBrandId, DeviceModel } from '@/api/device';
+import { getDevices, Device } from '@/api/device';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SchematicsModelsScreen() {
@@ -13,23 +13,23 @@ export default function SchematicsModelsScreen() {
   const router = useRouter();
   const { t } = useLocale();
 
-  const [models, setModels] = useState<DeviceModel[]>([]);
+  const [devices, setDevices] = useState<Device[]>([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
 
   useEffect(() => {
     if (brandId) {
-      getDeviceModelsByBrandId(parseInt(brandId as string))
-        .then(setModels)
-        .catch(() => setModels([]))
+      getDevices({ deviceTypeId: parseInt(brandId as string) })
+        .then(setDevices)
+        .catch(() => setDevices([]))
         .finally(() => setLoading(false));
     } else {
       setLoading(false);
     }
   }, [brandId]);
 
-  const filteredModels = models.filter(m =>
-    m.name.toLowerCase().includes(query.toLowerCase())
+  const filteredDevices = devices.filter(d =>
+    d.name.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
@@ -60,7 +60,7 @@ export default function SchematicsModelsScreen() {
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          {filteredModels.map((item) => (
+          {filteredDevices.map((item) => (
             <Pressable
               key={item.id}
               style={styles.card}
@@ -72,14 +72,14 @@ export default function SchematicsModelsScreen() {
               }}
             >
               <Image
-                source={require('@/assets/images/icons/folder.png')} // We'll assume this exists or use fallback
+                source={require('@/assets/images/icons/folder.png')}
                 style={styles.folderIcon}
                 contentFit="contain"
               />
               <Text style={styles.cardTitle}>{item.name}</Text>
             </Pressable>
           ))}
-          {filteredModels.length === 0 && (
+          {filteredDevices.length === 0 && (
             <Text style={{ textAlign: 'center', color: '#94A3B8', marginTop: 40 }}>{t('noResultsFound')}</Text>
           )}
         </ScrollView>

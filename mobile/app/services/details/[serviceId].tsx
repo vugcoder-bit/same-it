@@ -139,13 +139,13 @@ const ServiceDetailsScreen = () => {
             <Text style={styles.serviceDesc}>{service?.description}</Text>
 
             <View style={styles.infoRow}>
-              {service?.image && (
+              {/* {service?.image && (
                 <Image
                   source={{ uri: `${apiClient.defaults.baseURL?.replace('/api', '')}/uploads/${service.image}` }}
                   style={styles.serviceImage}
                   resizeMode="cover"
                 />
-              )}
+              )} */}
               <View style={styles.infoBox}>
                 <Text style={styles.infoLabel}>{t('duration')}</Text>
                 <Text style={styles.infoValue}>{service?.duration || '-'}</Text>
@@ -300,12 +300,12 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 18, fontWeight: 'bold' },
   card: { backgroundColor: '#FFF', margin: 15, padding: 20, borderRadius: 15, elevation: 3, borderWidth: 1.5, borderColor: '#FB5507' },
   serviceImage: { width: 70, height: 70, borderRadius: 12, marginRight: 10, borderWidth: 1, borderColor: '#FB5507' },
-  serviceTitle: { fontSize: 20, fontWeight: 'bold', color: '#333', marginBottom: 10 },
-  serviceDesc: { fontSize: 14, color: '#666', lineHeight: 20, marginBottom: 20 },
+  serviceTitle: { fontSize: 20, fontWeight: 'bold', color: '#333', marginBottom: 10, textAlign: 'center' },
+  serviceDesc: { fontSize: 14, color: '#666', lineHeight: 20, marginBottom: 10, textAlign: 'center' },
   infoRow: { flexDirection: 'row', justifyContent: 'space-between' },
   infoBox: { alignItems: 'center', flex: 1 },
-  infoLabel: { fontSize: 12, color: '#999', marginBottom: 5 },
-  infoValue: { fontSize: 14, fontWeight: 'bold', color: '#333' },
+  infoLabel: { fontSize: 18, color: '#999', marginBottom: 5 },
+  infoValue: { fontSize: 14, fontWeight: 'bold', color: '#fff', },
   formSection: { padding: 15 },
   sectionTitle: { fontSize: 16, fontWeight: 'bold', color: '#333', marginTop: 20, marginBottom: 15 },
   fieldLabel: { fontSize: 14, color: '#666', marginBottom: 8, marginTop: 10 },

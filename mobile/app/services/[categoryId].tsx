@@ -4,16 +4,18 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useLocale } from '@/hooks/use-locale';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
+import { useArabicFont } from '@/hooks/useArabicFont';
 import { apiClient } from '@/api/apiClient';
 import { AppHeader } from '@/components/AppHeader';
 import { StatusBar } from 'expo-status-bar';
-
+import { Image } from 'expo-image'
 const ServicesListScreen = () => {
   const router = useRouter();
   const { categoryId, name } = useLocalSearchParams();
   const { t } = useLocale();
+  const { arabicFont } = useArabicFont();
   const [searchQuery, setSearchQuery] = useState('');
-
+  const baseUrl = apiClient.defaults.baseURL?.replace('/api', '') || '';
   const { data: services, isLoading } = useQuery({
     queryKey: ['services', categoryId],
     queryFn: async () => {
@@ -32,18 +34,26 @@ const ServicesListScreen = () => {
       style={styles.serviceItem}
       onPress={() => router.push(`/services/details/${item.id}`)}
     >
+      <Image
+        source={{ uri: `${baseUrl}/uploads/${item.image}` }}
+        style={styles.serviceImage}
+        contentFit="cover"
+      />
       <View style={styles.serviceInfo}>
-        <Text style={styles.serviceTitle}>{item.title}</Text>
-        <Text style={styles.serviceDesc} numberOfLines={2}>{item.description}</Text>
+        <View style={styles.titleRow}>
+          <Text style={[styles.serviceTitle, arabicFont]} numberOfLines={1}>{item.title}</Text>
+          <View style={styles.priceBox}>
+            <Text style={styles.priceText}>${item.price}</Text>
+          </View>
+        </View>
+
+        <Text style={[styles.serviceDesc, arabicFont]} numberOfLines={2}>{item.description}</Text>
         <View style={styles.badgeRow}>
-          {item.duration && <View style={styles.badge}><Text style={styles.badgeText}>{item.duration}</Text></View>}
-          {item.deliveryTime && <View style={[styles.badge, { backgroundColor: '#E3F2FD' }]}><Text style={[styles.badgeText, { color: '#2196F3' }]}>{item.deliveryTime}</Text></View>}
+          {item.duration && <View style={styles.badge}><Text style={[styles.badgeText, arabicFont]}>{item.duration}</Text></View>}
+          {item.deliveryTime && <View style={[styles.badge, { backgroundColor: '#E3F2FD' }]}><Text style={[styles.badgeText, { color: '#2196F3' }, arabicFont]}>{item.deliveryTime}</Text></View>}
         </View>
       </View>
-      <View style={styles.priceContainer}>
-        <Text style={styles.priceText}>${item.price}</Text>
-        <Ionicons name="chevron-forward" size={20} color="#CCC" />
-      </View>
+
     </TouchableOpacity>
   );
 
@@ -134,7 +144,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
 
     borderColor: '#FB5507',
-    padding: 15,
+    padding: 8,
     marginBottom: 12,
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -144,15 +154,31 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 8,
   },
+  serviceImage: {
+    width: 85,
+    height: 85,
+    borderRadius: 10,
+    marginRight: 12,
+    borderColor: '#FB5507',
+    borderWidth: 2.5,
+  },
   serviceInfo: {
     flex: 1,
-    marginRight: 10,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+    fontWeight: '700'
   },
   serviceTitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 4,
+    color: '#000000',
+    flex: 1,
+    
+    textAlign: 'left',
   },
   serviceDesc: {
     fontSize: 13,
@@ -174,15 +200,17 @@ const styles = StyleSheet.create({
     color: '#FB5507',
     fontWeight: '600',
   },
-  priceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  priceBox: {
+    backgroundColor: '#FB5507',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    marginLeft: 8,
   },
   priceText: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 'bold',
-    color: '#FB5507',
-    marginRight: 5,
+    color: '#FFFFFF',
   },
   centered: {
     flex: 1,

@@ -80,32 +80,20 @@
       [
         "expo-font",
         {
-          "fonts": [
-            "./assets/cocon-next-arabic.ttf"
-          ],
+          "fonts": ["./assets/cocon-next-arabic.ttf"],
           "android": {
             "fonts": [
               {
                 "fontFamily": "CoconNextArabic",
                 "fontDefinitions": [
-                  {
-                    "path": "./assets/cocon-next-arabic.ttf",
-                    "weight": 700,
-                    "style": "italic"
-                  },
-                  {
-                    "path": "./assets/cocon-next-arabic.ttf",
-                    "weight": 700
-                  }
+                  { "path": "./assets/cocon-next-arabic.ttf", "weight": 400 },
+                  { "path": "./assets/cocon-next-arabic.ttf", "weight": 700 }
                 ]
               }
             ]
           },
           "ios": {
-            "fonts": [
-              "./assets/cocon-next-arabic.ttf",
-              "./assets/cocon-next-arabic.ttf"
-            ]
+            "fonts": ["./assets/cocon-next-arabic.ttf"]
           }
         }
       ],

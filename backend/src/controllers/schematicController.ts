@@ -23,7 +23,7 @@ export const create = async (req: Request, res: Response, next: NextFunction): P
             return;
         }
         const data = {
-            deviceModelId: parseInt(req.body.deviceModelId as string),
+            deviceId: parseInt(req.body.deviceId as string),
             schematicType: req.body.schematicType,
             pdfFile: req.file.filename,
         };
@@ -46,7 +46,7 @@ export const getAll = async (_req: Request, res: Response, next: NextFunction): 
 export const update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const updateData: any = {};
-        if (req.body.deviceModelId) updateData.deviceModelId = parseInt(req.body.deviceModelId as string);
+        if (req.body.deviceId) updateData.deviceId = parseInt(req.body.deviceId as string);
         if (req.body.schematicType) updateData.schematicType = req.body.schematicType;
 
         if (req.file) {
@@ -81,12 +81,12 @@ export const remove = async (req: Request, res: Response, next: NextFunction): P
 
 export const search = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { deviceModelId } = req.query;
-        if (!deviceModelId) {
-            res.status(400).json({ success: false, message: 'Query parameter "deviceModelId" is required' });
+        const { deviceId } = req.query;
+        if (!deviceId) {
+            res.status(400).json({ success: false, message: 'Query parameter "deviceId" is required' });
             return;
         }
-        const items = await schematicService.search(parseInt(deviceModelId as string));
+        const items = await schematicService.search(parseInt(deviceId as string));
         res.json({ success: true, data: items });
     } catch (error) {
         next(error);

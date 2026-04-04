@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 interface SchematicData {
-    deviceModelId: number;
+    deviceId: number;
     schematicType: string;
     pdfFile: string;
 }
@@ -11,7 +11,7 @@ interface SchematicData {
 export const create = async (data: SchematicData) => {
     return prisma.schematic.create({
         data: {
-            deviceModelId: data.deviceModelId,
+            deviceId: data.deviceId,
             schematicType: data.schematicType,
             pdfFile: data.pdfFile,
         },
@@ -19,11 +19,17 @@ export const create = async (data: SchematicData) => {
 };
 
 export const getAll = async () => {
-    return prisma.schematic.findMany({ orderBy: { uploadedAt: 'desc' }, include: { deviceModel: { include: { device: true } } } });
+    return prisma.schematic.findMany({ 
+        orderBy: { uploadedAt: 'desc' }, 
+        include: { device: { include: { deviceType: true } } } 
+    });
 };
 
 export const getById = async (id: number) => {
-    return prisma.schematic.findUnique({ where: { id }, include: { deviceModel: { include: { device: true } } } });
+    return prisma.schematic.findUnique({ 
+        where: { id }, 
+        include: { device: { include: { deviceType: true } } } 
+    });
 };
 
 export const update = async (id: number, data: Partial<SchematicData>) => {
@@ -39,18 +45,19 @@ export const remove = async (id: number) => {
     return prisma.schematic.delete({ where: { id } });
 };
 
-export const search = async (deviceModelId: number) => {
+export const search = async (deviceId: number) => {
     return prisma.schematic.findMany({
-        where: { deviceModelId },
+        where: { deviceId },
         select: {
             id: true,
-            deviceModelId: true,
+            deviceId: true,
             schematicType: true,
             uploadedAt: true,
             updatedAt: true,
-            deviceModel: {
+            pdfFile: true,
+            device: {
                 include: {
-                    device: true
+                    deviceType: true
                 }
             }
         }

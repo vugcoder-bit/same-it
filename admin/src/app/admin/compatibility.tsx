@@ -10,9 +10,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { apiClient } from '@/api/apiClient';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
-interface DeviceModel {
+interface Device {
     id: number;
     name: string;
+    deviceType?: { name: string };
 }
 
 interface SubCategory {
@@ -21,21 +22,28 @@ interface SubCategory {
     componentType: string;
 }
 
+interface DeviceType {
+    id: number;
+    name: string;
+}
+
 export default function CompatibilityManagementScreen() {
     const { width } = useWindowDimensions();
     const isDesktop = width > 768;
     const [compatibilities, setCompatibilities] = useState<any[]>([]);
-    const [models, setModels] = useState<DeviceModel[]>([]);
+    const [devices, setDevices] = useState<Device[]>([]);
     const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+    const [deviceTypes, setDeviceTypes] = useState<DeviceType[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [modelSearch, setModelSearch] = useState('');
+    const [itemSearch, setItemSearch] = useState('');
     const [filterType, setFilterType] = useState('ALL');
 
     // Form fields
     const [componentType, setComponentType] = useState('SCREEN');
-    const [selectedId, setSelectedId] = useState<number | null>(null); // This can be modelId or subCategoryId
+    const [selectedBrandId, setSelectedBrandId] = useState<number | null>(null);
+    const [selectedId, setSelectedId] = useState<number | null>(null); // This can be deviceId or subCategoryId
     const [compatibleModels, setCompatibleModels] = useState('');
     const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -46,14 +54,16 @@ export default function CompatibilityManagementScreen() {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const [compRes, modRes, subRes] = await Promise.all([
+            const [compRes, devRes, subRes, brandRes] = await Promise.all([
                 apiClient.get('/admin/compatibility'),
-                apiClient.get('/admin/device-models'),
-                apiClient.get('/admin/component-sub-categories')
+                apiClient.get('/admin/devices'),
+                apiClient.get('/admin/component-sub-categories'),
+                apiClient.get('/admin/device-types')
             ]);
             setCompatibilities(compRes.data.data || []);
-            setModels(modRes.data.data || []);
+            setDevices(devRes.data.data || []);
             setSubCategories(subRes.data.data || []);
+            setDeviceTypes(brandRes.data.data || []);
         } catch (error) {
             console.error(error);
             Toast.error('Failed to load compatibility mappings');
@@ -70,7 +80,7 @@ export default function CompatibilityManagementScreen() {
 
             const payload = {
                 componentType,
-                [isSubCatType ? 'subCategoryId' : 'deviceModelId']: selectedId,
+                [isSubCatType ? 'subCategoryId' : 'deviceId']: selectedId,
                 compatibleModels: modelsArray
             };
             if (editingId) {
@@ -102,7 +112,7 @@ export default function CompatibilityManagementScreen() {
         if (filterType !== 'ALL' && c.componentType !== filterType) return false;
         const q = searchQuery.toLowerCase();
         if (!q) return true;
-        const targetName = c.deviceModel?.name || c.subCategory?.name || c.deviceModelName || `ID:${c.id}`;
+        const targetName = c.device?.name || c.subCategory?.name || `ID:${c.id}`;
         return (
             c.componentType.toLowerCase().includes(q) ||
             targetName.toLowerCase().includes(q) ||
@@ -113,10 +123,12 @@ export default function CompatibilityManagementScreen() {
     const isSubCatType = ['IC', 'CONNECTOR', 'ADHESIVE'].includes(componentType);
     const selectionList = isSubCatType
         ? subCategories.filter(s => s.componentType === componentType)
-        : models;
+        : (selectedBrandId 
+            ? devices.filter(d => (d as any).deviceTypeId === selectedBrandId)
+            : devices);
 
     const filteredSelection = selectionList.filter((item: any) =>
-        item.name.toLowerCase().includes(modelSearch.toLowerCase())
+        item.name.toLowerCase().includes(itemSearch.toLowerCase())
     );
 
     const getDisplayModels = (rawValue: any): string => {
@@ -130,9 +142,9 @@ export default function CompatibilityManagementScreen() {
             <View style={[styles.header, !isDesktop && { flexDirection: 'column', alignItems: 'flex-start', gap: 16 }]}>
                 <View>
                     <Text style={[styles.title, !isDesktop && { fontSize: 24 }]}>Compatibility Table</Text>
-                    <Text style={styles.subtitle}>Manage component cross-compatibility between hardware models.</Text>
+                    <Text style={styles.subtitle}>Manage component cross-compatibility between hardware devices.</Text>
                 </View>
-                <Pressable onPress={() => { setEditingId(null); setComponentType('SCREEN'); setCompatibleModels(''); setSelectedId(null); setModelSearch(''); setModalVisible(true); }} style={[styles.addButton, !isDesktop && { width: '100%', justifyContent: 'center' }]}>
+                <Pressable onPress={() => { setEditingId(null); setComponentType('SCREEN'); setCompatibleModels(''); setSelectedId(null); setSelectedBrandId(null); setItemSearch(''); setModalVisible(true); }} style={[styles.addButton, !isDesktop && { width: '100%', justifyContent: 'center' }]}>
                     <Ionicons name="add" size={20} color="#FFF" />
                     <Text style={styles.addButtonText}>Create Mapping</Text>
                 </Pressable>
@@ -158,7 +170,7 @@ export default function CompatibilityManagementScreen() {
                 <Ionicons name="search-outline" size={18} color="#94A3B8" style={styles.searchIcon} />
                 <TextInput
                     style={styles.searchInput}
-                    placeholder="Search by type, model or compatible models..."
+                    placeholder="Search by type, device or compatible models..."
                     placeholderTextColor="#94A3B8"
                     value={searchQuery}
                     onChangeText={setSearchQuery}
@@ -188,9 +200,11 @@ export default function CompatibilityManagementScreen() {
                                     <TouchableOpacity onPress={() => {
                                         setEditingId(item.id);
                                         setComponentType(item.componentType);
-                                        setSelectedId(item.subCategoryId || item.deviceModelId);
+                                        const brandId = item.device?.deviceTypeId || null;
+                                        setSelectedBrandId(brandId);
+                                        setSelectedId(item.subCategoryId || item.deviceId);
                                         setCompatibleModels(getDisplayModels(item.compatibleModels));
-                                        setModelSearch('');
+                                        setItemSearch('');
                                         setModalVisible(true);
                                     }}>
                                         <Ionicons name="pencil-outline" size={18} color="#3B82F6" />
@@ -201,8 +215,8 @@ export default function CompatibilityManagementScreen() {
                                 </View>
                             </View>
                             <Text style={styles.mainModel}>
-                                For: {item.subCategory?.name || item.deviceModel?.name || item.deviceModelName || `ID: ${item.id}`}
-                                {item.deviceModel?.device?.name ? ` (${item.deviceModel.device.name})` : ''}
+                                For: {item.subCategory?.name || item.device?.name || `ID: ${item.id}`}
+                                {item.device?.deviceType?.name ? ` (${item.device.deviceType.name})` : ''}
                             </Text>
                             <View style={styles.divider} />
                             <Text style={styles.compatTitle}>Compatible with:</Text>
@@ -228,7 +242,7 @@ export default function CompatibilityManagementScreen() {
                             ].map(({ value, label }) => (
                                 <Pressable
                                     key={value}
-                                    onPress={() => { setComponentType(value); setSelectedId(null); }}
+                                    onPress={() => { setComponentType(value); setSelectedId(null); setSelectedBrandId(null); }}
                                     style={[styles.catBtn, componentType === value && styles.activeCatBtn]}
                                 >
                                     <Text style={[styles.catBtnText, componentType === value && styles.activeCatBtnText]}>{label}</Text>
@@ -236,37 +250,62 @@ export default function CompatibilityManagementScreen() {
                             ))}
                         </View>
 
-                        <Text style={styles.label}>{isSubCatType ? 'Select Sub-Category' : 'Base Model'}</Text>
-                        {/* Model Search */}
-                        <View style={styles.inlineSearch}>
-                            <Ionicons name="search-outline" size={14} color="#94A3B8" />
-                            <TextInput
-                                style={styles.inlineSearchInput}
-                                placeholder="Search model..."
-                                placeholderTextColor="#94A3B8"
-                                value={modelSearch}
-                                onChangeText={setModelSearch}
-                            />
-                        </View>
-                        <ScrollView style={{ maxHeight: 150, marginBottom: 16 }}>
-                            {filteredSelection.map((item: any) => (
-                                <Pressable
-                                    key={item.id}
-                                    onPress={() => setSelectedId(item.id)}
-                                    style={[styles.selectItem, selectedId === item.id && styles.activeSelect]}
-                                >
-                                    <Text style={selectedId === item.id && { color: '#FB5507', fontWeight: 'bold' }}>{item.name}</Text>
-                                </Pressable>
-                            ))}
-                            {filteredSelection.length === 0 && (
-                                <Text style={{ color: '#94A3B8', padding: 10, textAlign: 'center' }}>No items found</Text>
-                            )}
-                        </ScrollView>
+                        {!isSubCatType && (
+                            <>
+                                <Text style={styles.label}>Select Brand</Text>
+                                <View style={[styles.catPicker, { flexWrap: 'wrap', marginBottom: 16 }]}>
+                                    {deviceTypes.map((brand) => (
+                                        <Pressable
+                                            key={brand.id}
+                                            onPress={() => { setSelectedBrandId(brand.id); setSelectedId(null); }}
+                                            style={[styles.brandPill, selectedBrandId === brand.id && styles.activeBrandPill]}
+                                        >
+                                            <Text style={[styles.brandPillText, selectedBrandId === brand.id && styles.activeBrandPillText]}>
+                                                {brand.name}
+                                            </Text>
+                                        </Pressable>
+                                    ))}
+                                </View>
+                            </>
+                        )}
 
-                        <Text style={styles.label}>Compatible Models (Separated by comma)</Text>
+                        {(isSubCatType || selectedBrandId) && (
+                            <>
+                                <Text style={styles.label}>{isSubCatType ? 'Select Sub-Category' : 'Base Device'}</Text>
+                                {/* Search */}
+                                <View style={styles.inlineSearch}>
+                                    <Ionicons name="search-outline" size={14} color="#94A3B8" />
+                                    <TextInput
+                                        style={styles.inlineSearchInput}
+                                        placeholder="Search item..."
+                                        placeholderTextColor="#94A3B8"
+                                        value={itemSearch}
+                                        onChangeText={setItemSearch}
+                                    />
+                                </View>
+                                <ScrollView style={{ maxHeight: 150, marginBottom: 16 }}>
+                                    {filteredSelection.map((item: any) => (
+                                        <Pressable
+                                            key={item.id}
+                                            onPress={() => setSelectedId(item.id)}
+                                            style={[styles.selectItem, selectedId === item.id && styles.activeSelect]}
+                                        >
+                                            <Text style={selectedId === item.id && { color: '#FB5507', fontWeight: 'bold' }}>
+                                                {item.name} {item.deviceType?.name ? `(${item.deviceType.name})` : ''}
+                                            </Text>
+                                        </Pressable>
+                                    ))}
+                                    {filteredSelection.length === 0 && (
+                                        <Text style={{ color: '#94A3B8', padding: 10, textAlign: 'center' }}>No items found</Text>
+                                    )}
+                                </ScrollView>
+                            </>
+                        )}
+
+                        <Text style={styles.label}>Compatible Devices (Separated by comma)</Text>
                         <TextInput
                             style={[styles.input, { height: 80, textAlignVertical: 'top', paddingTop: 12 }]}
-                            placeholder="e.g. A2633, A2634, A2483"
+                            placeholder="e.g. iPhone 16 Plus, iPhone 16 Pro"
                             multiline
                             value={compatibleModels}
                             onChangeText={setCompatibleModels}
@@ -322,6 +361,10 @@ const styles = StyleSheet.create({
     inlineSearchInput: { flex: 1, fontSize: 13, color: '#1E293B' },
     selectItem: { padding: 10, borderRadius: 8, marginBottom: 4, backgroundColor: '#F8FAFC' },
     activeSelect: { backgroundColor: '#FDF2F0', borderWidth: 1, borderColor: '#FB5507' },
+    brandPill: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 15, backgroundColor: '#F1F5F9', marginRight: 8 },
+    activeBrandPill: { backgroundColor: '#FB5507' },
+    brandPillText: { fontSize: 12, color: '#64748B', fontWeight: '600' },
+    activeBrandPillText: { color: '#FFF' },
     input: { borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, paddingHorizontal: 16, marginBottom: 16 },
     modalButtons: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12, marginTop: 10 },
     button: { paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 },

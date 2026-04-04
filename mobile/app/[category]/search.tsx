@@ -14,13 +14,13 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 interface CompatibilityResult {
   id: number;
   componentType: string;
-  deviceModelId?: number;
+  deviceId?: number;
   subCategoryId?: number;
   compatibleModels: any;
-  deviceModel?: {
+  device?: {
     id: number;
     name: string;
-    device?: { id: number; name: string; deviceType?: { name: string } };
+    deviceType?: { name: string };
   };
   subCategory?: {
     id: number;
@@ -90,10 +90,9 @@ export default function SearchScreen() {
   const displayedResults = results.filter((item) => {
     if (!query.trim()) return true;
     const q = query.toLowerCase();
-    const modelName = item.deviceModel?.name?.toLowerCase() || '';
-    const deviceName = item.deviceModel?.device?.name?.toLowerCase() || '';
+    const deviceName = item.device?.name?.toLowerCase() || '';
     const compModels = getDisplayModels(item.compatibleModels).toLowerCase();
-    return modelName.includes(q) || deviceName.includes(q) || compModels.includes(q);
+    return deviceName.includes(q) || compModels.includes(q);
   });
 
   const handleSearch = () => {
@@ -138,21 +137,21 @@ export default function SearchScreen() {
           }
           renderItem={({ item, index }) => (
             <Animated.View entering={FadeInUp.delay(index * 40)} style={styles.card}>
-              <View style={styles.cardHeader}>
+              {/* <View style={styles.cardHeader}>
                 <View style={styles.typeBadge}>
                   <Text style={styles.typeText}>{item.componentType}</Text>
                 </View>
-              </View>
-              <Text style={styles.modelName}>
-                {item.deviceModel?.name}
-                {item.deviceModel?.device?.name ? ` — ${item.deviceModel.device.name}` : ''}
-              </Text>
-              {item.deviceModel?.device?.deviceType?.name ? (
-                <Text style={styles.brandName}>{item.deviceModel.device.deviceType.name}</Text>
-              ) : null}
-              <View style={styles.divider} />
-              <Text style={styles.compatLabel}>{t('compatibleModels')}:</Text>
+              </View> */}
               <Text style={styles.compatText}>{getDisplayModels(item.compatibleModels)}</Text>
+
+              {/* <Text style={styles.modelName}>
+                {item.device?.name || item.subCategory?.name || `ID: ${item.id}`}
+              </Text> */}
+              {/* {item.device?.deviceType?.name ? (
+                <Text style={styles.brandName}>{item.device.deviceType.name}</Text>
+              ) : null} */}
+              {/* <View style={styles.divider} /> */}
+              {/* <Text style={styles.compatLabel}>{t('compatibleModels')}:</Text> */}
             </Animated.View>
           )}
         />
@@ -180,12 +179,12 @@ const styles = StyleSheet.create({
   list: { paddingHorizontal: 16, paddingBlock: 30 },
   resultsBar: {
     borderBottomWidth: 2, borderBottomColor: '#FB5507',
-    marginHorizontal: 16, paddingBottom: 0, marginBottom:  0, alignItems: 'center'
+    marginHorizontal: 16, paddingBottom: 0, marginBottom: 0, alignItems: 'center'
   },
   resultsLabel: { color: '#4CAF50', fontWeight: '500', fontSize: 16 },
   card: {
     backgroundColor: '#FFF', borderRadius: 18, padding: 18,
-    marginBottom: 14, borderWidth: 1, borderColor: '#E2E8F0',
+    marginBottom: 14, borderWidth: 1, borderColor: '#FB5507',
     elevation: 2, shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4,
   },
@@ -202,5 +201,5 @@ const styles = StyleSheet.create({
     fontSize: 11, fontWeight: 'bold', color: '#94A3B8',
     textTransform: 'uppercase', marginBottom: 6,
   },
-  compatText: { fontSize: 14, color: '#475569', lineHeight: 20 },
+  compatText: { fontSize: 24, color: '#000', lineHeight: 25, textAlign: 'center' },
 });

@@ -15,6 +15,7 @@ interface User {
     username: string;
     role: string;
     subscriptionExpireDate: string | null;
+    deviceId: string | null;
     createdAt: string;
 }
 
@@ -95,7 +96,8 @@ export default function UsersScreen() {
     const handleClearDevice = async (id: number) => {
         try {
             await apiClient.delete(`/admin/users/${id}/device`);
-            Toast.success('Device unlinked. User can now log in on a new device.');
+            Toast.success('Device unlinked successfully');
+            fetchUsers();
         } catch (error: any) {
             Toast.error(error.response?.data?.message || 'Failed to clear device');
         }
@@ -192,8 +194,18 @@ export default function UsersScreen() {
                                 <TouchableOpacity onPress={() => openEditModal(user)}>
                                     <Ionicons name="pencil-outline" size={18} color="#3B82F6" />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => handleClearDevice(user.id)} style={{ marginLeft: 4 }}>
-                                    <Ionicons name="phone-portrait-outline" size={18} color="#F59E0B" />
+                                <TouchableOpacity 
+                                    onPress={() => handleClearDevice(user.id)} 
+                                    style={{ marginLeft: 4 }}
+                                    disabled={!user.deviceId}
+                                >
+                                    <View style={{ opacity: user.deviceId ? 1 : 0.3 }}>
+                                        <Ionicons 
+                                            name={user.deviceId ? "phone-portrait" : "phone-portrait-outline"} 
+                                            size={18} 
+                                            color={user.deviceId ? "#FB5507" : "#64748B"} 
+                                        />
+                                    </View>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => handleDelete(user.id)}>
                                     <Ionicons name="trash-outline" size={18} color="#FB5507" />

@@ -19,7 +19,8 @@
       },
       "predictiveBackGestureEnabled": false,
       "usesCleartextTraffic": true,
-      "package": "com.sameit.admin"
+      "package": "com.sameit.admin",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "static",

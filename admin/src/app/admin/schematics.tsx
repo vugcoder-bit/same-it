@@ -14,12 +14,18 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 interface Schematic {
     id: number;
     schematicType: string;
-    filePath: string;
-    deviceModelId: number;
-    deviceModelName?: string;
+    pdfFile: string;
+    deviceId: number;
+    device?: { id: number; name: string };
 }
 
-interface DeviceModel {
+interface Device {
+    id: number;
+    name: string;
+    deviceTypeId: number;
+}
+
+interface DeviceType {
     id: number;
     name: string;
 }
@@ -28,21 +34,23 @@ export default function SchematicsManagementScreen() {
     const { width } = useWindowDimensions();
     const isDesktop = width > 768;
     const [schematics, setSchematics] = useState<Schematic[]>([]);
-    const [models, setModels] = useState<DeviceModel[]>([]);
+    const [devices, setDevices] = useState<Device[]>([]);
+    const [deviceTypes, setDeviceTypes] = useState<DeviceType[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
     // Form fields
     const [title, setTitle] = useState('');
-    const [selectedModelId, setSelectedModelId] = useState<number | null>(null);
+    const [selectedBrandId, setSelectedBrandId] = useState<number | null>(null);
+    const [selectedDeviceId, setSelectedDeviceId] = useState<number | null>(null);
     const [selectedFile, setSelectedFile] = useState<DocumentPicker.DocumentPickerResult | null>(null);
     const [uploading, setUploading] = useState(false);
-    const [searchModel, setSearchModel] = useState('');
+    const [searchDevice, setSearchDevice] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
 
     const filteredSchematics = schematics.filter(s =>
         s.schematicType.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (s.deviceModelName || '').toLowerCase().includes(searchQuery.toLowerCase())
+        (s.device?.name || '').toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     useEffect(() => {
@@ -52,12 +60,14 @@ export default function SchematicsManagementScreen() {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const [schemRes, modRes] = await Promise.all([
+            const [schemRes, devRes, brandRes] = await Promise.all([
                 apiClient.get('/admin/schematics'),
-                apiClient.get('/device-models')
+                apiClient.get('/admin/devices'),
+                apiClient.get('/admin/device-types')
             ]);
             setSchematics(schemRes.data.data || []);
-            setModels(modRes.data.data || []);
+            setDevices(devRes.data.data || []);
+            setDeviceTypes(brandRes.data.data || []);
         } catch (error) {
             console.error(error);
             Toast.error('Failed to load schematics data');
@@ -78,13 +88,13 @@ export default function SchematicsManagementScreen() {
     };
 
     const handleUpload = async () => {
-        if (!title || !selectedModelId || !selectedFile || selectedFile.canceled) return;
+        if (!title || !selectedDeviceId || !selectedFile || selectedFile.canceled) return;
 
         try {
             setUploading(true);
             const formData = new FormData();
             formData.append('schematicType', title);
-            formData.append('deviceModelId', selectedModelId.toString());
+            formData.append('deviceId', selectedDeviceId.toString());
 
             const asset = selectedFile.assets[0];
 
@@ -119,9 +129,10 @@ export default function SchematicsManagementScreen() {
 
     const resetForm = () => {
         setTitle('');
-        setSelectedModelId(null);
+        setSelectedBrandId(null);
+        setSelectedDeviceId(null);
         setSelectedFile(null);
-        setSearchModel('');
+        setSearchDevice('');
     };
 
     const handleDelete = async (id: number) => {
@@ -135,6 +146,10 @@ export default function SchematicsManagementScreen() {
         }
     };
 
+    const filteredDevices = selectedBrandId 
+        ? devices.filter(d => (d as any).deviceTypeId === selectedBrandId)
+        : devices;
+
     return (
         <View style={[styles.container, !isDesktop && { padding: 16 }]}>
             <View style={[styles.header, !isDesktop && { flexDirection: 'column', alignItems: 'flex-start', gap: 16 }]}>
@@ -142,7 +157,7 @@ export default function SchematicsManagementScreen() {
                     <Text style={[styles.title, !isDesktop && { fontSize: 24 }]}>Schematics Library</Text>
                     <Text style={styles.subtitle}>Upload and manage technical schematics and PDF manuals.</Text>
                 </View>
-                <Pressable onPress={() => { setTitle(''); setSelectedFile(null); setSelectedModelId(null); setModalVisible(true); }} style={[styles.addButton, !isDesktop && { width: '100%', justifyContent: 'center' }]}>
+                <Pressable onPress={() => { setTitle(''); setSelectedFile(null); setSelectedBrandId(null); setSelectedDeviceId(null); setModalVisible(true); }} style={[styles.addButton, !isDesktop && { width: '100%', justifyContent: 'center' }]}>
                     <Ionicons name="cloud-upload" size={20} color="#FFF" />
                     <Text style={styles.addButtonText}>Upload Schematic</Text>
                 </Pressable>
@@ -153,7 +168,7 @@ export default function SchematicsManagementScreen() {
                     <Ionicons name="search-outline" size={18} color="#94A3B8" />
                     <TextInput
                         style={styles.searchInput}
-                        placeholder="Search schematics or models..."
+                        placeholder="Search schematics or devices..."
                         placeholderTextColor="#94A3B8"
                         value={searchQuery}
                         onChangeText={setSearchQuery}
@@ -183,7 +198,7 @@ export default function SchematicsManagementScreen() {
                             </View>
                             <View style={styles.cardContent}>
                                 <Text style={styles.itemTitle} numberOfLines={1}>{item.schematicType}</Text>
-                                <Text style={styles.itemModel}>{item.deviceModelName || `Model ID: ${item.deviceModelId}`}</Text>
+                                <Text style={styles.itemModel}>{item.device?.name || `Device ID: ${item.deviceId}`}</Text>
                                 <View style={styles.cardFooter}>
                                     <Text style={styles.fileLabel}>PDF Schematic</Text>
                                     <TouchableOpacity onPress={() => handleDelete(item.id)}>
@@ -206,24 +221,43 @@ export default function SchematicsManagementScreen() {
                             <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="e.g. iPhone 13 Pro Logic Board" />
                         </View>
 
-                        <Text style={styles.label}>Select Device Model</Text>
-                        <TextInput
-                            style={[styles.input, { marginBottom: 12, height: 40 }]}
-                            value={searchModel}
-                            onChangeText={setSearchModel}
-                            placeholder="Type to filter models..."
-                        />
-                        <ScrollView style={{ maxHeight: 150, marginBottom: 16 }}>
-                            {models.filter(m => m.name.toLowerCase().includes(searchModel.toLowerCase())).map(m => (
+                        <Text style={styles.label}>Select Brand</Text>
+                        <View style={[styles.brandPicker, { flexWrap: 'wrap', marginBottom: 16 }]}>
+                            {deviceTypes.map((brand) => (
                                 <Pressable
-                                    key={m.id}
-                                    onPress={() => setSelectedModelId(m.id)}
-                                    style={[styles.selectItem, selectedModelId === m.id && styles.activeSelect]}
+                                    key={brand.id}
+                                    onPress={() => { setSelectedBrandId(brand.id); setSelectedDeviceId(null); }}
+                                    style={[styles.brandPill, selectedBrandId === brand.id && styles.activeBrandPill]}
                                 >
-                                    <Text style={selectedModelId === m.id && { color: '#FB5507', fontWeight: 'bold' }}>{m.name}</Text>
+                                    <Text style={[styles.brandPillText, selectedBrandId === brand.id && styles.activeBrandPillText]}>
+                                        {brand.name}
+                                    </Text>
                                 </Pressable>
                             ))}
-                        </ScrollView>
+                        </View>
+
+                        {selectedBrandId && (
+                            <>
+                                <Text style={styles.label}>Select Device</Text>
+                                <TextInput
+                                    style={[styles.input, { marginBottom: 12, height: 40 }]}
+                                    value={searchDevice}
+                                    onChangeText={setSearchDevice}
+                                    placeholder="Type to filter devices..."
+                                />
+                                <ScrollView style={{ maxHeight: 150, marginBottom: 16 }}>
+                                    {filteredDevices.filter(d => d.name.toLowerCase().includes(searchDevice.toLowerCase())).map(d => (
+                                        <Pressable
+                                            key={d.id}
+                                            onPress={() => setSelectedDeviceId(d.id)}
+                                            style={[styles.selectItem, selectedDeviceId === d.id && styles.activeSelect]}
+                                        >
+                                            <Text style={selectedDeviceId === d.id && { color: '#FB5507', fontWeight: 'bold' }}>{d.name}</Text>
+                                        </Pressable>
+                                    ))}
+                                </ScrollView>
+                            </>
+                        )}
 
                         <Text style={styles.label}>PDF File</Text>
                         <Pressable onPress={pickDocument} style={styles.filePicker}>
@@ -255,7 +289,7 @@ const styles = StyleSheet.create({
     addButtonText: { color: '#FFF', fontWeight: 'bold' },
     actionRow: { marginBottom: 20 },
     searchContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF', borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', paddingHorizontal: 14, height: 46, gap: 8 },
-    searchInput: { flex: 1, fontSize: 14, color: '#1E293B', outlineStyle: 'none' },
+    searchInput: { flex: 1, fontSize: 14, color: '#1E293B' },
     list: { gap: 20, paddingBottom: 40 },
     card: { flex: 1, backgroundColor: '#FFF', borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: '#E2E8F0' },
     pdfIcon: { height: 100, backgroundColor: '#FDF2F0', justifyContent: 'center', alignItems: 'center' },
@@ -270,6 +304,11 @@ const styles = StyleSheet.create({
     inputGroup: { marginBottom: 16 },
     label: { fontSize: 13, fontWeight: 'bold', color: '#64748B', marginBottom: 8 },
     input: { height: 48, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, paddingHorizontal: 16 },
+    brandPicker: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
+    brandPill: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 12, backgroundColor: '#F1F5F9' },
+    activeBrandPill: { backgroundColor: '#FB5507' },
+    brandPillText: { fontSize: 12, color: '#64748B', fontWeight: '600' },
+    activeBrandPillText: { color: '#FFF' },
     selectItem: { padding: 10, borderRadius: 8, marginBottom: 4, backgroundColor: '#F8FAFC' },
     activeSelect: { backgroundColor: '#FDF2F0', borderWidth: 1, borderColor: '#FB5507' },
     filePicker: { height: 60, borderWidth: 1, borderColor: '#E2E8F0', borderStyle: 'dashed', borderRadius: 12, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, gap: 12, marginBottom: 20 },

@@ -13,10 +13,8 @@ import * as schematicController from '../controllers/schematicController';
 import * as serviceController from '../controllers/serviceController';
 import * as orderController from '../controllers/orderController';
 import * as deviceController from '../controllers/deviceController';
-import * as deviceModelController from '../controllers/deviceModelController';
 import * as deviceTypeController from '../controllers/deviceTypeController';
 import * as subCategoryController from '../controllers/componentSubCategoryController';
-
 import * as serviceCategoryController from '../controllers/serviceCategoryController';
 import * as paymentMethodController from '../controllers/paymentMethodController';
 import * as dashboardController from '../controllers/dashboardController';
@@ -61,18 +59,12 @@ router.get('/device-types', deviceTypeController.getAll);
 router.put('/device-types/:id', uploadBrand.single('image'), deviceTypeController.update);
 router.delete('/device-types/:id', deviceTypeController.remove);
 
-// ─── Device Models ────────────────────────────────────
-router.post('/device-models', deviceModelController.create);
-router.get('/device-models', deviceModelController.getAll);
-router.put('/device-models/:id', deviceModelController.update);
-router.delete('/device-models/:id', deviceModelController.remove);
-
 // ─── Compatibility ────────────────────────────────────
 router.post(
     '/compatibility',
     [
         body('componentType').notEmpty().withMessage('Component type is required'),
-        body('deviceModelId').isInt({ min: 1 }).withMessage('A valid device model is required'),
+        body('deviceId').isInt({ min: 1 }).withMessage('A valid device is required'),
         body('compatibleModels').notEmpty().withMessage('Compatible models are required'),
     ],
     validate,

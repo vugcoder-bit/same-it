@@ -16,7 +16,7 @@ async function main() {
   await prisma.paymentMethod.deleteMany();
   await prisma.compatibility.deleteMany();
   await prisma.componentSubCategory.deleteMany();
-  await prisma.deviceModel.deleteMany();
+  await prisma.schematic.deleteMany();
   await prisma.device.deleteMany();
   await prisma.deviceType.deleteMany();
   await prisma.conversionRule.deleteMany();
@@ -36,8 +36,6 @@ async function main() {
   });
 
   const uploadsRoot = path.join(__dirname, '../uploads');
-  // Look for seeder images first inside backend/prisma/seeder image (VPS),
-  // then fall back to admin/assets/seeder image (local dev)
   const localSeederDir = path.join(__dirname, 'seeder image');
   const seederAssetsDir = fs.existsSync(localSeederDir)
     ? localSeederDir
@@ -70,83 +68,36 @@ async function main() {
     });
   }
 
-  // 2. Devices & Models (Real Data)
-  console.log('Seeding Real Devices and Models...');
-  const deviceUploadDir = ensureDir('devices');
-  const allModels: any[] = [];
+  // 2. Devices (Real Data)
+  console.log('Seeding Real Devices...');
+  const allDevices: any[] = [];
 
   const deviceData = {
     apple: [
-      { name: 'iPhone 15 Pro Max', models: ['A2849', 'A3105', 'A3108', 'A3106'] },
-      { name: 'iPhone 15 Pro', models: ['A2848', 'A3101', 'A3104', 'A3102'] },
-      { name: 'iPhone 15 Plus', models: ['A2847', 'A3093', 'A3096', 'A3094'] },
-      { name: 'iPhone 15', models: ['A2846', 'A3089', 'A3092', 'A3090'] },
-      { name: 'iPhone 14 Pro Max', models: ['A2651', 'A2893', 'A2896', 'A2894'] },
-      { name: 'iPhone 14 Pro', models: ['A2650', 'A2889', 'A2892', 'A2890'] },
-      { name: 'iPhone 14 Plus', models: ['A2632', 'A2885', 'A2888', 'A2886'] },
-      { name: 'iPhone 14', models: ['A2649', 'A2881', 'A2884', 'A2882'] },
-      { name: 'iPhone 13 Pro Max', models: ['A2484', 'A2641', 'A2644', 'A2645'] },
-      { name: 'iPhone 13 Pro', models: ['A2483', 'A2636', 'A2639', 'A2640'] }
+      'iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15',
+      'iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus', 'iPhone 14',
+      'iPhone 13 Pro Max', 'iPhone 13 Pro'
     ],
     samsung: [
-      { name: 'Galaxy S24 Ultra', models: ['SM-S928B', 'SM-S928U', 'SM-S9280', 'SM-S928N'] },
-      { name: 'Galaxy S24+', models: ['SM-S926B', 'SM-S926U', 'SM-S9260', 'SM-S926N'] },
-      { name: 'Galaxy S24', models: ['SM-S921B', 'SM-S921U', 'SM-S9210', 'SM-S921N'] },
-      { name: 'Galaxy Z Fold 5', models: ['SM-F946B', 'SM-F946U', 'SM-F9460', 'SM-F946N'] },
-      { name: 'Galaxy Z Flip 5', models: ['SM-F731B', 'SM-F731U', 'SM-F7310', 'SM-F731N'] },
-      { name: 'Galaxy S23 Ultra', models: ['SM-S918B', 'SM-S918U', 'SM-S9180', 'SM-S918N'] },
-      { name: 'Galaxy S23+', models: ['SM-S916B', 'SM-S916U', 'SM-S9160', 'SM-S916N'] },
-      { name: 'Galaxy S23', models: ['SM-S911B', 'SM-S911U', 'SM-S9110', 'SM-S911N'] },
-      { name: 'Galaxy A54 5G', models: ['SM-A546B', 'SM-A546U', 'SM-A5460', 'SM-A546E'] },
-      { name: 'Galaxy A34 5G', models: ['SM-A346B', 'SM-A346U', 'SM-A3460', 'SM-A346E'] }
+      'Galaxy S24 Ultra', 'Galaxy S24+', 'Galaxy S24', 'Galaxy Z Fold 5',
+      'Galaxy Z Flip 5', 'Galaxy S23 Ultra', 'Galaxy S23+', 'Galaxy S23',
+      'Galaxy A54 5G', 'Galaxy A34 5G', 'Samsung A16e', 'Samsung A16lite'
     ],
     vivo: [
-      { name: 'X100 Pro', models: ['V2309A', 'V2324A'] },
-      { name: 'X100', models: ['V2308A', 'V2323A'] },
-      { name: 'iQOO 12 Pro', models: ['V2302A'] },
-      { name: 'iQOO 12', models: ['V2301A'] },
-      { name: 'V29 Pro', models: ['V2251'] },
-      { name: 'V29', models: ['V2250'] },
-      { name: 'Y200', models: ['V2307'] },
-      { name: 'T2 Pro 5G', models: ['V2322'] },
-      { name: 'X90 Pro+', models: ['V2227A'] },
-      { name: 'X90 Pro', models: ['V2242A', 'V2243A'] }
+      'X100 Pro', 'X100', 'iQOO 12 Pro', 'iQOO 12', 'V29 Pro', 'V29',
+      'Y200', 'T2 Pro 5G', 'X90 Pro+', 'X90 Pro'
     ],
     oppo: [
-      { name: 'Find N3', models: ['CPH2499', 'PHN110'] },
-      { name: 'Find N3 Flip', models: ['CPH2519', 'PHT110'] },
-      { name: 'Reno 10 Pro+', models: ['CPH2521', 'PHU110'] },
-      { name: 'Reno 10 Pro', models: ['CPH2525', 'PHW110'] },
-      { name: 'Reno 10', models: ['CPH2531', 'PHV110'] },
-      { name: 'Find X6 Pro', models: ['PGEM10'] },
-      { name: 'Find X6', models: ['PGFM10'] },
-      { name: 'A98 5G', models: ['CPH2529'] },
-      { name: 'A78 5G', models: ['CPH2483'] },
-      { name: 'A58 4G', models: ['CPH2577'] }
+      'Find N3', 'Find N3 Flip', 'Reno 10 Pro+', 'Reno 10 Pro', 'Reno 10',
+      'Find X6 Pro', 'Find X6', 'A98 5G', 'A78 5G', 'A58 4G'
     ],
     poco: [
-      { name: 'Poco X6 Pro', models: ['2311DRK48G', '2311DRK48I'] },
-      { name: 'Poco X6', models: ['23122PCD1G', '23122PCD1I'] },
-      { name: 'Poco M6 Pro', models: ['2312FPCA6G'] },
-      { name: 'Poco C65', models: ['2310FPCA4G', '2310FPCA4I'] },
-      { name: 'Poco F5 Pro', models: ['23013PC75G'] },
-      { name: 'Poco F5', models: ['23049PCD8G', '23049PCD8I'] },
-      { name: 'Poco X5 Pro 5G', models: ['22101320G', '22101320I'] },
-      { name: 'Poco X5 5G', models: ['22111317PG', '22111317PI'] },
-      { name: 'Poco M5s', models: ['2207117BPG'] },
-      { name: 'Poco M5', models: ['22071219CG', '22071219CI'] }
+      'Poco X6 Pro', 'Poco X6', 'Poco M6 Pro', 'Poco C65', 'Poco F5 Pro',
+      'Poco F5', 'Poco X5 Pro 5G', 'Poco X5 5G', 'Poco M5s', 'Poco M5'
     ],
     itel: [
-      { name: 'S23+', models: ['S681LN'] },
-      { name: 'P40+', models: ['P683L'] },
-      { name: 'P40', models: ['P662L'] },
-      { name: 'A60s', models: ['A662LM'] },
-      { name: 'A60', models: ['A662L'] },
-      { name: 'S23', models: ['S681L'] },
-      { name: 'Vision 3 Plus', models: ['P682L'] },
-      { name: 'Vision 3', models: ['S661LP'] },
-      { name: 'A58 Pro', models: ['A661W'] },
-      { name: 'A58', models: ['A661L'] }
+      'S23+', 'P40+', 'P40', 'A60s', 'A60', 'S23', 'Vision 3 Plus',
+      'Vision 3', 'A58 Pro', 'A58'
     ]
   };
 
@@ -154,17 +105,11 @@ async function main() {
     const brand = brands[brandKey];
     if (!brand) continue;
 
-    for (const dev of devicesList) {
+    for (const devName of devicesList) {
       const device = await prisma.device.create({
-        data: { name: dev.name, deviceTypeId: brand.id }
+        data: { name: devName, deviceTypeId: brand.id }
       });
-
-      for (const modelNum of dev.models) {
-        const m = await prisma.deviceModel.create({
-          data: { name: modelNum, deviceId: device.id }
-        });
-        allModels.push({ ...m, deviceTypeId: brand.id });
-      }
+      allDevices.push({ ...device, deviceTypeId: brand.id });
     }
   }
 
@@ -193,21 +138,20 @@ async function main() {
   await seedSubCats('screen adhesive', ComponentType.SCREEN, 'scr');
   await seedSubCats('screen adhesive', ComponentType.ADHESIVE, 'adh');
 
-  // Compatibility Mappings: Map random 10 models to each sub-category to show data
+  // Compatibility Mappings: Map random 10 devices to each sub-category to show data
   console.log('Generating Compatibility Mappings...');
 
-  // Create base category parent mappings for BATTERY AND SCREEN overall to have base data to search
   const createBaseTypeCompat = async (type: ComponentType) => {
-    const shuffled = allModels.sort(() => 0.5 - Math.random());
-    const selectedModels = shuffled.slice(0, 15); // seed to 15 models
-    for (const sm of selectedModels) {
-      const sameBrandModels = allModels.filter(m => m.deviceTypeId === sm.deviceTypeId);
-      const randModelsForCompat = sameBrandModels.sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
+    const shuffled = allDevices.sort(() => 0.5 - Math.random());
+    const selectedDevices = shuffled.slice(0, 15);
+    for (const sd of selectedDevices) {
+      const sameBrandDevices = allDevices.filter(m => m.deviceTypeId === sd.deviceTypeId);
+      const randDevicesForCompat = sameBrandDevices.sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
       await prisma.compatibility.create({
         data: {
-          deviceModelId: sm.id,
+          deviceId: sd.id,
           componentType: type,
-          compatibleModels: randModelsForCompat
+          compatibleModels: randDevicesForCompat
         }
       });
     }
@@ -217,19 +161,18 @@ async function main() {
   await createBaseTypeCompat(ComponentType.BATTERY);
 
   for (const subCat of allSubCats) {
-    // Pick random 5 models
-    const shuffled = allModels.sort(() => 0.5 - Math.random());
-    const selectedModels = shuffled.slice(0, 5);
+    const shuffled = allDevices.sort(() => 0.5 - Math.random());
+    const selectedDevices = shuffled.slice(0, 5);
 
-    for (const sm of selectedModels) {
-      const sameBrandModels = allModels.filter(m => m.deviceTypeId === sm.deviceTypeId);
-      const randModelsForCompat = sameBrandModels.sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
+    for (const sd of selectedDevices) {
+      const sameBrandDevices = allDevices.filter(m => m.deviceTypeId === sd.deviceTypeId);
+      const randDevicesForCompat = sameBrandDevices.sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
       await prisma.compatibility.create({
         data: {
           subCategoryId: subCat.id,
-          deviceModelId: sm.id,
+          deviceId: sd.id,
           componentType: subCat.componentType,
-          compatibleModels: randModelsForCompat
+          compatibleModels: randDevicesForCompat
         }
       });
     }
@@ -269,19 +212,18 @@ async function main() {
   if (fs.existsSync(samplePdf)) {
     fs.copyFileSync(samplePdf, path.join(schemUploadDir, samplePdfName));
 
-    // Pick 10 random models to have schematics
-    const schemModels = [...allModels].sort(() => 0.5 - Math.random()).slice(0, 10);
-    for (const sm of schemModels) {
+    const schemDevices = [...allDevices].sort(() => 0.5 - Math.random()).slice(0, 10);
+    for (const sd of schemDevices) {
       await prisma.schematic.create({
         data: {
-          deviceModelId: sm.id,
+          deviceId: sd.id,
           schematicType: 'Layout Diagram',
           pdfFile: samplePdfName
         }
       });
       await prisma.schematic.create({
         data: {
-          deviceModelId: sm.id,
+          deviceId: sd.id,
           schematicType: 'Schematic Diagram',
           pdfFile: samplePdfName
         }

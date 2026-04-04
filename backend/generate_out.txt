@@ -1,0 +1,11 @@
+yarn run v1.22.22
+warning ..\..\..\..\package.json: No license field
+$ "C:\Users\qozeem\Desktop\mobile\same it\backend\node_modules\.bin\prisma" generate
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Error: 
+EPERM: operation not permitted, unlink 'C:\Users\qozeem\Desktop\mobile\same it\backend\node_modules\.prisma\client\query_engine-windows.dll.node'
+
+
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

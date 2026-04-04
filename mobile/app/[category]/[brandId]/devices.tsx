@@ -47,10 +47,20 @@ export default function DevicesByBrandScreen() {
                   key={device.id}
                   style={[styles.gridCard, { backgroundColor: bgColor }]}
                   onPress={() => {
-                    router.push({
-                      pathname: `/${category}/${device.id}/models` as any,
-                      params: { deviceName: device.name }
-                    });
+                    if (category === 'schematics') {
+                      router.push({
+                        pathname: `/schematics/${device.id}/pdfs` as any,
+                        params: { modelName: device.name }
+                      });
+                    } else {
+                      // For other categories like SCREEN, BATTERY, etc.
+                      // We can either go to a device detail or components list.
+                      // Given the requirement to simplify, we might need a components screen for the device.
+                      router.push({
+                        pathname: `/${category}/${device.id}/components` as any,
+                        params: { deviceName: device.name }
+                      });
+                    }
                   }}
                 >
                   {device.imageUrl ? (

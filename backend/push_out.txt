@@ -1,0 +1,14 @@
+yarn run v1.22.22
+warning ..\..\..\..\package.json: No license field
+$ "C:\Users\qozeem\Desktop\mobile\same it\backend\node_modules\.bin\prisma" db push --accept-data-loss
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": MySQL database "sameit" at "localhost:3306"
+
+
+⚠️ We found changes that cannot be executed:
+
+  • Added the required column `deviceId` to the `schematic` table without a default value. There are 20 rows in this table, it is not possible to execute this step.
+
+
+[?25l[2K[1G[36m?[39m [1mTo apply this change we need to reset the database, do you want to continue? All data will be lost.[22m [90m»[39m [90m(y/N)[39m

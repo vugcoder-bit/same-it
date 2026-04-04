@@ -2,15 +2,15 @@ import { apiClient } from './apiClient';
 
 export interface Schematic {
     id: number;
-    deviceModelId: number;
+    deviceId: number;
     schematicType: string;
     pdfFile: string;
     uploadedAt: string;
     updatedAt: string;
 }
 
-export const getSchematicsByDeviceModel = async (deviceModelId: number): Promise<Schematic[]> => {
-    const response = await apiClient.get(`/schematics?deviceModelId=${deviceModelId}`);
+export const getSchematicsByDevice = async (deviceId: number): Promise<Schematic[]> => {
+    const response = await apiClient.get(`/schematics?deviceId=${deviceId}`);
     return response.data.data;
 };
 

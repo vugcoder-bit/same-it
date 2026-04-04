@@ -31,15 +31,15 @@ model AppSettings {
 model Compatibility {
   id                   Int           @id @default(autoincrement())
   componentType        ComponentType
-  deviceModelId        Int?
+  deviceId             Int?
   subCategoryId        Int?
   compatibleModels     Json
   createdAt            DateTime      @default(now())
   updatedAt            DateTime      @default(now()) @updatedAt
-  deviceModel          DeviceModel?  @relation(fields: [deviceModelId], references: [id], onDelete: Cascade)
+  device               Device?       @relation(fields: [deviceId], references: [id], onDelete: Cascade)
   subCategory          ComponentSubCategory? @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
 
-  @@index([deviceModelId])
+  @@index([deviceId])
   @@index([subCategoryId])
   @@map("compatibility")
 }
@@ -76,31 +76,18 @@ model ConversionRule {
 }
 
 model Device {
-  id           Int           @id @default(autoincrement())
-  name         String        @unique
-  imageUrl     String?       @db.Text
-  deviceTypeId Int?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @default(now()) @updatedAt
-  deviceType   DeviceType?   @relation(fields: [deviceTypeId], references: [id])
-  models       DeviceModel[]
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  imageUrl      String?         @db.Text
+  deviceTypeId  Int?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  deviceType    DeviceType?     @relation(fields: [deviceTypeId], references: [id])
+  compatibility Compatibility[]
+  schematic     Schematic[]
 
   @@index([deviceTypeId])
   @@map("device")
-}
-
-model DeviceModel {
-  id            Int             @id @default(autoincrement())
-  deviceId      Int
-  name          String
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @default(now()) @updatedAt
-  compatibility Compatibility[]
-  device        Device          @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  schematic     Schematic[]
-
-  @@unique([deviceId, name])
-  @@map("devicemodel")
 }
 
 model DeviceType {
@@ -168,14 +155,14 @@ model PaymentMethod {
 
 model Schematic {
   id            Int         @id @default(autoincrement())
-  deviceModelId Int
+  deviceId      Int
   schematicType String
   pdfFile       String
   uploadedAt    DateTime    @default(now())
   updatedAt     DateTime    @default(now()) @updatedAt
-  deviceModel   DeviceModel @relation(fields: [deviceModelId], references: [id], onDelete: Cascade)
+  device        Device      @relation(fields: [deviceId], references: [id], onDelete: Cascade)
 
-  @@index([deviceModelId])
+  @@index([deviceId])
   @@map("schematic")
 }
 

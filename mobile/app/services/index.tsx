@@ -54,6 +54,7 @@ const ServiceCategoriesScreen = () => {
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         contentContainerStyle={styles.list}
+        columnWrapperStyle={styles.columnWrapper}
       />
     </SafeAreaView>
   );
@@ -79,13 +80,14 @@ const styles = StyleSheet.create({
   },
   list: {
     padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  columnWrapper: {
+    justifyContent: 'flex-start',
   },
   card: {
-    width: '40%',
-    marginHorizontal: '5%',
-    marginVertical: 10,
+    flex: 1,
+    maxWidth: '46%',
+    margin: '2%',
     backgroundColor: '#fff',
     borderRadius: 15,
     padding: 15,
