@@ -149,7 +149,7 @@ async function main() {
       const randDevicesForCompat = sameBrandDevices.sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
       await prisma.compatibility.create({
         data: {
-          deviceId: sd.id,
+          device: { connect: { id: sd.id } },
           componentType: type,
           compatibleModels: randDevicesForCompat
         }
@@ -170,7 +170,7 @@ async function main() {
       await prisma.compatibility.create({
         data: {
           subCategoryId: subCat.id,
-          deviceId: sd.id,
+          device: { connect: { id: sd.id } },
           componentType: subCat.componentType,
           compatibleModels: randDevicesForCompat
         }
@@ -216,14 +216,14 @@ async function main() {
     for (const sd of schemDevices) {
       await prisma.schematic.create({
         data: {
-          deviceId: sd.id,
+          device: { connect: { id: sd.id } },
           schematicType: 'Layout Diagram',
           pdfFile: samplePdfName
         }
       });
       await prisma.schematic.create({
         data: {
-          deviceId: sd.id,
+          device: { connect: { id: sd.id } },
           schematicType: 'Schematic Diagram',
           pdfFile: samplePdfName
         }
