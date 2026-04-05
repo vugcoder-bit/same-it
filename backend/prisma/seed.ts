@@ -107,7 +107,7 @@ async function main() {
 
     for (const devName of devicesList) {
       const device = await prisma.device.create({
-        data: { name: devName, deviceTypeId: brand.id }
+        data: { name: devName, deviceType: { connect: { id: brand.id } } }
       });
       allDevices.push({ ...device, deviceTypeId: brand.id });
     }
@@ -169,7 +169,7 @@ async function main() {
       const randDevicesForCompat = sameBrandDevices.sort(() => 0.5 - Math.random()).slice(0, 5).map(m => m.name);
       await prisma.compatibility.create({
         data: {
-          subCategoryId: subCat.id,
+          subCategory: { connect: { id: subCat.id } },
           device: { connect: { id: sd.id } },
           componentType: subCat.componentType,
           compatibleModels: randDevicesForCompat
@@ -254,7 +254,7 @@ async function main() {
 
     await prisma.service.create({
       data: {
-        categoryId: cat.id,
+        category: { connect: { id: cat.id } },
         title: `${catName} Item`,
         description: `Professional ${catName} service.`,
         price: 50,
@@ -303,9 +303,9 @@ async function main() {
 
       await prisma.order.create({
         data: {
-          userId: testUser.id,
-          serviceId: randomService.id,
-          paymentMethodId: randomPM.id,
+          user: { connect: { id: testUser.id } },
+          service: { connect: { id: randomService.id } },
+          paymentMethod: { connect: { id: randomPM.id } },
           quantity: Math.floor(Math.random() * 3) + 1,
           totalPrice: randomService.price * (Math.floor(Math.random() * 3) + 1),
           phone1: '07701234567',
