@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Same-it",
+    "name": "Same iT",
     "slug": "same-it",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -80,20 +80,30 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/cocon-next-arabic.ttf"],
+          "fonts": [
+            "./assets/cocon-next-arabic.ttf"
+          ],
           "android": {
             "fonts": [
               {
                 "fontFamily": "CoconNextArabic",
                 "fontDefinitions": [
-                  { "path": "./assets/cocon-next-arabic.ttf", "weight": 400 },
-                  { "path": "./assets/cocon-next-arabic.ttf", "weight": 700 }
+                  {
+                    "path": "./assets/cocon-next-arabic.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./assets/cocon-next-arabic.ttf",
+                    "weight": 700
+                  }
                 ]
               }
             ]
           },
           "ios": {
-            "fonts": ["./assets/cocon-next-arabic.ttf"]
+            "fonts": [
+              "./assets/cocon-next-arabic.ttf"
+            ]
           }
         }
       ],
@@ -111,7 +121,8 @@
           "project": "same-it",
           "organization": "vugtech"
         }
-      ]
+      ],
+      "@sentry/react-native"
     ],
     "experiments": {
       "typedRoutes": true,
